@@ -13,6 +13,15 @@ const url = 'json/navLinks.json'
 
 export default function Navbar() {
   const [buttons, setButtons] = useState([])
+  let color0 = '#ffffff'; // First color in string 
+  let color1 = '#ffffff'; // Second color in string
+  let position_0 = true; // Change color to first if navbar position is 0
+  let other_position = true; // Change color when navabr position is below 0
+  let dynamic = true; // Dynamic navbat or static
+  let native_dynamic = true; // The same value as Van_conf.dynamic
+  let current_scroll_pos = 0; // Number to current position
+  let prev_scroll_pos = 0; // Number to previous position
+  let scroll_to_top = '';
 
   const fetchData = async () => {
     const response = await fetch(url)
@@ -20,12 +29,70 @@ export default function Navbar() {
     setButtons(data)
   }
 
+  const navbar_event_listener = () => {
+    current_scroll_pos = window.pageYOffset;
+    adjust_navbar_color();
+    adjust_navbar_position();
+    prev_scroll_pos = current_scroll_pos;
+    // scroll_to_top_btn();
+  }
+
+  const change_nav_background = (color) => {
+    document.querySelector('.Navbar-fixed').style.background = color;
+    if (color !== 'transparent')
+      color = '#000000';
+    document.querySelector('.Navbar-fixed').style.setProperty('--navbar-shadow', color);
+  }
+
+  const adjust_navbar_color = () => {
+    // Change color when navabr position is 0
+    if (current_scroll_pos === 0 && position_0) {
+        if (!document.querySelector('#main-navbar-content').classList.contains('show')) {
+          change_nav_background(color0);
+        }
+    } else{
+        // Change color when navabr position is below 0
+        if (other_position) {
+          change_nav_background(color1);
+        }
+    }
+  }
+
+  const adjust_navbar_position = () => {
+    // If scroll up
+    if (prev_scroll_pos > current_scroll_pos) {
+      if (dynamic) {
+        document.querySelector('.Navbar-fixed').classList.remove('up');
+      }
+    // If scroll down
+    } else {
+      if (dynamic) {
+        document.querySelector('.Navbar-fixed').classList.add('up');
+      }
+    }
+  }
+
+  const scroll_to_top_btn = () => {
+    if (scroll_to_top == '')
+      scroll_to_top = document.querySelectorAll('.scroll-to-top')[0];
+
+    if (current_scroll_pos > 1200) {
+      scroll_to_top.classList.add('show');
+    } else {
+      scroll_to_top.classList.remove('show');
+    }
+  }
+
   useEffect(() => {
+    window.onscroll = () => {
+      navbar_event_listener()
+    }
+
     fetchData()
   }, [])
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-black py-0">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-black py-0 Navbar-fixed">
       {/* Logo */}
       <div className="pull-left ps-4 pt-4 mt-1 pb-0 d-lg-none">
         <a href="/" title="Home" className="btn p-0">

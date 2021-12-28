@@ -1,0 +1,12 @@
+/* Custom backgrounds and colors */
+.bg-black {
+  background: #0d0d0d;
+}
+
+.bg-theme {
+  background-color: var(--bg-theme) !important;
+}
+
+.text-theme {
+  color: var(--text-theme) !important;
+}

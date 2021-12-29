@@ -13,7 +13,7 @@ const url = 'json/navLinks.json'
 
 export default function Navbar() {
   const [buttons, setButtons] = useState([])
-  let color0 = '#ffffff'; // First color in string 
+  let color0 = '#ffffff'; // First color in string
   let color1 = '#ffffff'; // Second color in string
   let position_0 = true; // Change color to first if navbar position is 0
   let other_position = true; // Change color when navabr position is below 0
@@ -39,8 +39,9 @@ export default function Navbar() {
 
   const change_nav_background = (color) => {
     document.querySelector('.Navbar-fixed').style.background = color;
-    if (color !== 'transparent')
+    if (color !== 'transparent') {
       color = '#000000';
+    }
     document.querySelector('.Navbar-fixed').style.setProperty('--navbar-shadow', color);
   }
 
@@ -73,8 +74,9 @@ export default function Navbar() {
   }
 
   const scroll_to_top_btn = () => {
-    if (scroll_to_top == '')
+    if (scroll_to_top === '') {
       scroll_to_top = document.querySelectorAll('.scroll-to-top')[0];
+    }
 
     if (current_scroll_pos > 1200) {
       scroll_to_top.classList.add('show');
@@ -84,11 +86,11 @@ export default function Navbar() {
   }
 
   useEffect(() => {
+    fetchData()
+
     window.onscroll = () => {
       navbar_event_listener()
     }
-
-    fetchData()
   }, [])
 
   return (

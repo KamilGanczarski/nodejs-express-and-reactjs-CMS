@@ -43,11 +43,11 @@ $navbar-shadow: transparent;
 }
 
 .collapsing {
-  -webkit-transition: height .5s ease;
-     -moz-transition: height .5s ease;
-      -ms-transition: height .5s ease;
-       -o-transition: height .5s ease;
-          transition: height .5s ease;
+  -webkit-transition: height 0.5s ease;
+     -moz-transition: height 0.5s ease;
+      -ms-transition: height 0.5s ease;
+       -o-transition: height 0.5s ease;
+          transition: height 0.5s ease;
 }
 
 .div-under-navbar {

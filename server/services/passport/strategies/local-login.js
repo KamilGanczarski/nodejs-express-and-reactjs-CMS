@@ -7,12 +7,12 @@ module.exports = passport => {
   passport.use('local-login',
     new LocalStrategy(
       {
-        usernameField: 'username',
+        usernameField: 'login',
         passwordField: 'password',
         passReqToCallback: true
       },
-      async (req, username, password, done) => {
-        const user = await User.findOne({ 'login': username });
+      async (req, login, password, done) => {
+        const user = await User.findOne({ 'login': login });
         
         console.log('User FOUND: ', user);
 

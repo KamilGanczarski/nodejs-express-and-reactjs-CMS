@@ -1,13 +1,17 @@
 module.exports = (app) => {
-  app.get('/api/logout', (req, res) => {
+  app.get('/api/v1/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
 
-  app.get('/api/current_user', (req, res) => {
+  app.get('/api/v1/current_user', (req, res) => {
     console.log(req.user);
-    const { _id: id, login } = req.user
-    const newUser = { id, login }
+    let newUser = {}
+    if (req.user) {
+      const { _id: id, login } = req.user
+      newUser = { id, login }
+    }
+
     res.send(newUser);
   });
 };

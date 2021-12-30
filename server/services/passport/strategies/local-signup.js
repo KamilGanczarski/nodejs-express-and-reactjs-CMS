@@ -8,12 +8,12 @@ module.exports = (passport) => {
     'local-signup',
     new LocalStrategy(
       {
-        usernameField: 'username',
+        usernameField: 'login',
         passwordField: 'password',
         passReqToCallback: true
       },
-      async (req, username, password, done) => {
-        const existingUser = await User.findOne({ 'login': username });
+      async (req, login, password, done) => {
+        const existingUser = await User.findOne({ 'login': login });
 
         if (existingUser) {
           return done(
@@ -23,7 +23,7 @@ module.exports = (passport) => {
           )
         } else {
           const newUser = new User();
-          newUser.login = username;
+          newUser.login = login;
           newUser.password = newUser.generateHash(password);
 
           const user = await newUser.save();

@@ -1,17 +1,17 @@
 module.exports = (app, passport) => {
   app.post(
-    '/auth/login',
+    '/api/v1/auth/login',
     passport.authenticate('local-login', {
-      successRedirect: '/profile',
+      successRedirect: '/admin',
       failureRedirect: '/login',
       failureFlash: true
     })
   );
 
   app.post(
-    '/auth/signup',
+    '/api/v1/auth/signup',
     passport.authenticate('local-signup', {
-      successRedirect: '/profile',
+      successRedirect: '/admin',
       failureRedirect: '/signup',
       failureFlash: true
     })

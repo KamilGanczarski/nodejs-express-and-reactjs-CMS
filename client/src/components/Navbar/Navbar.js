@@ -9,12 +9,12 @@ import MobileDropdown from './MobileDropdown'
 // Styles
 import './Navbar.scss'
 
-const url = 'json/navLinks.json'
+const url = `${process.env.PUBLIC_URL}/json/navLinks.json`
 
 export default function Navbar() {
   const [buttons, setButtons] = useState([])
-  let color0 = '#ffffff'; // First color in string
-  let color1 = '#ffffff'; // Second color in string
+  let color0 = 'transparent'; // First color in string
+  let color1 = '#0d0d0d'; // Second color in string
   let position_0 = true; // Change color to first if navbar position is 0
   let other_position = true; // Change color when navabr position is below 0
   let dynamic = true; // Dynamic navbat or static
@@ -94,7 +94,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-black py-0 Navbar-fixed">
+    <nav className="navbar navbar-expand-lg py-0 Navbar-fixed">
       {/* Logo */}
       <div className="pull-left ps-4 pt-4 mt-1 pb-0 d-lg-none">
         <a href="/" title="Home" className="btn p-0">

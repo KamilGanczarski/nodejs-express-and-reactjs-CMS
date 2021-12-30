@@ -7,7 +7,11 @@ import 'bootstrap/dist/js/bootstrap.js';
 // Import pages
 import Home from './pages/Home'
 import About from './pages/About'
+import Login from './pages/Login'
 import Error from './pages/Error'
+
+
+import AdminRoute from './pages/admin/AdminRoute'
 
 // Import components
 import Navbar from './components/Navbar/Navbar'
@@ -24,19 +28,19 @@ function App() {
 
         <Switch>
           {/* Home */}
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route exact path="/" component={Home} />
 
           {/* About */}
-          <Route path="/about">
-            <About />
-          </Route>
+          <Route path="/about" component={About} />
+
+          {/* Login */}
+          <Route path="/login" component={Login} />
+
+          {/* AdminRoute */}
+          <Route path='/admin' component={AdminRoute} />
 
           {/* Error */}
-          <Route path="*">
-            <Error />
-          </Route>
+          <Route path="*" component={Error} />
         </Switch>
       </div>
     </Router>

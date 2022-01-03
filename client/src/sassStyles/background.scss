@@ -4,11 +4,7 @@
 }
 
 .bg-theme {
-  background-color: var(--bg-theme) !important;
-}
-
-.text-theme {
-  color: var(--text-theme) !important;
+  background-color: $bg-theme !important;
 }
 
 .bg-shadow {

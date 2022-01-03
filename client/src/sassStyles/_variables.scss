@@ -1,0 +1,54 @@
+// Custom
+//    9literfilmy
+$main-color: #e0a117;
+$main-rgba: 224, 161, 23;
+$main-color-light: #f2c339;
+$main-color-dark: #c08005;
+
+// //    Dark
+// $main-color: #0d0d0d;
+// $main-rgba: 249, 250, 251;
+// $main-color-light: #213131;
+// $main-color-dark: #000;
+
+// //    Light
+// $main-color: #f8f9fa;
+// $main-rgba: 249, 250, 251;
+// $main-color-light: #ffffff;
+// $main-color-dark: #d8d8e8;
+
+// //    Psphoto
+// $main-color: #03c4eb;
+// $main-rgba: 3, 196, 235;
+// $main-color-light: #00b0d7;
+// $main-color-dark: #0091b8;
+
+// //    Silesia group
+// $main-color: #0d0d0d;
+// $main-rgba: 249, 250, 251;
+// $main-color-light: #213131;
+// $main-color-dark: #000;
+
+// //    Young Fresh Cinema
+// $main-color: #03c4eb;
+// $main-rgba: 3, 196, 235;
+// $main-color-light: #00b0d7;
+// $main-color-dark: #0091b8;
+
+
+// Theme
+//    Default
+$bg-theme: #ffffff;
+$bg-theme-1: #f4f4f4;
+$bg-theme-2: #e9e9e9;
+$text-theme: #0d0d0d;
+$text-theme-1: #343A40;
+
+//    Dark
+[data-theme='dark'] {
+  $bg-theme: #0d0d0d;
+  $bg-theme-1: #020202;
+  $bg-theme-2: #181818;
+  $text-theme: #f8f9fa;
+  $text-theme-1: #a3a4a5;
+}

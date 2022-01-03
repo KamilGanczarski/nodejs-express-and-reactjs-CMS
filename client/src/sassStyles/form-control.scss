@@ -87,7 +87,7 @@
 }
 
 .form-group-custom > input:focus {
-	border-color: var(--main-color);
+	border-color: $main-color;
 }
 
 .form-group-custom > input:not(:placeholder-shown) + label,
@@ -96,7 +96,7 @@
 }
 
 .form-group-custom > textarea:focus {
-	border-color: var(--main-color) !important;
+	border-color: $main-color !important;
 }
 
 .form-group-custom > textarea:not(:placeholder-shown) + label,

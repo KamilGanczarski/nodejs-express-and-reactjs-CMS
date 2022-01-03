@@ -1,17 +1,11 @@
-module.exports = (app) => {
-  app.get('/api/v1/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-  });
+const express = require('express')
+const router = express.Router()
+const {
+  currentUser,
+  signup
+} = require('../controllers/api')
 
-  app.get('/api/v1/current_user', (req, res) => {
-    console.log(req.user);
-    let newUser = {}
-    if (req.user) {
-      const { _id: id, login } = req.user
-      newUser = { id, login }
-    }
+router.route('/current_user').get(currentUser)
+router.route('/signup').post(signup)
 
-    res.send(newUser);
-  });
-};
+module.exports = router

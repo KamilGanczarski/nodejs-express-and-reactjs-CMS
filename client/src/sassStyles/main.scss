@@ -5,6 +5,7 @@ html, body {
   font-weight: 500;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  overflow: auto;
 
   // Temporary to safe eyes ;D
   background: #0d0d0d;

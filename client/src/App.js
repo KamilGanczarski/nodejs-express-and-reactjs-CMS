@@ -17,7 +17,7 @@ import AdminRoute from './pages/admin/AdminRoute'
 import Navbar from './components/Navbar/Navbar'
 
 // Import styles
-import './sassStyles/index.scss'
+import './sassStyles/app.scss'
 
 function App() {
   return (

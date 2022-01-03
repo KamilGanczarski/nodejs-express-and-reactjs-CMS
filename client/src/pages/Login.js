@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import  { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import '../sassStyles/login.scss';
+import '../sassStyles/pages/login.scss';
 
 export default function Login() {
   const [ auth, setAuth ] = useState(false)
+  const [ login, setLogin ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ loginResponse, setLoginResponse ] = useState('')
 
   const fetchUser = async () => {
     try {
       const res = await axios.get('/api/v1/current_user');
-      if (res.data.id) {
+      if (res.data.login) {
         setAuth(true);
       }
     } catch (error) {
@@ -23,8 +26,21 @@ export default function Login() {
     fetchUser()
   }, [])
 
-  const loginToWebsite = () => {
-    console.log('Login process');
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    axios.post('/api/v1/auth/login', {
+        login: login,
+        password: password
+      })
+      .then((response) => {
+        setLoginResponse('')
+        setAuth(true)
+      })
+      .catch(error => {
+        if (error.response.data.msg) {
+          setLoginResponse(error.response.data.msg)
+        }
+      })
   }
 
   if (auth) {
@@ -39,7 +55,9 @@ export default function Login() {
           <h4 className="text-center text-white">Sign in to your gallery</h4>
 
           {/* Form */}
-          <form action="/api/v1/auth/login" method="POST" className="login-form">
+          <form
+            className="login-form"
+            onSubmit={onSubmitHandler}>
             {/* Login */}
             <div className="form-group w-100 form-group-custom">
               <input
@@ -48,7 +66,9 @@ export default function Login() {
                 id="login"
                 placeholder=" "
                 required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light" />
+                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+                value={login}
+                onChange={(e)=>setLogin(e.target.value)} />
               <label className="form-label-custom ps-3" htmlFor="login">
                 Login
               </label>
@@ -62,14 +82,16 @@ export default function Login() {
                 id="password"
                 placeholder=" "
                 required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light" />
+                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)} />
               <label className="form-label-custom ps-3" htmlFor="pass">
                 Password
               </label>
             </div>
 
             {/* Response */}
-            <div className="w-100 d-none">
+            <div className={`w-100 ${!loginResponse && 'd-none'}`}>
               <div className="w-100 row ps-1 mx-0 mt-4 d-flex">
                 <div className="d-flex align-items-end w-auto">
                   <i className="icon-user text-black"></i>
@@ -77,7 +99,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="btn w-auto mx-0 bg-shadow text-error">
-                    Message
+                    {loginResponse}
                 </button>
               </div>
             </div>
@@ -85,8 +107,7 @@ export default function Login() {
             {/* Submit */}
             <button
               type="submit" 
-              className="btn btn-sm btn-md btn-ghost w-100 py-2 mt-4"
-              onClick={loginToWebsite}>
+              className="btn btn-sm btn-md btn-ghost w-100 py-2 mt-4">
               <span className="fw-bold">Log in</span>
             </button>
 

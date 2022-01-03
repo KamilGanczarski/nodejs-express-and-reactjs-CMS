@@ -24,21 +24,21 @@ $navbar-shadow: transparent;
 
 @media (max-width: 991px) {
   .navbar-collapse {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #0d0d0d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #0d0d0d;
   }
 
   .navbar-collapse.collapse.show {
-      height: 100vh;
-      flex-shrink: 0;
-      overflow-y: auto;
+    height: 100vh;
+    flex-shrink: 0;
+    overflow-y: auto;
   }
 
   .navbar-nav {
-      height: 100vh;
+    height: 100vh;
   }
 }
 

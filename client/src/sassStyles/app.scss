@@ -1,8 +1,5 @@
-// Variables
-@import './Theme.scss';
-@import './Custom.scss';
-
 // Styles
+@import './_variables.scss';
 @import './main.scss';
 @import './buttons.scss';
 @import './border.scss';

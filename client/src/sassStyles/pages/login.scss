@@ -1,10 +1,13 @@
 .login-main,
 .newsletter-main {
-	background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
-		url("../../public/images/psphoto/home-page/KaeN Marta-13.jpg");
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
+	background: linear-gradient(
+			rgba(0, 0, 0, 0.3), 
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../../../public/images/psphoto/home-page/KaeN Marta-13.jpg");
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
 }
 
 .login-main > .form,
@@ -17,7 +20,7 @@
 	.newsletter-main {
 		min-height: 100vh;
 	}
-	
+
 	.login-main > .form {
 		padding-top: 107px;
 	}
@@ -38,7 +41,7 @@
 		position: relative;
 		top: 50%;
 		-webkit-transform: translateY(-50%);
-			-ms-transform: translateY(-50%);
-				transform: translateY(-50%);
+		   	-ms-transform: translateY(-50%);
+				    transform: translateY(-50%);
 	}
 }

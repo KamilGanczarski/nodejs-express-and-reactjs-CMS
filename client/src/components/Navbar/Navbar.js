@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 // Components
 import Button from './Button'
@@ -97,11 +98,11 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg py-0 Navbar-fixed">
       {/* Logo */}
       <div className="pull-left ps-4 pt-4 mt-1 pb-0 d-lg-none">
-        <a href="/" title="Home" className="btn p-0">
+        <Link to="/" title="Home" className="btn p-0">
           <img src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
             alt="Pspoto logo white" width="80" height="80"
             className="p-2 logo-img" />
-        </a>
+        </Link>
       </div>
 
       {/* Navbar button */}
@@ -119,11 +120,11 @@ export default function Navbar() {
         <ul className="d-none d-lg-flex navbar-nav px-4">
           {/* Logo */}
           <div className="pull-left px-3 pt-3 pb-0">
-            <a href="/" title="Home" className="btn p-0">
+            <Link to="/" title="Home" className="btn p-0">
               <img src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
                 alt="Pspoto logo white" width="80" height="80"
                 className="logo-img" />
-            </a>
+            </Link>
           </div>
         </ul>
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Dropdown({ btn }) {
   return (
@@ -14,10 +15,10 @@ export default function Dropdown({ btn }) {
           aria-labelledby="dropdown-menu-0">
           {btn.subButtons.map((subButtons, index) => {
             return (
-              <a key={subButtons.id} href={subButtons.link}
+              <Link key={subButtons.id} to={subButtons.link}
                 className="btn btn-sm w-100 px-3 py-2 text-start text-with-underline">
                 <span>{subButtons.label}</span>
-              </a>
+              </Link>
             )
           })}
         </div>

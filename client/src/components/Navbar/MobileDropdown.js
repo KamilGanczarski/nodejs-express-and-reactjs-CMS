@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function MobileDropdown({ btn }) {
   return (
@@ -14,10 +15,10 @@ export default function MobileDropdown({ btn }) {
           aria-labelledby="dropdown-menu-0">
           {btn.subButtons.map((subButtons, index) => {
             return (
-              <a key={subButtons.id} href={subButtons.link}
+              <Link key={subButtons.id} to={subButtons.link}
                 className="btn btn-sm w-100 ps-5 pe-0 py-3 text-start text-with-underline">
                 <span className="h6">{subButtons.label}</span>
-              </a>
+              </Link>
             )
           })}
           <div className="w-100 pb-3 d-flex align-items-center">

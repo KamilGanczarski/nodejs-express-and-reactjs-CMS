@@ -14,7 +14,7 @@ import Error from '../../pages/Error'
 
 export default function AdminRoute() {
   const { path } = useRouteMatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [ isLoading, setIsLoading ] = useState(true);
   const [ auth, setAuth ] = useState(false);
 
   const fetchUser = async () => {
@@ -46,8 +46,7 @@ export default function AdminRoute() {
   return (
     <Switch>
       {/* Home page */}
-      <Route exact path={path} component={Home} />
-      <Route path={`${path}/home`} component={Home} />
+      <Route exact path={`${path}/home/`} component={Home} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

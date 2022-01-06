@@ -35,10 +35,10 @@ function App() {
           <Route exact path="/" component={Home} />
 
           {/* About */}
-          <Route path="/about" component={About} />
+          <Route exact path="/about" component={About} />
 
           {/* Login */}
-          <Route path="/login" component={Login} />
+          <Route exact path="/login" component={Login} />
 
           {/* AdminRoute */}
           <Route path='/admin' component={AdminRoute} />

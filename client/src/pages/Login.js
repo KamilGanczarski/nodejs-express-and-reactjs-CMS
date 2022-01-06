@@ -44,7 +44,7 @@ export default function Login() {
   }
 
   if (auth) {
-    return <Redirect to='/admin' />
+    return <Redirect to='/admin/home' />
   }
 
   return (

@@ -1,5 +1,7 @@
 /* Main navbar */
-$navbar-shadow: transparent;
+:root {
+  --navbar-shadow: transparent;
+}
 
 .Navbar-fixed {
   width: 100%;
@@ -12,9 +14,9 @@ $navbar-shadow: transparent;
       -ms-transition: top .4s ease, background-color .5s ease, box-shadow .5s;
        -o-transition: top .4s ease, background-color .5s ease, box-shadow .5s;
           transition: top .4s ease, background-color .5s ease, box-shadow .5s;
-  -webkit-box-shadow: 0 3px 10px 1px $navbar-shadow;
-     -moz-box-shadow: 0 3px 10px 1px $navbar-shadow;
-          box-shadow: 0 3px 10px 1px $navbar-shadow;
+  -webkit-box-shadow: 0 3px 10px 1px var(--navbar-shadow);
+     -moz-box-shadow: 0 3px 10px 1px var(--navbar-shadow);
+          box-shadow: 0 3px 10px 1px var(--navbar-shadow);
 }
 
 .Navbar-fixed.up,

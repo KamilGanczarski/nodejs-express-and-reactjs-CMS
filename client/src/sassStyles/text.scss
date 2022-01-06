@@ -1,3 +1,18 @@
+.text-middle-absolute {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.text-middle {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
 .text-theme {
   color: $text-theme !important;
 }
@@ -29,4 +44,8 @@
 
 .text-hover-light.active {
   color: #fff;
+}
+
+.text-huge-2 {
+  font-size: 80px;
 }

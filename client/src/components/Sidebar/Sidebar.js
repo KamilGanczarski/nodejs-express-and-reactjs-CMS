@@ -26,17 +26,15 @@ export default function Sidebar() {
   }
 
   const sidebar_event_listener = () => {
-    // Hide sidebar
-    document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
-    document.querySelectorAll(".btn-hide-sidebar").forEach(btn => {
-        btn.addEventListener('click', e => {
-            document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
-            // Prevent body scroll
-            if (document.querySelector(".Sidebar").classList.contains('toggled'))
-                document.querySelector(".Navbar-fixed").classList.remove('hide');
-            else
-                document.querySelector(".Navbar-fixed").classList.add('hide');
-        });
+    // Hide sidebar if window has mobile size
+    if (window.innerWidth < 1400)
+      document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+
+    // Event listener to hide sidebar
+    document.querySelectorAll(".btn-hide-sidebar").forEach(element => {
+      element.addEventListener("click", (e) => {
+        document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+      });
     });
   }
 

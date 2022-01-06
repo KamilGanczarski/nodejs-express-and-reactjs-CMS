@@ -8,7 +8,7 @@ const links = [
   }, {
     id: 1,
     label: "About",
-    link: "about",
+    link: "/about",
     type: "button",
     subButtons: []
   }, {
@@ -20,33 +20,33 @@ const links = [
       {
         id: 0,
         label: "History wedding",
-        link: "portfolio/history-weddings"
+        link: "/portfolio/history-weddings"
       }, {
         id: 1,
         label: "Photos",
-        link: "portfolio/photos"
+        link: "/portfolio/photos"
       }, {
         id: 2,
         label: "Films",
-        link: "portfolio/films"
+        link: "/portfolio/films"
       }
     ]
   }, {
     id: 3,
     label: "Offers",
-    link: "offers",
+    link: "/offers",
     type: "button",
     subButtons: []
   }, {
     id: 4,
     label: "Customer area",
-    link: "login",
+    link: "/login",
     type: "button",
     subButtons: []
   }, {
     id: 5,
     label: "Contact",
-    link: "contact",
+    link: "/contact",
     type: "button",
     subButtons: []
   }

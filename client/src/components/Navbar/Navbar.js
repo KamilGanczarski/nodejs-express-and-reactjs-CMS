@@ -24,7 +24,7 @@ export default function Navbar() {
   let prev_scroll_pos = 0; // Number to previous position
   let scroll_to_top = '';
   const settings = {
-    noDynamic: [ '/admin/home' ],
+    noDynamic: [ '/admin', '/admin/home' ],
     noTransparent: [],
     noDynamicAndnoTransparent: []
   }
@@ -90,9 +90,10 @@ export default function Navbar() {
   }
 
   const setSettings = (_position_0, _other_position, _dynamic) => {
-    _position_0 = position_0;
-    _other_position = other_position;
-    _dynamic = dynamic;
+    position_0 = _position_0;
+    other_position = _other_position;
+    dynamic = _dynamic;
+    native_dynamic = _dynamic;
   }
 
   const setNavbarSettings = () => {

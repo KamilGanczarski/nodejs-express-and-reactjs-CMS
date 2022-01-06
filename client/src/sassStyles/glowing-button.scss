@@ -1,0 +1,95 @@
+.animated-box {
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 4px;
+}
+  
+ /* The animation starts here */
+.animated-box {
+    position: relative;
+}
+ 
+.animated-box:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 300% 300%;
+    clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+ 
+.animated-box.in:after {
+    animation: frame-enter 1s forwards ease-in-out reverse, gradient-animation 4s ease-in-out infinite;
+}
+ 
+/* motion */
+@keyframes gradient-animation {
+    0% {
+        background-position: 15% 0%;
+    }
+
+    50% {
+        background-position: 85% 100%;
+    }
+
+    100% {
+        background-position: 15% 0%;
+    }
+}
+
+.progress-glow {
+    width: 100%;
+    position: relative;
+    height: 10px;
+}
+
+.progress-cell-light {
+    z-index: 1;
+    width: 5%;
+    height: 10px;
+    position: absolute;
+    background: transparent;
+    margin-left: 95%;
+    -webkit-box-shadow: 0 0 10px transparent !important;
+       -moz-box-shadow: 0 0 10px transparent !important;
+            box-shadow: 0 0 10px transparent !important;
+    -webkit-transition: all .5s ease;
+       -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+         -o-transition: all .5s ease;
+            transition: all .5s ease;
+}
+
+.progress-cell-light:nth-child(1)  { transition-delay: 0s; }
+.progress-cell-light:nth-child(2)  { transition-delay: .15s; }
+.progress-cell-light:nth-child(3)  { transition-delay: .3s; }
+.progress-cell-light:nth-child(4)  { transition-delay: .45s; }
+.progress-cell-light:nth-child(5)  { transition-delay: .60s; }
+.progress-cell-light:nth-child(6)  { transition-delay: .75s; }
+.progress-cell-light:nth-child(7)  { transition-delay: .90s; }
+.progress-cell-light:nth-child(8)  { transition-delay: 1.05s; }
+.progress-cell-light:nth-child(9)  { transition-delay: 1.2s; }
+.progress-cell-light:nth-child(10) { transition-delay: 1.35s; }
+
+.progress-glow.active .progress-cell-light {
+    background: #eee;
+    -webkit-box-shadow: 0 0 10px #eee !important;
+       -moz-box-shadow: 0 0 10px #eee !important;
+            box-shadow: 0 0 10px #eee !important;
+}
+
+.progress-glow.active > .progress-cell-light:nth-child(1) {  margin-left: 2.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(2) {  margin-left: 12.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(3) {  margin-left: 22.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(4) {  margin-left: 32.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(5) {  margin-left: 42.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(6) {  margin-left: 52.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(7) {  margin-left: 62.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(8) {  margin-left: 72.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(9) {  margin-left: 82.5%; }
+.progress-glow.active > .progress-cell-light:nth-child(10) { margin-left: 92.5%; }

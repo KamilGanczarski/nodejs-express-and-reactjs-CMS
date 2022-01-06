@@ -13,3 +13,20 @@
 .text-error {
   color: #ff3040 !important;
 }
+
+// Text hover
+.text-hover-light {
+  color: #aaa;
+}
+
+.text-hover-light:disabled {
+  color: #aaa !important;
+}
+
+.text-hover-light:hover {
+  color: #fff;
+}
+
+.text-hover-light.active {
+  color: #fff;
+}

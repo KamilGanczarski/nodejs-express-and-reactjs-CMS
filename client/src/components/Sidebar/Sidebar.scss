@@ -1,0 +1,191 @@
+/*!
+* Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+* Copyright 2013-2019 Start Bootstrap
+* Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+*/
+body {
+  overflow-x: hidden;
+  padding-right: 0 !important;
+}
+
+.Sidebar .sidebar-left,
+.Sidebar .sidebar-wrapper-under {
+  width: 300px;
+  height: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  -webkit-transition: margin .25s ease;
+     -moz-transition: margin .25s ease;
+      -ms-transition: margin .25s ease;
+       -o-transition: margin .25s ease;
+          transition: margin .25s ease;
+  transition-delay: .1s;
+  padding-right: 0 !important;
+  flex-shrink: 0;
+  z-index: 104;
+}
+
+.Sidebar:not(.toggled) .sidebar-left {
+  overflow-y: auto;
+}
+
+.Sidebar.toggled .sidebar-left, .Sidebar.toggled .sidebar-wrapper-under {
+  margin-left: -300px;
+  transition-delay: 0s;
+}
+
+/* Hide sidebar */
+.Sidebar .btn-hide-sidebar.fixed {
+  position: fixed;
+  left: -500px;
+  top: 100px;
+  z-index: 2;
+  -webkit-transition: left .2s ease;
+     -moz-transition: left .2s ease;
+      -ms-transition: left .2s ease;
+       -o-transition: left .2s ease;
+          transition: left .2s ease;
+}
+
+.btn-hide-sidebar.close {
+text-shadow: 0 0 0 transparent !important;
+  border: 0;
+}
+
+.Sidebar.toggled .btn-hide-sidebar.fixed {
+  left: 15px;
+  transition-delay: .2s;
+}
+
+.Sidebar .btn-hide-sidebar-sticky {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: visibility 0s ease .2s, opacity .4s linear;
+     -moz-transition: visibility 0s ease .2s, opacity .4s linear;
+      -ms-transition: visibility 0s ease .2s, opacity .4s linear;
+       -o-transition: visibility 0s ease .2s, opacity .4s linear;
+          transition: visibility 0s ease .2s, opacity .4s linear;
+}
+
+.Sidebar:not(.toggled) .btn-hide-sidebar-sticky {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s ease .5s, opacity .2s linear;
+     -moz-transition: visibility 0s ease .5s, opacity .2s linear;
+      -ms-transition: visibility 0s ease .5s, opacity .2s linear;
+       -o-transition: visibility 0s ease .5s, opacity .2s linear;
+          transition: visibility 0s ease .5s, opacity .2s linear;
+}
+
+/* Sidebar */
+/* Fixed left */
+.Sidebar.fixed-left .sidebar-left,
+.Sidebar.fixed-left .sidebar-wrapper-under {
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.8), 
+      rgba(0, 0, 0, 0.8)
+    ),
+    url("../../../public/images/9literfilmy/OnEn1xMQ.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.Sidebar.fixed-left .sidebar-wrapper-under {
+  margin-left: -300px;
+}
+
+.Sidebar.fixed-left .sidebar-wrapper-under-shadow {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #00000040;
+  z-index: 3;
+  -webkit-transition: background-color .3s ease .2s;
+     -moz-transition: background-color .3s ease .2s;
+      -ms-transition: background-color .3s ease .2s;
+       -o-transition: background-color .3s ease .2s;
+          transition: background-color .3s ease .2s;
+}
+
+.Sidebar.fixed-left.toggled > .sidebar-wrapper-under-shadow {
+  z-index: 3;
+  width: 0 !important;
+  background-color: transparent;
+}
+
+/* Sidebar */
+/* With wrapper */
+.Sidebar.admin .sidebar-left,
+.Sidebar.admin .sidebar-wrapper-under {
+background: linear-gradient(
+    rgba(0, 0, 0, 0.8), 
+      rgba(0, 0, 0, 0.8)
+    ),
+    url("../../../public/images/9literfilmy/OnEn1xMQ.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.Sidebar.admin > main {
+  min-height: calc(100vh - 166px);
+}
+
+@media (max-width: 1400px) {
+  .Sidebar.admin .sidebar-wrapper-under {
+    margin-left: -300px;
+  }
+
+.Sidebar.admin .sidebar-wrapper-under-shadow {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #00000040;
+  z-index: 1;
+      -webkit-transition: background-color .3s ease .2s;
+         -moz-transition: background-color .3s ease .2s;
+          -ms-transition: background-color .3s ease .2s;
+           -o-transition: background-color .3s ease .2s;
+              transition: background-color .3s ease .2s;
+  }
+
+  .Sidebar.admin.toggled .sidebar-wrapper-under-shadow {
+    width: 0;
+    background-color: transparent;
+  }
+}
+
+/* Sidebar */
+/* For products */
+.Sidebar.sidebar-products .mobile-sort-panel {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s ease .3s, opacity .3s linear;
+     -moz-transition: visibility 0s ease .3s, opacity .3s linear;
+      -ms-transition: visibility 0s ease .3s, opacity .3s linear;
+       -o-transition: visibility 0s ease .3s, opacity .3s linear;
+          transition: visibility 0s ease .3s, opacity .3s linear;
+}
+
+@media (max-width: 1400px) {
+.Sidebar.sidebar-products .sidebar-left,
+  .Sidebar.sidebar-products .sidebar-wrapper-under {
+      margin-left: -300px !important;
+      display: none;
+  }
+
+  .Sidebar.sidebar-products .btn-hide-sidebar-sticky {
+      visibility: hidden !important;
+      opacity: 0 !important;
+  }
+
+  .Sidebar.sidebar-products .mobile-sort-panel {
+      visibility: visible !important;
+      opacity: 1 !important;
+  }
+}

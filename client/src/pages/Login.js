@@ -33,12 +33,12 @@ export default function Login() {
         password: password
       })
       .then((response) => {
-        setLoginResponse('')
-        setAuth(true)
+        setLoginResponse('');
+        setAuth(true);
       })
       .catch(error => {
         if (error.response.data.msg) {
-          setLoginResponse(error.response.data.msg)
+          setLoginResponse(error.response.data.msg);
         }
       })
   }

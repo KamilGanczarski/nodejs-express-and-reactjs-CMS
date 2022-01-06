@@ -25,3 +25,6 @@ yarn-error.log*
 
 # Images
 /public/images
+
+# Fontello
+/src/fontello

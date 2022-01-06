@@ -13,11 +13,11 @@ export default function Dropdown({ btn }) {
         </button>
         <div className="dropdown-menu bg-black border-0 pt-3"
           aria-labelledby="dropdown-menu-0">
-          {btn.subButtons.map((subButtons, index) => {
+          {btn.subButtons.map((subButton) => {
             return (
-              <Link key={subButtons.id} to={subButtons.link}
+              <Link key={subButton.id} to={subButton.link}
                 className="btn btn-sm w-100 px-3 py-2 text-start text-with-underline">
-                <span>{subButtons.label}</span>
+                <span>{subButton.label}</span>
               </Link>
             )
           })}

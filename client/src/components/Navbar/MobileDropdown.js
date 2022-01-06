@@ -13,11 +13,11 @@ export default function MobileDropdown({ btn }) {
         </button>
         <div className="dropdown-menu bg-transparent border-0 py-0 m-0"
           aria-labelledby="dropdown-menu-0">
-          {btn.subButtons.map((subButtons, index) => {
+          {btn.subButtons.map((subButton) => {
             return (
-              <Link key={subButtons.id} to={subButtons.link}
+              <Link key={subButton.id} to={subButton.link}
                 className="btn btn-sm w-100 ps-5 pe-0 py-3 text-start text-with-underline">
-                <span className="h6">{subButtons.label}</span>
+                <span className="h6">{subButton.label}</span>
               </Link>
             )
           })}

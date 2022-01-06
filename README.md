@@ -5,40 +5,40 @@ CMS nodejs with express in backend and reactjs, bootstrap, sass in frontend
 
 Clone this repository
 ```
-$ git clone https://github.com/KamilGanczarski/nodejs-express-and-reactjs-CMS.git
+git clone https://github.com/KamilGanczarski/nodejs-express-and-reactjs-CMS.git
 ```
 
 Change directory into this project
 ```
-$ cd nodejs-express-and-reactjs-CMS
+cd nodejs-express-and-reactjs-CMS
 ```
 
 <h4>Install dependencies</h4>
 
 Server
 ```
-$ npm install
+npm install
 ```
 
 Client
 ```
-$ cd client
-$ npm install
+cd client
+npm install
 ```
 
 <h4>Run server</h4>
 
 Server
 ```
-$ npm run server
+npm run server
 ```
 
 Client
 ```
-$ npm run client
+npm run client
 ```
 
 Both
 ```
-$ npm run dev
+npm run dev
 ```

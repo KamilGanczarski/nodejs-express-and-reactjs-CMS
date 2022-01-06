@@ -10,7 +10,7 @@ import MobileDropdown from './MobileDropdown'
 // Styles
 import './Navbar.scss'
 
-const url = `${process.env.PUBLIC_URL}/json/navLinks.json`
+import links from './links';
 
 export default function Navbar() {
   const [buttons, setButtons] = useState([])
@@ -19,15 +19,18 @@ export default function Navbar() {
   let position_0 = true; // Change color to first if navbar position is 0
   let other_position = true; // Change color when navabr position is below 0
   let dynamic = true; // Dynamic navbat or static
-  let native_dynamic = true; // The same value as Van_conf.dynamic
+  let native_dynamic = true; // The same value as dynamic
   let current_scroll_pos = 0; // Number to current position
   let prev_scroll_pos = 0; // Number to previous position
   let scroll_to_top = '';
+  const settings = {
+    noDynamic: [ '/admin/home' ],
+    noTransparent: [],
+    noDynamicAndnoTransparent: []
+  }
 
   const fetchData = async () => {
-    const response = await fetch(url)
-    const data = await response.json()
-    setButtons(data)
+    setButtons(links)
   }
 
   const navbar_event_listener = () => {
@@ -86,9 +89,42 @@ export default function Navbar() {
     }
   }
 
+  const setSettings = (_position_0, _other_position, _dynamic) => {
+    _position_0 = position_0;
+    _other_position = other_position;
+    _dynamic = dynamic;
+  }
+
+  const setNavbarSettings = () => {
+    const url = window.location.pathname;
+
+    // Static navbar and no transparent
+    if (settings.noDynamicAndnoTransparent.includes(url)) {
+      setSettings(false, true, false);
+      return;
+    }
+
+    // Static navbar
+    if (settings.noDynamic.includes(url)) {
+      setSettings(true, false, false);
+      return;
+    }
+
+    // No transparent
+    if (settings.noTransparent.includes(url)) {
+      setSettings(false, true, true);
+      return;
+    }
+
+    // Default
+    setSettings(true, true, true);
+    return;
+  }
+
   useEffect(() => {
     fetchData()
-
+    setNavbarSettings();
+    
     window.onscroll = () => {
       navbar_event_listener()
     }
@@ -130,7 +166,7 @@ export default function Navbar() {
 
 {/* Desktop version */}
         <ul className="d-none d-lg-flex flex-wrap col justify-content-end navbar-nav px-4">
-          {buttons.map((btn, index) => {
+          {buttons.map((btn) => {
             if (btn.type === 'dropdown') {
               return <Dropdown key={btn.id} btn={btn} />;
             }

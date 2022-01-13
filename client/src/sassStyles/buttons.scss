@@ -269,3 +269,61 @@
    color: #fff;
    background: #2d2d2d;
 }
+
+/* Button with show arrow onhover */
+.btn-slide-icon {
+   display: -webkit-box;                        /* OLD - iOS 6-, Safari 3.1-6 */
+   display: -moz-box;           /* OLD - Firefox 19- (buggy but mostly works) */
+   display: -ms-flexbox;                                   /* TWEENER - IE 10 */
+   display: -webkit-flex;                                     /* NEW - Chrome */
+   display: flex;                      /* NEW, Spec - Opera 12.1, Firefox 20+ */
+   position: relative;
+   padding-top: 6px;
+   padding-bottom: 6px;
+   padding-left: 30px !important;
+   padding-right: 30px !important;
+}
+
+.btn-slide-icon:hover {
+   padding-left: 20px !important;
+   padding-right: 40px !important;
+}
+
+.btn-slide-icon > i {
+   font-size: 20px;
+   line-height: 1;
+   position: absolute;
+   right: 40px;
+   color: transparent;
+   -webkit-transition: right .3s ease, color .2s ease;
+      -moz-transition: right .3s ease, color .2s ease;
+       -ms-transition: right .3s ease, color .2s ease;
+        -o-transition: right .3s ease, color .2s ease;
+           transition: right .3s ease, color .2s ease;
+}
+
+.btn-slide-icon:hover > i {
+   -webkit-transition: right .3s ease, color .2s ease .1s;
+      -moz-transition: right .3s ease, color .2s ease .1s;
+       -ms-transition: right .3s ease, color .2s ease .1s;
+        -o-transition: right .3s ease, color .2s ease .1s;
+           transition: right .3s ease, color .2s ease .1s;
+   right: 8px;
+   color: #fff;
+}
+
+.btn-slide-icon:hover > i {
+   color: var(--text-theme);
+}
+
+.btn-slide-icon:hover > i.light {
+   color: #f8f9fa !important;
+}
+
+.btn-slide-icon:hover > i.black {
+   color: #222 !important;
+}
+
+.btn-slide-icon:hover > i.custom {
+   color: $main-color;
+}

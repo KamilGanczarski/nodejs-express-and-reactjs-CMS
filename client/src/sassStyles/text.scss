@@ -14,7 +14,23 @@
 }
 
 .text-theme {
-  color: $text-theme !important;
+  color: var(--text-theme) !important;
+}
+
+.text-hover-theme {
+  color: var(--text-hover-before);
+}
+
+.text-hover-theme:disabled {
+  color: var(--text-hover-before) !important;
+}
+
+.text-hover-theme:hover {
+  color: var(--text-hover-after);
+}
+
+.text-hover-theme.active {
+  color: var(--text-hover-after);
 }
 
 .text-light-important {

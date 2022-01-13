@@ -80,7 +80,7 @@ const links = [
   }, {
     id: 8,
     label: "Log out",
-    link: "/logout",
+    link: "/api/v1/auth/logout",
     type: "button",
     icon: "icon-power",
     position: "bottom",

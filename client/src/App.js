@@ -23,7 +23,7 @@ import './fontello/css/fontello.css'
 function App() {
   return (
     <Router>
-      <div id="theme" data-theme="dark">
+      <div id="theme" className="theme-dark bg-theme text-theme">
         {/* Navbar */}
         <Navbar />
 

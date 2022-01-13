@@ -22,10 +22,12 @@ module.exports = (app) => {
   // Session
   app.use(session({
     secret: SESSION_KEY,
+    resave: true,
     saveUninitialized: true,
     cookie: {
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
       maxAge: SESSION_EXPIRY
-    },
-    resave: false
+    }
   }));
 }

@@ -1,11 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const {
-  currentUser,
+  getAllUsers,
+  getSingleUserMe,
+  createUser,
+  deleteUser,
   signup
 } = require('../controllers/api');
 
-router.route('/current_user').get(currentUser);
+router.route('/users').get(getAllUsers);
+
+router.route('/current-user').get(getSingleUserMe)
+
+router.route('/user')
+  .post(createUser)
+  .delete(deleteUser);
+
 router.route('/signup').post(signup);
 
 module.exports = router;

@@ -8,6 +8,11 @@ body {
   padding-right: 0 !important;
 }
 
+.Sidebar {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
 .Sidebar .sidebar-left,
 .Sidebar .sidebar-wrapper-under {
   width: 300px;
@@ -48,7 +53,7 @@ body {
 }
 
 .btn-hide-sidebar.close {
-text-shadow: 0 0 0 transparent !important;
+  text-shadow: 0 0 0 transparent !important;
   border: 0;
 }
 

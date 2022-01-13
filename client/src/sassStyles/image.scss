@@ -165,7 +165,7 @@
 .triagle-absolute.top {
    border-left-width: 15px;
    border-right-width: 15px;
-   border-top: 20px solid $bg-theme;
+   border-top: 20px solid var(--bg-theme);
    left: calc(50% - 15px);
    top: 0;
 }
@@ -178,7 +178,7 @@
 .triagle-absolute.right {
    border-top-width: 15px;
    border-bottom-width: 15px;
-   border-right: 20px solid $bg-theme;
+   border-right: 20px solid var(--bg-theme);
    left: calc(100% - 20px);
    top: calc(50% - 15px);
 }
@@ -190,7 +190,7 @@
 .triagle-absolute.bottom {
    border-right-width: 17px;
    border-left-width: 17px;
-   border-bottom: 24px solid $bg-theme;
+   border-bottom: 24px solid var(--bg-theme);
    left: calc(50% - 17px);
    top: calc(100% - 24px);
 }
@@ -202,7 +202,7 @@
 .triagle-absolute.left {
    border-bottom-width: 15px;
    border-top-width: 15px;
-   border-left: 20px solid $bg-theme;
+   border-left: 20px solid var(--bg-theme);
    top: calc(50% - 15px);
 }
 

@@ -9,12 +9,12 @@ const UserSchema = new mongoose.Schema({
     minlength: 3,
     unique: true
   },
-  // event: {
-  //   type: String,
-  //   required: [true, 'Please provide event'],
-  //   maxlength: 50,
-  //   minlength: 3
-  // },
+  event: {
+    type: String,
+    required: [true, 'Please provide event'],
+    maxlength: 50,
+    minlength: 3
+  },
   password: {
     type: String,
     required: [true, 'Please provide password'],
@@ -24,11 +24,6 @@ const UserSchema = new mongoose.Schema({
   //   type: String,
   //   required: [true, 'Please provide directory'],
   //   minlength: 1
-  // },
-  // permission_id: {
-  //   type: mongoose.Types.ObjectId,
-  //   ref: 'Permission',
-  //   required: [true, 'Please provide Permission']
   // }
 });
 

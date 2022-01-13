@@ -12,7 +12,7 @@ export default function Login() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('/api/v1/current_user');
+      const res = await axios.get('/api/v1/current-user');
       if (res.data.login) {
         setAuth(true);
       }

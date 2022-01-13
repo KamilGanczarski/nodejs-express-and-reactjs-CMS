@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export default function Theme() {
-  const [theme, setTheme] = useState([])
-
   const setNewTheme = () => {
-    const newTheme = theme === 'dark' ? '' : 'dark';
-    document.getElementById("theme").setAttribute('data-theme', newTheme);
-    setTheme(newTheme);
+    const themeDOM = document.getElementById("theme");
+    const classNames = themeDOM.className.split(' ');
+    const currentTheme = classNames.find(name => name.includes('theme-'));
+    const newTheme = currentTheme === 'theme-dark' ? 'theme-default' : 'theme-dark';
+    themeDOM.classList.replace(currentTheme, newTheme);
   }
 
   return (

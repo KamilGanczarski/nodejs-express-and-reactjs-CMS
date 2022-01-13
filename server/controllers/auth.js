@@ -1,13 +1,13 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
-const { BadRequestError, UnauthenticatedError } = require('../errors')
+const CustomError = require('../errors')
 
-const loginToDB = async (req, res) => {
+const login = async (req, res) => {
   const { login, password } = req.body
   
   // Check for login and password
   if (!login || !password) {
-    throw new BadRequestError('Please provide login and password')
+    throw new CustomError.BadRequestError('Please provide login and password')
   }
 
   // Find user
@@ -15,13 +15,13 @@ const loginToDB = async (req, res) => {
 
   // Check if user exists
   if (!user) {
-    throw new UnauthenticatedError('Invalid Credentials')
+    throw new CustomError.UnauthenticatedError('Invalid Credentials')
   }
 
   // Check password
   if (!user.validPassword(password)) {
     console.log('WRONG PASSWORD. ABORTING')
-    throw new UnauthenticatedError('Invalid Credentials')
+    throw new CustomError.UnauthenticatedError('Invalid Credentials')
   }
 
   // Set user for response and session
@@ -43,6 +43,6 @@ const logout = (req, res) => {
 }
 
 module.exports = {
-  loginToDB,
+  login,
   logout
 }

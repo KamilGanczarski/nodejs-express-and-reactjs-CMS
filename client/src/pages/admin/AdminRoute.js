@@ -10,6 +10,7 @@ import axios from 'axios';
 
 // Import pages
 import Home from './Home'
+import Clients from './Clients'
 import Error from '../../pages/Error'
 
 export default function AdminRoute() {
@@ -19,7 +20,7 @@ export default function AdminRoute() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('/api/v1/current_user');
+      const res = await axios.get('/api/v1/current-user');
       if (res.data.login) {
         setAuth(true);
       }
@@ -46,7 +47,10 @@ export default function AdminRoute() {
   return (
     <Switch>
       {/* Home page */}
-      <Route exact path={`${path}/home/`} component={Home} />
+      <Route exact path={`${path}/home`} component={Home} />
+
+      {/* Clients */}
+      <Route exact path={`${path}/clients`} component={Clients} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

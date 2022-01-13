@@ -6,7 +6,7 @@ import {
   useRouteMatch,
   Redirect
 } from 'react-router-dom'
-import axios from 'axios';
+import axios from 'axios'
 
 // Import pages
 import Home from './Home'

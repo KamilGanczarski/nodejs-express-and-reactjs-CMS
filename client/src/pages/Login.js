@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import  { Redirect } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import  { Redirect } from 'react-router-dom'
+import axios from 'axios'
 
-import '../sassStyles/pages/login.scss';
+import '../sassStyles/pages/login.scss'
 
 export default function Login() {
   const [ auth, setAuth ] = useState(false)

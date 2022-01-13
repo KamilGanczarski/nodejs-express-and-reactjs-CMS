@@ -16,7 +16,7 @@ export default function Clients() {
         <div className="div-under-navbar"></div>
         <h2 className="py-5 mx-0 my-0 text-center">Clients</h2>
         
-        <UserTable />
+        <UserTable userType='clients' />
       </main>
     </section>
   )

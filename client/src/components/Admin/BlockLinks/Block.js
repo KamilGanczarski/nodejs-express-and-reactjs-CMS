@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Block({ btn }) {
   return (
@@ -6,7 +7,8 @@ export default function Block({ btn }) {
         {/* Left line */}
         <div className="w-auto ps-0 pe-1 bg-custom-dark rounded-start"></div>
         {/* Content */}
-        <a href={btn.link}
+        <Link
+            to={btn.link}
             className="btn col h-100 border-0 rounded-custom-right btn-gray-2 img-16-9-container btn-shine btn-shine-animation">
             <div className="text-middle-absolute">
                 {/* Large icon */}
@@ -22,7 +24,7 @@ export default function Block({ btn }) {
                     </div>
                 </div>
             </div>
-        </a>
+        </Link>
     </div>
   )
 }

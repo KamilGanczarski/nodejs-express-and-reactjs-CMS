@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import './Sidebar.scss';
 import Button from './Button';
-import Dropdown from './Dropdown';
+import Dropdown from './Dropdown'
 
-import links from './links';
+import links from './links'
 
 export default function Sidebar() {
   const [topButtons, setTopButtons] = useState([]);
@@ -46,8 +47,11 @@ export default function Sidebar() {
   return (
     <nav className="fixed-top row sidebar-left">
       {/* Show sidebar */}
-      <a className="circle-menu-btn btn-hide-sidebar fixed" data-bs-toggle="tooltip"
-        data-bs-placement="right" title="Sidebar">
+      <a
+        className="circle-menu-btn btn-hide-sidebar fixed"
+        data-bs-toggle="tooltip"
+        data-bs-placement="right"
+        title="Sidebar">
         <i className="icon-menu"></i>
       </a>
 
@@ -56,17 +60,20 @@ export default function Sidebar() {
         <div className="div-under-navbar"></div>
         {/* Management */}
         <div className="w-100 py-4 mx-0 my-1 row justify-content-between">
-          <a href="admin/home"
+          <Link
+            to="/admin/home"
             className="btn w-auto px-4 py-2 mx-auto bg-transparent animated-box in">
             <span className="text-light">Management</span>
-          </a>
+          </Link>
         </div>
         {/* Management */}
         <div className="w-100 row m-0">
-          <a href="admin/home" className="btn btn-sm col m-0 btn-sidebar text-hover-light">
+          <Link
+            to="/admin/home"
+            className="btn btn-sm col m-0 btn-sidebar text-hover-light">
             <i className="icon-th pe-2"></i>
             <span>Management</span>
-          </a>
+          </Link>
           {/* Hide sidebar */}
           <div className="d-flex align-items-center w-auto px-0">
             <button className="btn btn-sm px-3 py-1 btn-hide-sidebar close">

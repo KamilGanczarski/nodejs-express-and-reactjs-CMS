@@ -1,4 +1,4 @@
-const links = [
+export const links = [
   {
     id: 0,
     label: "Home",
@@ -52,4 +52,8 @@ const links = [
   }
 ];
 
-export default links;
+export const settings = {
+  noDynamic: [],
+  noTransparent: [],
+  noDynamicAndNoTransparent: [ '/admin', '/admin/home', '/admin/clients' ]
+};

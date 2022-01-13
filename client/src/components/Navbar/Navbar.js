@@ -10,38 +10,34 @@ import MobileDropdown from './MobileDropdown'
 // Styles
 import './Navbar.scss'
 
-import links from './links';
+import { links, settings } from './data';
 
 export default function Navbar() {
-  const [buttons, setButtons] = useState([])
+  const [buttons, setButtons] = useState([]);
+
   let color0 = 'transparent'; // First color in string
   let color1 = '#0d0d0d'; // Second color in string
-  let position_0 = true; // Change color to first if navbar position is 0
-  let other_position = true; // Change color when navabr position is below 0
+  let position0 = true; // Change color to first if navbar position is 0
+  let otherPosition = true; // Change color when navabr position is below 0
   let dynamic = true; // Dynamic navbat or static
-  let native_dynamic = true; // The same value as dynamic
-  let current_scroll_pos = 0; // Number to current position
-  let prev_scroll_pos = 0; // Number to previous position
-  let scroll_to_top = '';
-  const settings = {
-    noDynamic: [ '/admin', '/admin/home' ],
-    noTransparent: [],
-    noDynamicAndnoTransparent: []
-  }
+  let nativeDynamic = true; // The same value as dynamic
+  let currentScrollPosition = 0; // Number to current position
+  let prevScrollPosition = 0; // Number to previous position
+  let scrollToTop = '';
 
   const fetchData = async () => {
     setButtons(links)
   }
 
-  const navbar_event_listener = () => {
-    current_scroll_pos = window.pageYOffset;
-    adjust_navbar_color();
-    adjust_navbar_position();
-    prev_scroll_pos = current_scroll_pos;
-    // scroll_to_top_btn();
+  const navbarEventListener = () => {
+    currentScrollPosition = window.pageYOffset;
+    adjustNavbarColor();
+    adjustNavbarPosition();
+    prevScrollPosition = currentScrollPosition;
+    // scrollToTopBtn();
   }
 
-  const change_nav_background = (color) => {
+  const changeNavBackground = (color) => {
     document.querySelector('.Navbar-fixed').style.background = color;
     if (color !== 'transparent') {
       color = '#000000';
@@ -49,23 +45,23 @@ export default function Navbar() {
     document.querySelector('.Navbar-fixed').style.setProperty('--navbar-shadow', color);
   }
 
-  const adjust_navbar_color = () => {
+  const adjustNavbarColor = () => {
     // Change color when navabr position is 0
-    if (current_scroll_pos === 0 && position_0) {
+    if (currentScrollPosition === 0 && position0) {
         if (!document.querySelector('#main-navbar-content').classList.contains('show')) {
-          change_nav_background(color0);
+          changeNavBackground(color0);
         }
     } else{
         // Change color when navabr position is below 0
-        if (other_position) {
-          change_nav_background(color1);
+        if (otherPosition) {
+          changeNavBackground(color1);
         }
     }
   }
 
-  const adjust_navbar_position = () => {
+  const adjustNavbarPosition = () => {
     // If scroll up
-    if (prev_scroll_pos > current_scroll_pos) {
+    if (prevScrollPosition > currentScrollPosition) {
       if (dynamic) {
         document.querySelector('.Navbar-fixed').classList.remove('up');
       }
@@ -77,30 +73,31 @@ export default function Navbar() {
     }
   }
 
-  const scroll_to_top_btn = () => {
-    if (scroll_to_top === '') {
-      scroll_to_top = document.querySelectorAll('.scroll-to-top')[0];
+  const scrollToTopBtn = () => {
+    if (scrollToTop === '') {
+      scrollToTop = document.querySelectorAll('.scroll-to-top')[0];
     }
 
-    if (current_scroll_pos > 1200) {
-      scroll_to_top.classList.add('show');
+    if (currentScrollPosition > 1200) {
+      scrollToTop.classList.add('show');
     } else {
-      scroll_to_top.classList.remove('show');
+      scrollToTop.classList.remove('show');
     }
   }
 
-  const setSettings = (_position_0, _other_position, _dynamic) => {
-    position_0 = _position_0;
-    other_position = _other_position;
+  const setSettings = (_position0, _otherPosition, _dynamic) => {
+    position0 = _position0;
+    otherPosition = _otherPosition;
     dynamic = _dynamic;
-    native_dynamic = _dynamic;
+    nativeDynamic = _dynamic;
+    changeNavBackground(color1);
   }
 
   const setNavbarSettings = () => {
     const url = window.location.pathname;
 
     // Static navbar and no transparent
-    if (settings.noDynamicAndnoTransparent.includes(url)) {
+    if (settings.noDynamicAndNoTransparent.includes(url)) {
       setSettings(false, true, false);
       return;
     }
@@ -127,25 +124,32 @@ export default function Navbar() {
     setNavbarSettings();
     
     window.onscroll = () => {
-      navbar_event_listener()
+      navbarEventListener()
     }
-  }, [])
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg py-0 Navbar-fixed">
       {/* Logo */}
       <div className="pull-left ps-4 pt-4 mt-1 pb-0 d-lg-none">
         <Link to="/" title="Home" className="btn p-0">
-          <img src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
-            alt="Pspoto logo white" width="80" height="80"
+          <img
+            src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
+            alt="Pspoto logo white"
+            width="80"
+            height="80"
             className="p-2 logo-img" />
         </Link>
       </div>
 
       {/* Navbar button */}
-      <button type="button" className="btn-menu navbar-toggler me-3 btn navbar-btn collapsed border-0"
-        data-bs-toggle="collapse" data-bs-target="#main-navbar-content"
-        aria-controls="main-navbar-content" aria-expanded="false"
+      <button
+        type="button"
+        className="btn-menu navbar-toggler me-3 btn navbar-btn collapsed border-0"
+        data-bs-toggle="collapse"
+        data-bs-target="#main-navbar-content"
+        aria-controls="main-navbar-content"
+        aria-expanded="false"
         aria-label="Toggle navigation">
         <span></span>
         <span></span>
@@ -158,8 +162,11 @@ export default function Navbar() {
           {/* Logo */}
           <div className="pull-left px-3 pt-3 pb-0">
             <Link to="/" title="Home" className="btn p-0">
-              <img src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
-                alt="Pspoto logo white" width="80" height="80"
+              <img
+                src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
+                alt="Pspoto logo white"
+                width="80"
+                height="80"
                 className="logo-img" />
             </Link>
           </div>
@@ -179,11 +186,14 @@ export default function Navbar() {
         <ul className="navbar-nav px-4 d-flex d-lg-none">
           {/* Logo */}
           <div className="pull-left py-4 mt-1">
-            <a href="/" title="Home" className="btn p-0">
-              <img src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
-                alt="Pspoto logo white" width="80" height="80"
+            <Link to="/" title="Home" className="btn p-0">
+              <img
+                src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
+                alt="Pspoto logo white"
+                width="80"
+                height="80"
                 className="p-2 logo-img" />
-            </a>
+            </Link>
           </div>
 
           {buttons.map((btn, index) => {

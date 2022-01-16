@@ -90,32 +90,34 @@ export default function Navbar() {
     otherPosition = _otherPosition;
     dynamic = _dynamic;
     nativeDynamic = _dynamic;
-    changeNavBackground(color1);
   }
 
   const setNavbarSettings = () => {
     const url = window.location.pathname;
-
     // Static navbar and no transparent
     if (settings.noDynamicAndNoTransparent.includes(url)) {
       setSettings(false, true, false);
+      adjustNavbarColor(color1);
       return;
     }
 
     // Static navbar
     if (settings.noDynamic.includes(url)) {
       setSettings(true, false, false);
+      adjustNavbarColor(color1);
       return;
     }
 
     // No transparent
     if (settings.noTransparent.includes(url)) {
       setSettings(false, true, true);
+      adjustNavbarColor(color1);
       return;
     }
 
     // Default
     setSettings(true, true, true);
+    adjustNavbarColor(color1);
     return;
   }
 
@@ -156,8 +158,8 @@ export default function Navbar() {
         <span></span>
       </button>
 
-      <div className="collapse navbar-collapse" id="main-navbar-content">
-{/* Desktop version col */}
+      <div id="main-navbar-content" className="collapse navbar-collapse">
+        {/* Desktop version col */}
         <ul className="d-none d-lg-flex navbar-nav px-4">
           {/* Logo */}
           <div className="pull-left px-3 pt-3 pb-0">
@@ -172,7 +174,7 @@ export default function Navbar() {
           </div>
         </ul>
 
-{/* Desktop version */}
+        {/* Desktop version */}
         <ul className="d-none d-lg-flex flex-wrap col justify-content-end navbar-nav px-4">
           {buttons.map((btn) => {
             if (btn.type === 'dropdown') {
@@ -182,7 +184,7 @@ export default function Navbar() {
           })}
         </ul>
 
-{/* Mobile version */}
+        {/* Mobile version */}
         <ul className="navbar-nav px-4 d-flex d-lg-none">
           {/* Logo */}
           <div className="pull-left py-4 mt-1">

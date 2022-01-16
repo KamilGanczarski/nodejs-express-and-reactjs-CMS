@@ -11,48 +11,44 @@ import { SortValues, tableRowsLimitBtn } from './data.js'
 export default function UserTable({ userType }) {
   const [tableRowsLimit, setTableRowsLimit] = useState(10);
   const [prevSort, setPrevSort] = useState("id");
+  const [UsersTable, setUsersTable] = useState([]);
   const Users = [];
-  const UsersTable = [];
 
   // Event date sort
   const eventDateSort = (a, b, sort, reverse = false) => {
     // Check the same values
-    if (a[sort][sort] == b[sort][sort]) return 0;
+    if (a[sort][sort] === b[sort][sort]) return 0;
 
     // nulls sort after anything else
-    else if (a[sort][sort] == null) return 1;
-    else if (b[sort][sort] == null) return -1;
-    
+    else if (a[sort][sort] === null) return 1;
+    else if (b[sort][sort] === null) return -1;
+
     // Standard sort
     if (reverse) return b[sort][sort] > a[sort][sort];
     else return a[sort][sort] > b[sort][sort];
   }
 
   const sortUsers = (sort, n, reverse = false) => {
-    let active = "up";
-    if (sort == prevSort && SortValues[n].active == "down" || reverse) {
+    let active = 'up';
+    if (sort === prevSort && SortValues[n].active === 'down' || reverse) {
       UsersTable.sort((a, b) => {
         // Event date sort
-        if (sort == 'date') {
-          return eventDateSort(a, b, sort, true);
-        }
+        if (sort === 'date') return eventDateSort(a, b, sort, true);
+        
         // Other values
         return b[sort] > a[sort];
       });
     } else {
       UsersTable.sort((a, b) => {
         // Event date sort
-        if (sort == 'date') {
-          return eventDateSort(a, b, sort);
-        }
+        if (sort === 'date') return eventDateSort(a, b, sort);
+
         // Other values
         return a[sort] > b[sort];
       });
-      active = "down";
+      active = 'down';
     }
-    SortValues.forEach(obj => {
-      obj.active = "no";
-    });
+    SortValues.forEach(obj => obj.active = 'no');
     SortValues[n].active = active;
     setPrevSort(sort);
   }
@@ -107,12 +103,14 @@ export default function UserTable({ userType }) {
               </tr>
             </thead>
             <tbody>
-              {Users.length == 0 &&
+              {Users.length === 0 ?
                 <tr className="border-top table-row bg-theme-hover">
                   <td colSpan="7" className="text-center small text-theme-1">
                     No data
                   </td>
                 </tr>
+                :
+                <div>asd</div>
               }
             </tbody>
           </table>

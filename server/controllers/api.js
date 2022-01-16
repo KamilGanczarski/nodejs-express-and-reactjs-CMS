@@ -1,4 +1,8 @@
+// Models
 const User = require('../models/User')
+const Variables = require('../models/Variables')
+const Permission = require('../models/Permission')
+
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors');
 
@@ -6,9 +10,12 @@ const getAllUsers = async (req, res) => {
   let Users = []
 
   // Check session
-  if (req.session.id) {
-    Users = await User.find({ role: 'user' }).select('-password')
+  if (!req.session.id) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
   }
+
+  Users = await User.find({ role: 'user' }).select('-password')
+  // Users = await Permission.find({ role: 'user' })
 
   res.status(StatusCodes.OK).send({ Users });
 }
@@ -29,9 +36,9 @@ const createUser = async (req, res) => {
   const {
     login,
     password,
-    event_name,
-    event_date,
-    expiry_date,
+    eventName,
+    eventDate,
+    expiryDate,
     permission
   } = req.body
 
@@ -41,12 +48,12 @@ const createUser = async (req, res) => {
   }
 
   // Checking for event name and date
-  if (!event_name || !event_date) {
+  if (!eventName || !eventDate) {
     throw new CustomError.BadRequestError('Please provide event name and date')
   }
 
   // Checking for a expiry date
-  if (!expiry_date) {
+  if (!expiryDate) {
     throw new CustomError.BadRequestError('Please provide expiry date')
   }
 
@@ -55,13 +62,25 @@ const createUser = async (req, res) => {
     throw new CustomError.BadRequestError('Please provide permission')
   }
 
+  // Check session
+  if (!req.session.id) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  }
+
+  // Fetch permission
+  const PermissionDB = await Permission.findOne({ value: permission });
+
   // Create new object
   const newUser = new User();
   newUser.login = login;
   newUser.password = newUser.generateHash(password);
-  newUser.event = event_name;
+  newUser.event = eventName;
+  newUser.permissionId = PermissionDB._id;
+  newUser.dir = 0xfff.toString(16);
 
-  res.status(StatusCodes.OK).send({});
+  const user = await User.create(newUser)
+
+  res.status(StatusCodes.OK).send({ user });
 }
 
 const deleteUser = async (req, res) => {

@@ -1,4 +1,4 @@
-const links = [
+export const links = [
   {
     id: 0,
     label: "Account",
@@ -81,11 +81,9 @@ const links = [
     id: 8,
     label: "Log out",
     link: "/api/v1/auth/logout",
-    type: "button",
+    type: "hyperlink",
     icon: "icon-power",
     position: "bottom",
     subButtons: []
   }
 ];
-
-export default links;

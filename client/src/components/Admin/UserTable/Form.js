@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 export default function Form({ userType }) {
+  // Form input values
   const [ login, setLogin ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ eventName, setEventName ] = useState('')
@@ -8,32 +10,56 @@ export default function Form({ userType }) {
   const [ expiryDate, setExpiryDate ] = useState('')
 
   const showEventDate = () => {
-    if (userType == "cooperator")
-      return "form-group col-sm-12 p-0 mb-4 form-group-custom d-none";
+    if (userType === 'cooperator')
+      return 'form-group col-sm-12 p-0 mb-4 form-group-custom d-none';
     else
-      return "form-group col-sm-12 col-lg-6 p-0 p-0 pe-lg-3 mb-4 form-group-custom";
+      return 'form-group col-sm-12 col-lg-6 p-0 p-0 pe-lg-3 mb-4 form-group-custom';
   }
 
   const showExpiryDate = () => {
-    if (userType == "cooperator")
-      return "form-group col-sm-12 p-0 mb-4 form-group-custom";
+    if (userType === 'cooperator')
+      return 'form-group col-sm-12 p-0 mb-4 form-group-custom';
     else
-      return "form-group col-sm-12 col-lg-6 p-0 ps-lg-3 mb-4 form-group-custom";
+      return 'form-group col-sm-12 col-lg-6 p-0 ps-lg-3 mb-4 form-group-custom';
+  }
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    axios.post('/api/v1/user', {
+        login: login,
+        password: password,
+        eventName: eventName,
+        eventDate: eventDate,
+        expiryDate: expiryDate,
+        permission: userType
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => {
+        if (error.response.data.msg) {
+          // setLoginResponse(error.response.data.msg);
+        }
+      })
   }
 
   return (
-    <section 
+    <section
       className="modal fade bd-example-modal-lg"
       id="add-client-modal"
       tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true">
-      <div className="modal-dialog modal-lg modal-dialog-center" role="document">
+      <div
+        className="modal-dialog modal-lg modal-dialog-center"
+        role="document">
         <div className="modal-content border-0 bg-theme text-theme">
           <div className="modal-header d-flex align-items-start border-0">
             {/* Title */}
-            <h4 className="modal-title py-5 text-center title-with-x-btn">Add</h4>
+            <h4 className="modal-title py-5 text-center title-with-x-btn">
+              Add
+            </h4>
             {/* Close window */}
             <button
               className="btn btn-sm p-2 bg-transparent text-hover-theme"
@@ -44,9 +70,8 @@ export default function Form({ userType }) {
           </div>
           <div className="modal-body w-100 row px-4 px-lg-5 pt-0 pb-5 m-0 justify-content-center">
             <form
-              action="Add-user"
-              method="post"
-              className="w-100 row px-4 m-0 justify-content-center">
+              className="w-100 row px-4 m-0 justify-content-center"
+              onSubmit={onSubmitHandler}>
               {/* Login */}
               {!['portfolio history wedding'].includes(userType) &&
                 <div className="form-group w-100 px-0 mb-4 form-group-custom">
@@ -101,7 +126,7 @@ export default function Form({ userType }) {
 
               <div className="form-group w-100 px-0 row pb-4 mx-0 mb-0">
                 {/* Event date */}
-                <div className={()=>showEventDate()}>
+                <div className={showEventDate()}>
                   <input
                     type="date"
                     id="event_date"
@@ -118,7 +143,7 @@ export default function Form({ userType }) {
                 </div>
 
                 {/* Expiry date */}
-                <div className={()=>showExpiryDate()}>
+                <div className={showExpiryDate()}>
                   <input
                     type="date"
                     id="expiry_date"

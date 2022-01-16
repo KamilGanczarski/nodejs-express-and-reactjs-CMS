@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import './Sidebar.scss';
 import Button from './Button';
 import Dropdown from './Dropdown'
+import Hyperlink from './Hyperlink'
 
-import links from './links'
+import { links } from './data'
 
 export default function Sidebar() {
   const [topButtons, setTopButtons] = useState([]);
@@ -108,6 +110,8 @@ export default function Sidebar() {
         {bottomButtons.map((btn) => {
           if (btn.type === 'dropdown') {
             return <Dropdown key={btn.id} btn={btn} />;
+          } else if (btn.type === 'hyperlink') {
+            return <Hyperlink key={btn.id} btn={btn} />;
           }
           return <Button key={btn.id} btn={btn} />;
         })}

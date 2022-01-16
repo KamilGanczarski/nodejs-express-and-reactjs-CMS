@@ -20,11 +20,16 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide password'],
     minlength: 6
   },
-  // dir: {
-  //   type: String,
-  //   required: [true, 'Please provide directory'],
-  //   minlength: 1
-  // }
+  dir: {
+    type: String,
+    required: [true, 'Please provide directory'],
+    minlength: 1
+  },
+  permissionId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Permission',
+    required: [true, 'Please provide permission'],
+  }
 });
 
 UserSchema.methods.generateHash = function(password) {

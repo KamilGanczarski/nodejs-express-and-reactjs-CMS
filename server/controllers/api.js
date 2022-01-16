@@ -6,6 +6,31 @@ const Permission = require('../models/Permission')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors');
 
+
+// Update directory
+const fetchNewDirectory = () => {
+  // Fetch current value
+  const directory = await Variables.findOne({ property: 'directory key' });
+
+  // Convert to number, increment and convert again to hex
+  let newDirectory = (parseInt(directory.value, 16) + 1).toString(16);
+
+  // Copy value
+  let hexString = newDirectory;
+
+  // Number how many add 0 before number
+  const hexLengthToAdd = 8 - hexString.length;
+
+  // Add 0s
+  for (let i = 0; i < hexLengthToAdd; i++) {
+    hexString = "0" + hexString;
+  }
+
+  // Update in database
+  await Variables.findByIdAndUpdate(directory._id, { value: newDirectory });
+  return hexString;
+}
+
 const getAllUsers = async (req, res) => {
   let Users = []
 
@@ -14,9 +39,10 @@ const getAllUsers = async (req, res) => {
     throw new CustomError.UnauthenticatedError('Unauthenticated request')
   }
 
-  Users = await User.find({ role: 'user' }).select('-password')
+  // Users = await User.find({ role: 'user' }).select('-password')
   // Users = await Permission.find({ role: 'user' })
-
+  Users = await Variables.find({ role: 'user' })
+  
   res.status(StatusCodes.OK).send({ Users });
 }
 
@@ -76,11 +102,11 @@ const createUser = async (req, res) => {
   newUser.password = newUser.generateHash(password);
   newUser.event = eventName;
   newUser.permissionId = PermissionDB._id;
-  newUser.dir = 0xfff.toString(16);
+  newUser.dir = fetchNewDirectory();
 
-  const user = await User.create(newUser)
+  // const user = await User.create(newUser)
 
-  res.status(StatusCodes.OK).send({ user });
+  res.status(StatusCodes.OK).send({ newUser });
 }
 
 const deleteUser = async (req, res) => {

@@ -16,21 +16,8 @@
 }
 
 /* Correct Bootstrap buttons */
-.dropdown-nav-icon-right {
-   transform: rotate(0deg);
-   -webkit-transition: transform .3s ease;
-      -moz-transition: transform .3s ease;
-       -ms-transition: transform .3s ease;
-        -o-transition: transform .3s ease;
-           transition: transform .3s ease;
-      
-}
-
-.right-rotate .show .dropdown-nav-icon-right {
-   transform: rotate(90deg);
-}
-
-.collapse-nav-icon-right {
+.collapse-icon-rotate,
+.dropdown-icon-rotate {
    -webkit-transition: transform .3s ease;
       -moz-transition: transform .3s ease;
        -ms-transition: transform .3s ease;
@@ -39,8 +26,14 @@
    transform: rotate(0deg);
 }
 
-.right-rotate:not(.collapsed) .collapse-nav-icon-right {
+.right-rotate:not(.collapsed) .collapse-icon-rotate,
+.right-rotate.show .dropdown-icon-rotate {
    transform: rotate(90deg);
+}
+
+.bottom-rotate:not(.collapsed) .collapse-icon-rotate,
+.bottom-rotate.show .dropdown-icon-rotate {
+   transform: rotate(180deg);
 }
 
 /* Manu button */
@@ -327,4 +320,8 @@
 .btn-slide-icon.show > i.custom,
 .btn-slide-icon:hover > i.custom {
    color: $main-color;
+}
+
+.cursor-pointer {
+   cursor: pointer;
 }

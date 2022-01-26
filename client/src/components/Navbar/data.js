@@ -55,5 +55,9 @@ export const links = [
 export const settings = {
   noDynamic: [],
   noTransparent: [],
-  noDynamicAndNoTransparent: [ '/admin', '/admin/home', '/admin/clients' ]
+  noDynamicAndNoTransparent: [
+    '/admin',
+    '/admin/home',
+    '/admin/clients'
+  ]
 };

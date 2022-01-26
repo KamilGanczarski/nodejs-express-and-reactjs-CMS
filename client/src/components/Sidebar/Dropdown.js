@@ -14,7 +14,7 @@ export default function Dropdown({ btn }) {
         <span className="d-inline text-uppercase fw-bold">
           {btn.label}
         </span>
-        <i className="icon-right-open text-h5 m-0 collapse-nav-icon-right ms-auto me-3"></i>
+        <i className="icon-right-open text-h5 m-0 collapse-icon-rotate ms-auto me-3"></i>
       </button>
       <div className="collapse w-100" id={`collapse-area-${btn.label}`}>
         {btn.subButtons.map((subButton, index) => {

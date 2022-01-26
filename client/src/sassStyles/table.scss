@@ -1,0 +1,21 @@
+/* Hover table button */
+.table-row {
+	cursor: pointer;
+}
+
+.table-row td {
+	border-radius: 0;
+	border: 0;
+}
+
+.table-row.hovered td:not(.td-no-hover) {
+	background: var(--bg-theme) !important;
+}
+
+.table-row:hover td:not(.td-no-hover) {
+	background: var(--bg-theme-2);
+}
+
+.td-no-hover:hover {
+	background: var(--bg-theme-2);
+}

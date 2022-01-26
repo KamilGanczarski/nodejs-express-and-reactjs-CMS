@@ -28,7 +28,12 @@ const UserSchema = new mongoose.Schema({
   permission: {
     type: mongoose.Types.ObjectId,
     ref: 'Permission',
-    required: [true, 'Please provide permission'],
+    required: [true, 'Please provide permission reference'],
+  },
+  date: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Calendar',
+    required: [true, 'Please provide user reference']
   }
 });
 

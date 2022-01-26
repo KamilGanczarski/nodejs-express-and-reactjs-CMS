@@ -77,3 +77,10 @@
   width: calc(100% - 60px);
   padding-left: 60px;
 }
+
+.text-shadow-dark {
+  text-shadow: -.7px 0 #80808060,
+                0 .7px #80808060,
+                .7px 0 #80808060,
+               0 -.7px #80808060;
+}

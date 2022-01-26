@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import {
+  Link,
+  BrowserRouter as Router,
+  Switch,
+  useLocation
+} from 'react-router-dom'
 
 // Components
 import Button from './Button'
 import MobileButton from './MobileButton'
 import Dropdown from './Dropdown'
 import MobileDropdown from './MobileDropdown'
+
+import { scrollTo } from './ScrollTo'
 
 // Styles
 import './Navbar.scss'
@@ -29,20 +36,30 @@ export default function Navbar() {
     setButtons(links)
   }
 
+  /**
+   * Scroll event handler to set navbar, scrollToTopBns hide or show
+   */
   const navbarEventListener = () => {
     currentScrollPosition = window.pageYOffset;
     adjustNavbarColor();
     adjustNavbarPosition();
     prevScrollPosition = currentScrollPosition;
-    // scrollToTopBtn();
+    scrollToTopBtn();
   }
 
-  const changeNavBackground = (color) => {
-    document.querySelector('.Navbar-fixed').style.background = color;
-    if (color !== 'transparent') {
-      color = '#000000';
+  /**
+   * Change navbar background
+   * @param {String} background Color in css format 
+   */
+  const changeNavBackground = (background) => {
+    if (background !== 'transparent') {
+      background = '#000000';
     }
-    document.querySelector('.Navbar-fixed').style.setProperty('--navbar-shadow', color);
+    // Set variable color
+    document.querySelector('.Navbar-fixed').style.setProperty(
+      '--navbar-shadow',
+      background
+    );
   }
 
   const adjustNavbarColor = () => {
@@ -59,6 +76,9 @@ export default function Navbar() {
     }
   }
 
+  /**
+   * Adjust navbar position fixed to top or out of user view
+   */
   const adjustNavbarPosition = () => {
     // If scroll up
     if (prevScrollPosition > currentScrollPosition) {
@@ -73,13 +93,19 @@ export default function Navbar() {
     }
   }
 
+  /**
+   * Scroll event handler to set scrollToTopBns visibility
+   */
   const scrollToTopBtn = () => {
+    // Check if already set
     if (scrollToTop === '') {
       scrollToTop = document.querySelectorAll('.scroll-to-top')[0];
     }
 
+    // Show button
     if (currentScrollPosition > 1200) {
       scrollToTop.classList.add('show');
+    // Hide button
     } else {
       scrollToTop.classList.remove('show');
     }
@@ -121,10 +147,19 @@ export default function Navbar() {
     return;
   }
 
+  // Set new navbar setting
+  function usePageViews() {
+    let location = useLocation();
+    React.useEffect(() => {
+      setNavbarSettings();
+    }, [location]);
+  }
+  usePageViews();
+
   useEffect(() => {
     fetchData()
     setNavbarSettings();
-    
+
     window.onscroll = () => {
       navbarEventListener()
     }
@@ -206,6 +241,13 @@ export default function Navbar() {
           })}
         </ul>
       </div>
+
+      {/* Scroll top button */}
+      <button
+        onClick={()=>scrollTo('.bg-theme')}
+        className="btn btn-sm p-0 scroll-to-top hide">
+        <i className="icon-up-open h2 m-0 text-black text-shadow-dark"></i>
+      </button>
     </nav>
   )
 }

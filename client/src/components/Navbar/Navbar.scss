@@ -9,6 +9,7 @@
   position: fixed;
   top: 0;
   flex-flow: wrap !important;
+  background: var(--navbar-shadow);
   -webkit-transition: top .4s ease, background-color .5s ease, box-shadow .5s;
      -moz-transition: top .4s ease, background-color .5s ease, box-shadow .5s;
       -ms-transition: top .4s ease, background-color .5s ease, box-shadow .5s;
@@ -114,4 +115,28 @@
   padding-top: 58px;
   padding-bottom: 58px;
   background-image: linear-gradient(#00000080, #00000080);
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  z-index: 1051;
+  position: fixed;
+  bottom: 15px;
+  right: -100px;
+  opacity: 0;
+  -webkit-transition: right 0s ease .7s, opacity .7s ease 0s !important;
+     -moz-transition: right 0s ease .7s, opacity .7s ease 0s !important;
+      -ms-transition: right 0s ease .7s, opacity .7s ease 0s !important;
+       -o-transition: right 0s ease .7s, opacity .7s ease 0s !important;
+          transition: right 0s ease .7s, opacity .7s ease 0s !important;
+}
+
+.scroll-to-top.show {
+  right: 15px;
+  opacity: 1;
+  -webkit-transition: right 0s ease 0s, opacity .7s ease 0s !important;
+     -moz-transition: right 0s ease 0s, opacity .7s ease 0s !important;
+      -ms-transition: right 0s ease 0s, opacity .7s ease 0s !important;
+       -o-transition: right 0s ease 0s, opacity .7s ease 0s !important;
+          transition: right 0s ease 0s, opacity .7s ease 0s !important;
 }

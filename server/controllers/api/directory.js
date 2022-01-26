@@ -14,7 +14,7 @@ const fetchAndUpdateNewDirectory = async () => {
   // Number how many add 0 before number
   const hexLengthToAdd = 8 - hexString.length;
 
-  // Add 0s
+  // Add 0s before number
   for (let i = 0; i < hexLengthToAdd; i++) {
     hexString = "0" + hexString;
   }

@@ -1,44 +1,56 @@
-export const SortValues = [
+export const SortValuesData = [
   {
-    id: 1,
-    value: "web_id",
+    id: 0,
+    value: "webId",
     active: "down",
-    name: "#",
+    name: "#"
   }, {
-    id: 2,
-    value: "photo",
-    active: "no",
-    name: "Photo",
-  }, {
-    id: 3,
+    id: 1,
     value: "login",
     active: "no",
-    name: "Login",
+    name: "Login"
   }, {
-    id: 4,
+    id: 2,
     value: "event",
     active: "no",
-    name: "Description",
+    name: "Description"
   }, {
-    id: 5,
+    id: 3,
     value: "date",
     active: "no",
-    name: "Date",
+    name: "Date"
   }, {
-    id: 6,
+    id: 4,
     value: "expiry_date",
     active: "no",
-    name: "Expiration date",
+    name: "Expiration date"
   }
 ];
 
-export const tableRowsLimitBtn = [
-  { value: 2, active: '' },
-  { value: 5, active: 'active' },
-  { value: 10, active: '' },
-  { value: 20, active: '' },
-  { value: 30, active: '' },
-  { value: 40, active: '' },
-  { value: 50, active: '' },
-  { value: 60, active: '' }
-]
+export let tableRowsLimitBtn = [
+  {
+    value: 2,
+    active: ''
+  }, {
+    value: 5,
+    active: 'active'
+  }, {
+    value: 10,
+    active: ''
+  }, {
+    value: 20,
+    active: ''
+  }, {
+    value: 30,
+    active: ''
+  }, {
+    value: 40,
+    active: ''
+  }, {
+    value: 50,
+    active: ''
+  }, {
+    value: 60,
+    active: ''
+  }
+];

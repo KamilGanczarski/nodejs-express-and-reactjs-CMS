@@ -1,20 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 // Import components
 import Form from './Form'
 import ScopeBtn from './ScopeBtn'
 import SortBtn from './SortBtn'
+import TableRow from './TableRow'
+import TableRowMobile from './TableRowMobile'
+import CollapseTableRow from './CollapseTableRow'
+import TablePagination from './TablePagination'
+
+// Prepade date
+import { prepareDateInUser } from './Date';
 
 // Import data
-import { SortValues, tableRowsLimitBtn } from './data.js'
+import { SortValuesData, tableRowsLimitBtn } from './data.js'
 
 export default function UserTable({ userType }) {
-  const [tableRowsLimit, setTableRowsLimit] = useState(10);
-  const [prevSort, setPrevSort] = useState("id");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [prevSort, setPrevSort] = useState("webId");
+  const [Users, setUsers] = useState([]);
   const [UsersTable, setUsersTable] = useState([]);
-  const Users = [];
+  const [SortValues, setSortValues] = useState([]);
+
+  // Pagination
+  const [currPage, setCurrPage] = useState(0)
+  const [paginationBtns, setPaginationBtns] = useState([])
+  const [paginationInput, setPaginationInput] = useState('')
 
   // Event date sort
+  /**
+   * 
+   * @param {Object} a Object to sort 
+   * @param {Object} b Object to sort
+   * @param {String} sort What is sorted by 
+   * @param {Boolean} reverse Descending or ascending order
+   * @returns {Boolean} Compared values
+   */
   const eventDateSort = (a, b, sort, reverse = false) => {
     // Check the same values
     if (a[sort][sort] === b[sort][sort]) return 0;
@@ -28,18 +50,25 @@ export default function UserTable({ userType }) {
     else return a[sort][sort] > b[sort][sort];
   }
 
+  /**
+   * Sort Users table be each value from SortValues
+   * @param {String} sort Sort value 
+   * @param {Number} n Index of object - SortValues
+   * @param {Boolean} reverse Descending or ascending order
+   */
   const sortUsers = (sort, n, reverse = false) => {
     let active = 'up';
+    let NewUsersTable = [...UsersTable];
     if (sort === prevSort && SortValues[n].active === 'down' || reverse) {
-      UsersTable.sort((a, b) => {
+      NewUsersTable.sort((a, b) => {
         // Event date sort
         if (sort === 'date') return eventDateSort(a, b, sort, true);
-        
+
         // Other values
         return b[sort] > a[sort];
       });
     } else {
-      UsersTable.sort((a, b) => {
+      NewUsersTable.sort((a, b) => {
         // Event date sort
         if (sort === 'date') return eventDateSort(a, b, sort);
 
@@ -48,10 +77,51 @@ export default function UserTable({ userType }) {
       });
       active = 'down';
     }
-    SortValues.forEach(obj => obj.active = 'no');
-    SortValues[n].active = active;
+
+    // Set new active sort
+    let NewSortValues = [...SortValues];
+    NewSortValues.forEach(obj => obj.active = 'no');
+    NewSortValues[n].active = active;
+
+    setUsersTable(NewUsersTable);
     setPrevSort(sort);
+    setSortValues(NewSortValues);
   }
+    
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('/api/v1/users', { permission: userType });
+      let newUsers = res.data.Users;
+      
+      newUsers.map((User, id) => {
+        User.webId = id;
+        // Temporary
+        User.files = [];
+        // Prepare date
+        User = prepareDateInUser(User);
+      });
+
+      setUsers(newUsers);
+      setUsersTable(newUsers);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Show Users from (currPage * rowsPerPage) to next x-th user  
+   * @returns Array of object Users
+   */
+  const showTable = () => {
+    let arrayBegin = currPage * rowsPerPage;
+    let arrayEnd = arrayBegin + rowsPerPage;
+    return UsersTable.slice(arrayBegin, arrayEnd);
+  }
+
+  useEffect(() => {
+    fetchData()
+    setSortValues(SortValuesData)
+  }, []);
 
   return (
     <section className="w-100 row m-0 justify-content-center">
@@ -73,18 +143,22 @@ export default function UserTable({ userType }) {
 
             {/* Set tables scope */}
             <ScopeBtn
+              Users={Users}
+              setCurrPage={setCurrPage}
               tableRowsLimitBtn={tableRowsLimitBtn}
-              tableRowsLimit={tableRowsLimit}
-              setTableRowsLimit={setTableRowsLimit}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              setPaginationBtns={setPaginationBtns}
             />
           </div>
         </div>
 
         {/* Desktop table */}
         <div className="w-100 row px-0 mx-0 d-none d-lg-none d-xl-block">
-          <table className="table col-sm-12 mx-auto mb-4 text-center">
+          <table className="table col-sm-12 mx-auto mb-4 text-center text-theme-1">
             <thead className="bg-theme-1 text-light">
               <tr>
+                {/* Main sort columns */}
                 {SortValues.map((btn) => {
                   return (
                     <SortBtn
@@ -93,24 +167,75 @@ export default function UserTable({ userType }) {
                       sortUsers={sortUsers} />
                   )
                 })}
+
+                {/* Expand to show more info */}
+                <td className="py-1 border-0">
+                  <button className="btn btn-sm w-100 px-0 py-2 fw-bold text-theme-1">
+                    Expand
+                  </button>
+                </td>
+
+                {/* Gallery preview */}
                 {['client', 'portfolio history wedding'].includes(userType) &&
                   <th className="py-1 border-0">
                     <button className="btn btn-sm w-100 px-0 py-2 fw-bold text-theme-1">
-                      gallery
+                      Gallery
                     </button>
                   </th>
                 }
               </tr>
             </thead>
             <tbody>
-              {Users.length === 0 ?
+              {UsersTable.length > 0 ?
+                // Rows with content
+                showTable().map((User, index) => {
+                  return [
+                    <TableRow key={index} RowUser={User} userType={userType} />,
+                    <CollapseTableRow
+                      key={`collapse-${index}`}
+                      User={User}
+                      userType={userType} />
+                  ]
+                })
+                :
+                // No content
                 <tr className="border-top table-row bg-theme-hover">
                   <td colSpan="7" className="text-center small text-theme-1">
                     No data
                   </td>
                 </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile table */}
+        <div className="w-100 row px-0 mx-0 d-block d-xl-none">
+          <table className="table col-sm-12 mx-auto mb-4 text-center">
+            <thead className="bg-theme-1 text-theme-1">
+              <tr>
+                <th className="border-0 btn-sm">#</th>
+                <th className="col border-0 text-center btn-sm">Client</th>
+              </tr>
+            </thead>
+            <tbody>
+              {UsersTable.length > 0 ?
+                // Rows with content
+                showTable().map((User, index) => {
+                  return [
+                    <TableRowMobile
+                      key={index}
+                      RowUser={User}
+                      userType={userType} />,
+                  ]
+                })
                 :
-                <div>asd</div>
+                // No content
+                <tr className="border-top table-row bg-theme-hover">
+                  <td colSpan="7" className="text-center small text-theme-1">
+                    No data
+                  </td>
+                </tr>
               }
             </tbody>
           </table>
@@ -118,7 +243,16 @@ export default function UserTable({ userType }) {
       </article>
 
       {/* Form */}
-      <Form userType={userType} />
+      <Form userType={userType} fetchData={fetchData} />
+
+      <TablePagination
+        currPage={currPage}
+        setCurrPage={setCurrPage}
+        paginationBtns={paginationBtns}
+        setPaginationBtns={setPaginationBtns}
+        paginationInput={paginationInput}
+        setPaginationInput={setPaginationInput}
+      />
     </section>
   )
 }

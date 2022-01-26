@@ -11,7 +11,7 @@ export default function Theme() {
 
   return (
     <section>
-      <button className="btn" onClick={setNewTheme}>Change theme</button>
+      <button className="btn" onClick={()=>setNewTheme}>Change theme</button>
     </section>
   )
 }

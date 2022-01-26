@@ -1,6 +1,7 @@
 // Models
 const User = require('../models/User')
 const Permission = require('../models/Permission')
+const Calendar = require('../models/Calendar')
 
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors');
@@ -17,17 +18,17 @@ const getAllUsers = async (req, res) => {
 
   if (permission) {
     await User.find({ role: 'user' })
-      .populate({
-        path: 'permission',
-      })
+      .populate({ path: 'permission' })
+      .populate({ path: 'date' })
       .select('-password')
       .exec((err, users) => {
-        users = users.filter((user) => user.permission.value === permission)
+        users = users.filter((user) => user.permission.value === permission);
         res.status(StatusCodes.OK).send({ users });
       })
   } else {
     let Users = await User.find({ role: 'user' })
       .populate({ path: 'permission' })
+      .populate({ path: 'date' })
       .select('-password')
   
     res.status(StatusCodes.OK).send({ Users });
@@ -61,14 +62,9 @@ const createUser = async (req, res) => {
     throw new CustomError.BadRequestError('Please provide login and password')
   }
 
-  // Checking for event name and date
-  if (!eventName || !eventDate) {
-    throw new CustomError.BadRequestError('Please provide event name and date')
-  }
-
-  // Checking for a expiry date
-  if (!expiryDate) {
-    throw new CustomError.BadRequestError('Please provide expiry date')
+  // Check session
+  if (!req.session.id) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
   }
 
   // Checking for a permission
@@ -76,25 +72,52 @@ const createUser = async (req, res) => {
     throw new CustomError.BadRequestError('Please provide permission')
   }
 
-  // Check session
-  if (!req.session.id) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  // Find user with this login
+  const alreadySubmitted = await User.findOne({ login: login });
+  if (alreadySubmitted) {
+    throw new CustomError.BadRequestError(
+      'Already submitted review for this product'
+    );
   }
+
+  // Checking for event name and date
+  if (!eventName || !eventDate) {
+    throw new CustomError.BadRequestError('Please provide event name or date')
+  }
+
+  // Checking for a expiry date
+  if (!expiryDate) {
+    throw new CustomError.BadRequestError('Please provide expiry date')
+  }
+
+  // Create new date
+  const newDate = new Calendar();
+  newDate.date = eventDate;
+  newDate.expiryDate = expiryDate;
+  newDate.contract = false;
+  newDate.pdf = '';
+  newDate.price = '';
+  newDate.advance = '';
+  newDate.howMuchPaid = '';
+
+  // Create date
+  const CalendarDB = await Calendar.create(newDate);
 
   // Fetch permission
   const PermissionDB = await Permission.findOne({ value: permission });
 
-  // Create new object
+  // Create new user
   const newUser = new User();
   newUser.login = login;
   newUser.password = newUser.generateHash(password);
   newUser.event = eventName;
-  newUser.permission = PermissionDB._id;
   newUser.dir = await fetchAndUpdateNewDirectory();
+  newUser.permission = PermissionDB._id;
+  newUser.date = CalendarDB._id;
 
-  const user = await User.create(newUser)
+  await User.create(newUser);
 
-  res.status(StatusCodes.OK).send({ user });
+  res.status(StatusCodes.OK).send({ newUser });
 }
 
 const deleteUser = async (req, res) => {

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function Form({ userType }) {
+export default function Form({ userType, fetchData }) {
   // Form input values
   const [ login, setLogin ] = useState('')
   const [ password, setPassword ] = useState('')
@@ -35,13 +35,27 @@ export default function Form({ userType }) {
       })
       .then((response) => {
         console.log(response);
+        fetchData();
       })
       .catch(error => {
         if (error.response.data.msg) {
+          console.log(error.response.data.msg);
           // setLoginResponse(error.response.data.msg);
         }
       })
   }
+
+    // The inputs that are hidden
+    const setValuesHiddenInputs =() => {
+    if (userType === 'portfolio history wedding') {
+      setLogin(userType);
+      setPassword('*');
+    }
+  }
+
+  useEffect(() => {
+    setValuesHiddenInputs();
+  }, [])
 
   return (
     <section

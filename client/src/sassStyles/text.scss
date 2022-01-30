@@ -17,13 +17,19 @@
   color: var(--text-theme) !important;
 }
 
+.text-theme-inv {
+  color: var(--text-theme-inv);
+}
+
 .text-theme-1 {
   color: var(--text-theme-1) !important;
 }
+
 .text-theme-1-disable {
   color: var(--text-theme-1-disable) !important;
 }
 
+// Text hover theme
 .text-hover-theme {
   color: var(--text-hover-before);
 }
@@ -38,6 +44,38 @@
 
 .text-hover-theme.active {
   color: var(--text-hover-after);
+}
+
+.text-hover-custom {
+  color: $main-color;
+}
+
+.text-hover-custom:disabled {
+  color: $main-color !important;
+}
+
+.text-hover-custom:hover {
+  color: $main-color-dark;
+}
+
+.text-hover-custom.active {
+  color: $main-color-dark;
+}
+
+.text-hover-danger {
+  color: #ed4656;
+}
+
+.text-hover-danger:disabled {
+  color: #ed4656 !important;
+}
+
+.text-hover-danger:hover {
+  color: #c81222;
+}
+
+.text-hover-danger.active {
+  color: #c81222;
 }
 
 .text-light-important {

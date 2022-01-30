@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 
-import AdminSidebar from '../../components/Sidebar/Sidebar'
-import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks'
-import { links } from '../../components/Admin/BlockLinks/home-data.js'
+import AdminSidebar from '../../components/Sidebar/Sidebar';
+import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks';
+import { links } from '../../components/Admin/BlockLinks/home-data.js';
 
 export default function Home() {
   const [buttons, setButtons] = useState([])

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import './Sidebar.scss';
 import Button from './Button';
@@ -61,12 +60,14 @@ export default function Sidebar() {
       <div className="w-100 px-0">
         <div className="div-under-navbar"></div>
         {/* Management */}
-        <div className="w-100 py-4 mx-0 my-1 row justify-content-between">
-          <Link
-            to="/admin/home"
-            className="btn w-auto px-4 py-2 mx-auto bg-transparent animated-box in">
-            <span className="text-light">Management</span>
-          </Link>
+        <div className="w-100 py-4 my-1">
+          <div className="w-100 row">
+            <Link
+              to="/admin/home"
+              className="btn w-auto px-4 py-2 mx-auto bg-transparent animated-box in">
+              <span className="text-light">Management</span>
+            </Link>
+          </div>
         </div>
         {/* Management */}
         <div className="w-100 row m-0">
@@ -87,6 +88,8 @@ export default function Sidebar() {
         {topButtons.map((btn) => {
           if (btn.type === 'dropdown') {
             return <Dropdown key={btn.id} btn={btn} />;
+          } else if (btn.type === 'hyperlink') {
+            return <Hyperlink key={btn.id} btn={btn} />;
           }
           return <Button key={btn.id} btn={btn} />;
         })}
@@ -99,6 +102,8 @@ export default function Sidebar() {
         {middleButtons.map((btn) => {
           if (btn.type === 'dropdown') {
             return <Dropdown key={btn.id} btn={btn} />;
+          } else if (btn.type === 'hyperlink') {
+            return <Hyperlink key={btn.id} btn={btn} />;
           }
           return <Button key={btn.id} btn={btn} />;
         })}

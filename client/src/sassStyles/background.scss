@@ -4,15 +4,19 @@
 }
 
 .bg-theme {
-  background-color: var(--bg-theme) !important;
+  background: var(--bg-theme) !important;
+}
+
+.bg-theme-inv {
+  background: var(--bg-theme-inv);
 }
 
 .bg-theme-1 {
-  background-color: var(--bg-theme-1) !important;
+  background: var(--bg-theme-1) !important;
 }
 
 .bg-theme-hover:hover {
-  background-color: var(--bg-theme-2) !important;
+  background: var(--bg-theme-2) !important;
 }
 
 .bg-shadow {

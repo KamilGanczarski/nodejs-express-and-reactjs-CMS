@@ -8,11 +8,42 @@ const CustomError = require('../errors');
 
 const { fetchAndUpdateNewDirectory } = require('./api/directory')
 
-const getAllUsers = async (req, res) => {
-  const { permission } = req.body;
+const checkSession = (req, res) => {
+  // If session isn't set
+  if (!req.session.id) {
+    throw new CustomError.BadRequestError('No logged user');
+  }
+
+  const { userId: id, login } = req.session;
+  let currentUser = { id, login };
+  res.status(StatusCodes.OK).send(currentUser);
+}
+
+const fetchUser = async (req, res) => {
+  const { id } = req.params;
 
   // Check session
-  if (!req.session.id) {
+  if (!req.session.login) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  }
+
+  await User.findOne({ _id: id })
+    .populate({ path: 'permission' })
+    .populate({ path: 'date' })
+    .select('-password')
+    .then((user) => {
+      res.status(StatusCodes.OK).send({ user });
+    // There is no user with this id
+    }).catch(function (err) {
+      throw new CustomError.BadRequestError('No user found');
+    });
+}
+
+const getAllUsers = async (req, res) => {
+  const { permission } = req.params;
+
+  // Check session
+  if (!req.session.login) {
     throw new CustomError.UnauthenticatedError('Unauthenticated request')
   }
 
@@ -29,22 +60,10 @@ const getAllUsers = async (req, res) => {
     let Users = await User.find({ role: 'user' })
       .populate({ path: 'permission' })
       .populate({ path: 'date' })
-      .select('-password')
+      .select('-password');
   
     res.status(StatusCodes.OK).send({ Users });
   }
-}
-
-const getSingleUserMe = (req, res) => {
-  let newUser = {}
-
-  // Get session data
-  if (req.session.id) {
-    const { userId: id, login } = req.session
-    newUser = { id, login }
-  }
-
-  res.status(StatusCodes.OK).send(newUser);
 }
 
 const createUser = async (req, res) => {
@@ -55,21 +74,26 @@ const createUser = async (req, res) => {
     eventDate,
     expiryDate,
     permission
-  } = req.body
+  } = req.body;
+
+  // Check session
+  if (!req.session.login) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  }
 
   // Check for login and password
   if (!login || !password) {
-    throw new CustomError.BadRequestError('Please provide login and password')
+    throw new CustomError.BadRequestError('Please provide login and password');
   }
 
   // Check session
-  if (!req.session.id) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  if (!req.session.login) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request');
   }
 
   // Checking for a permission
   if (!permission) {
-    throw new CustomError.BadRequestError('Please provide permission')
+    throw new CustomError.BadRequestError('Please provide permission');
   }
 
   // Find user with this login
@@ -82,12 +106,12 @@ const createUser = async (req, res) => {
 
   // Checking for event name and date
   if (!eventName || !eventDate) {
-    throw new CustomError.BadRequestError('Please provide event name or date')
+    throw new CustomError.BadRequestError('Please provide event name or date');
   }
 
   // Checking for a expiry date
   if (!expiryDate) {
-    throw new CustomError.BadRequestError('Please provide expiry date')
+    throw new CustomError.BadRequestError('Please provide expiry date');
   }
 
   // Create new date
@@ -123,6 +147,11 @@ const createUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { id : userId } = req.body;
 
+  // Check session
+  if (!req.session.login) {
+    throw new CustomError.UnauthenticatedError('Unauthenticated request')
+  }
+
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
@@ -138,14 +167,14 @@ const signup = async (req, res) => {
 
   // Check for login and password
   if (!login || !password) {
-    throw new CustomError.BadRequestError('Please provide login and password')
+    throw new CustomError.BadRequestError('Please provide login and password');
   }
 
   const existingUser = await User.findOne({ 'login': login });
 
   // Check if user exists
   if (existingUser) {
-    throw new CustomError.BadRequestError('That username is not available')
+    throw new CustomError.BadRequestError('That username is not available');
   }
 
   const newUser = new User();
@@ -163,9 +192,10 @@ const signup = async (req, res) => {
 }
 
 module.exports = {
+  checkSession,
   getAllUsers,
-  getSingleUserMe,
+  fetchUser,
   createUser,
   deleteUser,
-  signup,
+  signup
 }

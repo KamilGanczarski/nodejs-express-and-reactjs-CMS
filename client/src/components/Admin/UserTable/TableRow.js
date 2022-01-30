@@ -8,8 +8,7 @@ export default function TableRow({ RowUser, userType }) {
    * @param {Event} e Event from sender
    * @param {Number} id User's id
    */
-  const clientPreview = (e, id) => {
-    e.stopPropagation();
+  const clientPreview = (id) => {
     if (User.permission.value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
     } else {
@@ -22,8 +21,8 @@ export default function TableRow({ RowUser, userType }) {
    * @param {Number} id User's id
    */
   const clientEditLink = (id) => {
-    if (userType == "cooperator") {
-      window.location.href = `/admin/user-edit/${id}`;
+    if (userType === "cooperator") {
+      window.location.href = `/admin/edit-user/${id}`;
     } else {
       window.location.href = `/admin/gallery/${id}`;
     }
@@ -51,12 +50,14 @@ export default function TableRow({ RowUser, userType }) {
   }
 
   return (
-    <tr className="border-top table-row" onClick={()=>clientEditLink(User._id)}>
+    <tr className="border-top table-row">
       {/* Id */}
-      <td className="btn-sm">{User.webId + 1}</td>
+      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
+        {User.webId + 1}
+      </td>
 
       {/* Photo and login */}
-      <td className="btn-sm w-300-px">
+      <td className="btn-sm w-300-px" onClick={()=>clientEditLink(User._id)}>
         {User.files.length > 0 ?
           <div className="w-100 bg-black img-16-9-container active">
             <img
@@ -75,11 +76,11 @@ export default function TableRow({ RowUser, userType }) {
       </td>
 
       {/* Event name */}
-      <td className="btn-sm">{User.event}</td>
+      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>{User.event}</td>
 
       {/* Event date */}
       {['client', 'portfolio history wedding'].includes(userType) &&
-        <td className="btn-sm">
+        <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
             {User.date.date != null ?
               <span>
                 {User.date.dateShow}<br />({User.date.passed})
@@ -91,7 +92,7 @@ export default function TableRow({ RowUser, userType }) {
       }
 
       {/* Expiry date */}
-      <td className="btn-sm">
+      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
         {User.date.expiryDate != null ?
           <span>
             {User.date.expiryDateShow}
@@ -102,6 +103,16 @@ export default function TableRow({ RowUser, userType }) {
           <i className="icon-calendar-plus-o text-custom"></i>
         }
       </td>
+
+      {/* Preview button */}
+      {['client', 'portfolio history wedding'].includes(userType) &&
+        <td
+          className="btn-sm transition-effect text-hover-theme td-no-hover"
+          onClick={()=>clientPreview(User._id)}
+          onMouseOver={(e)=>hoverRow(e)}>
+          Preview
+        </td>
+      }
 
       {/* Expand button */}
       <td
@@ -115,17 +126,6 @@ export default function TableRow({ RowUser, userType }) {
             <i className="icon-down-open text-custom"></i>
           </button>
       </td>
-
-      {/* Preview button */}
-      {['client', 'portfolio history wedding'].includes(userType) &&
-        <td 
-          className="btn-sm transition-effect text-hover-theme td-no-hover"
-          onClick={(e)=>clientPreview(e, User._id)}
-          onMouseOver={(e)=>hoverRow(e)}
-          >
-          Preview
-        </td>
-      }
     </tr>
   )
 }

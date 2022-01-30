@@ -178,8 +178,8 @@ export default function Form({ userType, fetchData }) {
 
               <button
                 type="submit"
-                className="btn btn-sm p-2 m-1 fw-bold text-hover-theme">
-                Add
+                className="btn btn-sm w-auto px-4 m-1 bg-theme-inv">
+                <span className="fw-bold text-theme-inv">Add</span>
               </button>
             </form>
           </div>

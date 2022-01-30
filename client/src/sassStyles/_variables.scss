@@ -39,24 +39,38 @@ $main-color-dark: #c08005;
 // Theme
 //    Default
 :root {
+  // Backgroud color
   --bg-theme: #ffffff;
   --bg-theme-1: #f4f4f4;
   --bg-theme-2: #e9e9e9;
+  --bg-theme-inv: #020202;
+
+  // Text color
   --text-theme: #0d0d0d;
   --text-theme-1: #343A40;
   --text-theme-1-disable: #343A4020;
+  --text-theme-inv: #f4f4f4;
+
+  // Text hover
   --text-hover-before: #666;
   --text-hover-after: #000;
 }
 
 //    Dark
 .theme-dark {
+  // Backgroud color
   --bg-theme: #0d0d0d;
   --bg-theme-1: #020202;
   --bg-theme-2: #181818;
+  --bg-theme-inv: #f4f4f4;
+
+  // Text color
   --text-theme: #f8f9fa;
   --text-theme-1: #a3a4a5;
   --text-theme-1-disable: #a3a4a520;
+  --text-theme-inv: #0d0d0d;
+
+  // Text hover
   --text-hover-before: #aaa;
   --text-hover-after: #fff;
 }

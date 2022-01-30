@@ -1,9 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom'
 
 import AdminSidebar from '../../components/Sidebar/Sidebar';
-import UserTable from '../../components/Admin/UserTable/UserTable';
+import EditUserForm from '../../components/Admin/EditUserForm/EditUserForm'
 
-export default function Clients() {
+export default function EditUser({ props }) {
+  const { userId } = useParams()
+
   return (
     <section className="d-flex Sidebar admin">
       {/* Sidebar admin */}
@@ -14,9 +17,9 @@ export default function Clients() {
       {/* Sidebar page content wrapper */}
       <main className="main container-fluid px-0">
         <div className="div-under-navbar"></div>
-        <h2 className="py-5 mx-0 my-0 text-center">Clients</h2>
+        <h2 className="py-5 mx-0 my-0 text-center">Edit user</h2>
 
-        <UserTable userType='client' />
+        <EditUserForm userId={userId} />
       </main>
     </section>
   )

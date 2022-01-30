@@ -2,7 +2,7 @@ export const links = [
   {
     id: 0,
     label: "Account",
-    link: "/admin/user-edit",
+    link: "/admin/edit-user",
     type: "button",
     icon: "icon-user",
     position: "top",

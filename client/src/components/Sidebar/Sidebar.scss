@@ -15,7 +15,7 @@ body {
 
 .Sidebar .sidebar-left,
 .Sidebar .sidebar-wrapper-under {
-  width: 300px;
+  width: 330px;
   height: 100%;
   margin-left: 0;
   margin-right: 0;
@@ -24,7 +24,7 @@ body {
       -ms-transition: margin .25s ease;
        -o-transition: margin .25s ease;
           transition: margin .25s ease;
-  transition-delay: .1s;
+  transition-delay: .2s;
   padding-right: 0 !important;
   flex-shrink: 0;
   z-index: 104;
@@ -35,7 +35,7 @@ body {
 }
 
 .Sidebar.toggled .sidebar-left, .Sidebar.toggled .sidebar-wrapper-under {
-  margin-left: -300px;
+  margin-left: -330px;
   transition-delay: 0s;
 }
 
@@ -125,7 +125,7 @@ body {
 /* With wrapper */
 .Sidebar.admin .sidebar-left,
 .Sidebar.admin .sidebar-wrapper-under {
-background: linear-gradient(
+  background: linear-gradient(
     rgba(0, 0, 0, 0.8), 
       rgba(0, 0, 0, 0.8)
     ),

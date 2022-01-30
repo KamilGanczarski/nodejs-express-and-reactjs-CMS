@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   useRouteMatch,
@@ -11,6 +10,7 @@ import axios from 'axios'
 // Import pages
 import Home from './Home'
 import Clients from './Clients'
+import EditUser from './EditUser'
 import Error from '../../pages/Error'
 
 export default function AdminRoute() {
@@ -20,7 +20,7 @@ export default function AdminRoute() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('/api/v1/current-user');
+      const res = await axios.get('/api/v1/check-session');
       if (res.data.login) {
         setAuth(true);
       }
@@ -51,6 +51,12 @@ export default function AdminRoute() {
 
       {/* Clients */}
       <Route exact path={`${path}/clients`} component={Clients} />
+
+      {/* Edit user (admin / cooperator) */}
+      <Route exact path={`${path}/edit-user`} component={EditUser} />
+
+      {/* Edit user with id (admin / cooperator) */}
+      <Route exact path={`${path}/edit-user/:id`} component={EditUser} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

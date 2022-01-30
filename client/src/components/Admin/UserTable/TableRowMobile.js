@@ -22,8 +22,8 @@ export default function TableRowMobile({ RowUser, userType }) {
    * @param {Number} id User's id
    */
   const clientEditLink = (id) => {
-    if (userType == "cooperator") {
-      window.location.href = `/admin/user-edit/${id}`;
+    if (userType === "cooperator") {
+      window.location.href = `/admin/edit-user/${id}`;
     } else {
       window.location.href = `/admin/gallery/${id}`;
     }
@@ -53,6 +53,7 @@ export default function TableRowMobile({ RowUser, userType }) {
           <div className="w-100 bg-black img-16-9-container active">
             <img
               src={`uploads/${User.dir}/md_res_files/${User.files[0].path}`}
+              alt={User.event}
               className="img-16-9 img-zoom-in" />
             <div className="text-center text-middle-absolute">
               <h5 className="w-100 px-3 m-0 text-light text-middle">

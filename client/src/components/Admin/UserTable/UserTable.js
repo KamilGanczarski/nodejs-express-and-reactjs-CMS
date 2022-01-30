@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 // Import components
@@ -87,12 +87,12 @@ export default function UserTable({ userType }) {
     setPrevSort(sort);
     setSortValues(NewSortValues);
   }
-    
+
   const fetchData = async () => {
     try {
-      const res = await axios.get('/api/v1/users', { permission: userType });
-      let newUsers = res.data.Users;
-      
+      const res = await axios.get(`/api/v1/users${userType && `/${userType}`}`);
+      let newUsers = res.data.users;
+
       newUsers.map((User, id) => {
         User.webId = id;
         // Temporary
@@ -168,13 +168,6 @@ export default function UserTable({ userType }) {
                   )
                 })}
 
-                {/* Expand to show more info */}
-                <td className="py-1 border-0">
-                  <button className="btn btn-sm w-100 px-0 py-2 fw-bold text-theme-1">
-                    Expand
-                  </button>
-                </td>
-
                 {/* Gallery preview */}
                 {['client', 'portfolio history wedding'].includes(userType) &&
                   <th className="py-1 border-0">
@@ -183,6 +176,13 @@ export default function UserTable({ userType }) {
                     </button>
                   </th>
                 }
+
+                {/* Expand to show more info */}
+                <td className="py-1 border-0">
+                  <button className="btn btn-sm w-100 px-0 py-2 fw-bold text-theme-1">
+                    Expand
+                  </button>
+                </td>
               </tr>
             </thead>
             <tbody>

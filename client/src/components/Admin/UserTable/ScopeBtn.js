@@ -16,7 +16,7 @@ export default function ScopeBtn(props) {
     for (let i = 0; i < btnsCount; i++) {
         newPaginationBtns.push({
           value: i,
-          active: (i == 0) ? 'active' : ''
+          active: (i === 0) ? 'active' : ''
         });
     }
     setPaginationBtns(newPaginationBtns);

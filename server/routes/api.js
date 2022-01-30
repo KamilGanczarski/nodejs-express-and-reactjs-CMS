@@ -2,18 +2,27 @@ const express = require('express');
 const router = express.Router();
 const {
   getAllUsers,
-  getSingleUserMe,
+  checkSession,
+  fetchUser,
   createUser,
   deleteUser,
   signup
 } = require('../controllers/api');
 
-// Get users
+// Get all users
 router.route('/users')
   .get(getAllUsers);
 
-router.route('/current-user')
-  .get(getSingleUserMe);
+// Get users with specific permission
+router.route('/users/:permission')
+  .get(getAllUsers);
+
+// Check login
+router.route('/check-session')
+  .get(checkSession);
+
+router.route('/user/:id')
+  .get(fetchUser)
 
 router.route('/user')
   .post(createUser)

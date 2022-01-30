@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import  { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
@@ -12,7 +12,7 @@ export default function Login() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('/api/v1/current-user');
+      const res = await axios.get('/api/v1/check-session');
       if (res.data.login) {
         setAuth(true);
       }

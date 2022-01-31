@@ -20,7 +20,7 @@ export default function AdminRoute() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('/api/v1/check-session');
+      const res = await axios.get('/api/v1/auth/check-session');
       if (res.data.login) {
         setAuth(true);
       }

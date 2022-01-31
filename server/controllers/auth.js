@@ -11,28 +11,31 @@ const login = async (req, res) => {
   }
 
   // Find user
-  const user = await User.findOne({ 'login': login });
+  const currentUser = await User.findOne({ login: login })
+    .populate({ path: 'permission' })
+    .populate({ path: 'date' })
 
   // Check if user exists
-  if (!user) {
+  if (!currentUser) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials')
   }
 
   // Check password
-  if (!user.validPassword(password)) {
-    console.log('WRONG PASSWORD. ABORTING')
+  if (!currentUser.validPassword(password)) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials')
   }
 
   // Set user for response and session
   const resUser = {
-    id: user._id,
-    login: user.login
+    id: currentUser._id,
+    login: currentUser.login,
+    permission: currentUser.permission.value
   }
 
   // Session data
-  req.session.userId = resUser.id;
-  req.session.login = resUser.login;
+  req.session.userId = currentUser.id;
+  req.session.login = currentUser.login;
+  req.session.permission = currentUser.permission.value;
 
   res.status(StatusCodes.OK).json({ user: resUser })
 }
@@ -42,7 +45,19 @@ const logout = (req, res) => {
   res.redirect('/login');
 }
 
+const checkSession = (req, res) => {
+  // If session isn't set
+  if (!req.session.login) {
+    throw new CustomError.BadRequestError('No logged user');
+  }
+
+  const { userId: id, login } = req.session;
+  let currentUser = { id, login };
+  res.status(StatusCodes.OK).send(currentUser);
+}
+
 module.exports = {
   login,
-  logout
+  logout,
+  checkSession
 }

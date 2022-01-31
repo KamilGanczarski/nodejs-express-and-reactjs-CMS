@@ -1,31 +1,15 @@
 // Models
-const User = require('../models/User')
-const Permission = require('../models/Permission')
-const Calendar = require('../models/Calendar')
+const User = require('../models/User');
+const Permission = require('../models/Permission');
+const Calendar = require('../models/Calendar');
 
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 
-const { fetchAndUpdateNewDirectory } = require('./api/directory')
+const { fetchAndUpdateNewDirectory } = require('./api/directory');
 
-const checkSession = (req, res) => {
-  // If session isn't set
-  if (!req.session.id) {
-    throw new CustomError.BadRequestError('No logged user');
-  }
-
-  const { userId: id, login } = req.session;
-  let currentUser = { id, login };
-  res.status(StatusCodes.OK).send(currentUser);
-}
-
-const fetchUser = async (req, res) => {
+const getUser = async (req, res) => {
   const { id } = req.params;
-
-  // Check session
-  if (!req.session.login) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
-  }
 
   await User.findOne({ _id: id })
     .populate({ path: 'permission' })
@@ -41,11 +25,6 @@ const fetchUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   const { permission } = req.params;
-
-  // Check session
-  if (!req.session.login) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
-  }
 
   if (permission) {
     await User.find({ role: 'user' })
@@ -76,19 +55,9 @@ const createUser = async (req, res) => {
     permission
   } = req.body;
 
-  // Check session
-  if (!req.session.login) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
-  }
-
   // Check for login and password
   if (!login || !password) {
     throw new CustomError.BadRequestError('Please provide login and password');
-  }
-
-  // Check session
-  if (!req.session.login) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request');
   }
 
   // Checking for a permission
@@ -144,20 +113,23 @@ const createUser = async (req, res) => {
   res.status(StatusCodes.OK).send({ newUser });
 }
 
+const updateUser = async (req, res) => {
+  const { userId } = req.body;
+  res.status(StatusCodes.OK).send({ msg: `You've updated the user` });
+}
+
 const deleteUser = async (req, res) => {
-  const { id : userId } = req.body;
+  const { userId } = req.body;
 
-  // Check session
-  if (!req.session.login) {
-    throw new CustomError.UnauthenticatedError('Unauthenticated request')
-  }
-
+  // Find the user
   const user = await User.findOne({ _id: userId });
 
+  // If doesn't exist
   if (!user) {
     throw new CustomError.NotFoundError(`No user with id: ${userId}`);
   }
 
+  // Remove
   await user.remove();
   res.status(StatusCodes.OK).send({ msg: 'Success ! Product removed.' });
 }
@@ -192,10 +164,10 @@ const signup = async (req, res) => {
 }
 
 module.exports = {
-  checkSession,
+  getUser,
   getAllUsers,
-  fetchUser,
   createUser,
+  updateUser,
   deleteUser,
   signup
 }

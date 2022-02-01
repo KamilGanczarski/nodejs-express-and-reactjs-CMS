@@ -6,8 +6,8 @@ const {
   createUser,
   updateUser,
   deleteUser,
-  signup
-} = require('../controllers/api');
+  getPermissions
+} = require('../controllers/api/user');
 
 const { authorizePermission } = require('../middleware/authorization')
 
@@ -28,7 +28,7 @@ router.route('/user')
   .patch(authorizePermission('admin'), updateUser)
   .delete(authorizePermission('admin'), deleteUser);
 
-router.route('/signup')
-  .post(signup);
+router.route('/permissions')
+  .get(authorizePermission('admin'), getPermissions);
 
 module.exports = router;

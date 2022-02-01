@@ -5,8 +5,8 @@ export default function Form({ userType, fetchData }) {
   // Form input values
   const [ login, setLogin ] = useState('')
   const [ password, setPassword ] = useState('')
-  const [ eventName, setEventName ] = useState('')
-  const [ eventDate, setEventDate ] = useState('')
+  const [ event, setEvent ] = useState('')
+  const [ date, setDate ] = useState('')
   const [ expiryDate, setExpiryDate ] = useState('')
 
   const showEventDate = () => {
@@ -28,8 +28,8 @@ export default function Form({ userType, fetchData }) {
     axios.post('/api/v1/user', {
         login: login,
         password: password,
-        eventName: eventName,
-        eventDate: eventDate,
+        event: event,
+        date: date,
         expiryDate: expiryDate,
         permission: userType
       })
@@ -129,8 +129,8 @@ export default function Form({ userType, fetchData }) {
                   id="event_name"
                   name="event_name"
                   placeholder=" "
-                  value={eventName}
-                  onChange={(e)=>setEventName(e.target.value)}
+                  value={event}
+                  onChange={(e)=>setEvent(e.target.value)}
                   required
                   className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
                 <label className="form-label-custom ps-3" htmlFor="event_name">
@@ -146,8 +146,8 @@ export default function Form({ userType, fetchData }) {
                     id="event_date"
                     name="event_date"
                     placeholder=" "
-                    value={eventDate}
-                    onChange={(e)=>setEventDate(e.target.value)}
+                    value={date}
+                    onChange={(e)=>setDate(e.target.value)}
                     className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
                   <label
                     className="form-label-custom ps-3"

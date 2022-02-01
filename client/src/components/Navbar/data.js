@@ -58,6 +58,7 @@ export const settings = {
   noDynamicAndNoTransparent: [
     '/admin',
     '/admin/home',
-    '/admin/clients'
+    '/admin/clients',
+    '/admin/edit-user'
   ]
 };

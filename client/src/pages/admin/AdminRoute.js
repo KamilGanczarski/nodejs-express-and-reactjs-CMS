@@ -32,6 +32,7 @@ export default function AdminRoute() {
   }
 
   useEffect(() => {
+    document.title = "Admin"
     fetchUser();
   }, []);
 

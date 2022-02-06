@@ -19,7 +19,12 @@ const getUser = async (req, res) => {
     .populate({ path: 'date' })
     .select('-password')
     .then((user) => {
-      res.status(StatusCodes.OK).send({ user });
+      let resUser = Object.assign(user, {
+        asd: 'sda'
+        // loggedUser: user._id === req.session._id
+      });
+
+      res.status(StatusCodes.OK).send({ resUser });
     // There is no user with this id
     }).catch(function (err) {
       throw new CustomError.BadRequestError('No user found');

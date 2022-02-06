@@ -34,11 +34,7 @@
 .form-control-custom::placeholder {               color: #999; }
 
 .form-label-custom {
-	color: #999;
-}
-
-.color-label {
-	color: #999;
+	color: #888;
 }
 
 .form-control-custom-select {
@@ -79,6 +75,10 @@
 	border: 2px solid #999 !important;
 	font-size: 1rem;
 	line-height: 1.5;
+}
+
+.form-group-custom > input[type="password"] {
+	font-size: 0.9rem;
 }
 
 .form-group-custom > input,

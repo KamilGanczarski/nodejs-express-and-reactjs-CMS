@@ -17,7 +17,7 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 // Routers
-app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/auth', require('./routes/authorization'));
 app.use('/api/v1', require('./routes/api'));
 
 // Middleware

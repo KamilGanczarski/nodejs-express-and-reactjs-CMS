@@ -9,26 +9,26 @@ const {
   getPermissions
 } = require('../controllers/api/user');
 
-const { authorizePermission } = require('../middleware/authorization')
+const { authorizePermissions } = require('../middleware/authorization');
 
 // Fetch user by id
 router.route('/user/:id')
-  .get(authorizePermission('admin'), getUser)
+  .get(authorizePermissions('admin'), getUser)
 
 // Get all users
 router.route('/users')
-  .get(authorizePermission('admin'), getAllUsers);
+  .get(authorizePermissions('admin'), getAllUsers);
 
 // Get users with specific permission
 router.route('/users/:permission')
-  .get(authorizePermission('admin'), getAllUsers);
+  .get(authorizePermissions('admin'), getAllUsers);
 
 router.route('/user')
-  .post(authorizePermission('admin'), createUser)
-  .patch(authorizePermission('admin'), updateUser)
-  .delete(authorizePermission('admin'), deleteUser);
+  .post(authorizePermissions('admin'), createUser)
+  .patch(authorizePermissions('admin'), updateUser)
+  .delete(authorizePermissions('admin'), deleteUser);
 
 router.route('/permissions')
-  .get(authorizePermission('admin'), getPermissions);
+  .get(authorizePermissions('admin'), getPermissions);
 
 module.exports = router;

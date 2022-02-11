@@ -1,11 +1,19 @@
 const mongoose = require('mongoose');
 
 const PermissionSchema = mongoose.Schema({
-  value: {
+  name: {
     type: String,
-    required: [true, 'Please provide permission'],
+    required: [true, 'Please provide name'],
     maxlength: 50,
-    minlength: 3
+    minlength: 3,
+    unique: true
+  },
+  description: {
+    type: String,
+    required: [true, 'Please provide description'],
+    maxlength: 50,
+    minlength: 3,
+    unique: true
   }
 });
 

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import  { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 // Backend settings
-import { baseUrl } from '../components/data';
+import {
+  baseUrl,
+  axiosHeaders,
+  redirectIValidToken,
+  redirectAfterLogin,
+  TokenModel
+} from '../components/data';
 
 // Style
 import '../sassStyles/pages/login.scss';
@@ -11,34 +18,17 @@ import '../sassStyles/pages/login.scss';
 type Props = {};
 
 export default function Login({}: Props) {
-  const [ auth, setAuth ] = useState(false)
   const [ login, setLogin ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ loginResponse, setLoginResponse ] = useState('')
 
-  const checkValidToken = async () => {
-    // If token in local storage is set
-    if (!localStorage.token) return;
-
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, {
-        headers: {
-          'Authorization': `${localStorage.token}`
-        }
-      })
-      .then(res => {
-        console.log(res)
-        setAuth(true);
-      })
-      .catch(error => {
-        setAuth(false);
-      });
-  }
-
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     // Remove token from local storage
     localStorage.removeItem('token');
+    setLoginResponse('');
 
-    event.preventDefault();
     await axios.post(`${baseUrl}/api/v1/auth/login`, {
         login: login,
         password: password
@@ -47,9 +37,9 @@ export default function Login({}: Props) {
         if (response.data.token) {
           // Set token from local storage
           localStorage.setItem('token', response.data.token);
+          const decodedToken: TokenModel = jwt_decode(response.data.token);
+          redirectAfterLogin(decodedToken.user.permission);
         }
-        setLoginResponse('');
-        setAuth(true);
       })
       .catch(error => {
         if (error.response.data.msg) {
@@ -59,12 +49,8 @@ export default function Login({}: Props) {
   }
 
   useEffect(() => {
-    checkValidToken()
+    redirectIValidToken()
   }, []);
-
-  if (auth) {
-    return <Redirect to='/admin/home' />
-  }
 
   return (
     <section className="w-100 prevent-user-select login-main">

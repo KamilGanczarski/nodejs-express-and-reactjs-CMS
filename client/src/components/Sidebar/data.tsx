@@ -1,25 +1,25 @@
 import { logoutUserRequest } from '../../actions'
 
-interface SublinkSidebarType {
+interface SublinkModel {
   id: number;
   label: string;
   link: string;
 }
 
-export interface LinkSidebarType {
+export interface LinkModel {
   id: number;
+  icon: string;
   label: string;
   link: string;
   type: 'button' | 'dropdown' | 'hyperlink' | 'onclick';
-  icon: string;
   position: 'top' | 'middle' | 'bottom';
-  subButtons: SublinkSidebarType[];
+  subButtons: SublinkModel[];
   onclick: () => void;
 }
 
 const nothing = (): void => {}
 
-export const links: LinkSidebarType[] = [
+export const links: LinkModel[] = [
   {
     id: 0,
     label: "Account",
@@ -109,7 +109,7 @@ export const links: LinkSidebarType[] = [
   }, {
     id: 8,
     label: "Log out",
-    link: "/api/v1/auth/logout",
+    link: "",
     type: "onclick",
     icon: "icon-power",
     position: "bottom",

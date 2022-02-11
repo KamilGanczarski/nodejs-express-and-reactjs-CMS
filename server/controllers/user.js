@@ -1,21 +1,23 @@
 // Models
-const User = require('../../models/User');
-const Permission = require('../../models/Permission');
-const Calendar = require('../../models/Calendar');
+const User = require('../models/User');
+const Role = require('../models/Role');
+const Calendar = require('../models/Calendar');
 
 const { StatusCodes } = require('http-status-codes');
-const CustomError = require('../../errors');
+const CustomError = require('../errors');
 
-const { fetchAndUpdateNewDirectory } = require('./directory');
+const { fetchAndUpdateNewDirectory } = require('./api/directory');
+const { permissionByRole } = require('./api/permission');
 
 /**
- * Get user bu id
+ * Get user by id
  */
 const getUser = async (req, res) => {
   const { id } = req.params;
+  CustomError.requireProvidedValues(id);
 
   await User.findOne({ _id: id })
-    .populate({ path: 'permission' })
+    .populate({ path: 'role' })
     .populate({ path: 'date' })
     .select('-password')
     .then((user) => {
@@ -32,27 +34,28 @@ const getUser = async (req, res) => {
 }
 
 /**
- * Get users by permission or no permission get all
+ * Get users by rol or without it get all
  */
 const getAllUsers = async (req, res) => {
-  const { permission } = req.params;
+  const { role } = req.params;
 
-  if (permission) {
-    await User.find({ role: 'user' })
-      .populate({ path: 'permission' })
+  if (role) {
+    await User.find({})
+      .populate({ path: 'role' })
       .populate({ path: 'date' })
       .select('-password')
       .exec((err, users) => {
-        users = users.filter((user) => user.permission.value === permission);
+        users = users.filter((user) => user.role.value === role);
         res.status(StatusCodes.OK).send({ users });
       })
   } else {
-    let Users = await User.find({ role: 'user' })
-      .populate({ path: 'permission' })
+    await User.find({})
+      .populate({ path: 'role' })
       .populate({ path: 'date' })
-      .select('-password');
-  
-    res.status(StatusCodes.OK).send({ Users });
+      .select('-password')
+      .exec((err, users) => {
+        res.status(StatusCodes.OK).send({ users });
+      });
   }
 }
 
@@ -63,22 +66,18 @@ const createUser = async (req, res) => {
   const {
     login,
     password,
-    permission,
+    role,
     event,
     date,
     expiryDate
   } = req.body;
-
-  // Check for login and password
-  if (!login || !password || !permission || !event) {
-    throw new CustomError.BadRequestError('Please provide all values');
-  }
+  CustomError.requireProvidedValues(login, password, role, event);
 
   // Find user with this login
   const alreadySubmitted = await User.findOne({ login: login });
   if (alreadySubmitted) {
     throw new CustomError.BadRequestError(
-      'Already submitted review for this product'
+      'Already created user with this username'
     );
   }
 
@@ -95,13 +94,13 @@ const createUser = async (req, res) => {
   // Create date
   const CalendarDB = await Calendar.create(newDate);
 
-  // Fetch permission
-  const PermissionDB = await Permission.findOne({ value: permission });
+  // Fetch role
+  const roleRecord = await Role.findOne({ value: role });
   
-  // Check permission
-  if (!PermissionDB) {
+  // Check role
+  if (!roleRecord) {
     throw new CustomError.BadRequestError(
-      `No permission with '${permission}' name`
+      `No role with '${role}' name`
     );
   }
 
@@ -111,7 +110,8 @@ const createUser = async (req, res) => {
   newUser.password = newUser.generateHash(password);
   newUser.event = event;
   newUser.dir = await fetchAndUpdateNewDirectory();
-  newUser.permission = PermissionDB._id;
+  newUser.role = roleRecord._id;
+  newUser.permission = permissionByRole(role);
   newUser.date = CalendarDB._id;
 
   await User.create(newUser);
@@ -127,11 +127,20 @@ const updateUser = async (req, res) => {
     userId,
     login,
     password,
-    permission,
+    newPassword,
+    role,
     event,
     date,
     expiryDate
   } = req.body;
+  CustomError.requireProvidedValues(userId);
+
+  // Check for password to make changes
+  if (!password) {
+    throw new CustomError.BadRequestError(
+      'Please provide password to make changes'
+    );
+  }
 
   // Find the user
   const newUser = await User.findOne({ _id: userId });
@@ -141,54 +150,51 @@ const updateUser = async (req, res) => {
     throw new CustomError.NotFoundError(`No user with id: ${userId}`);
   }
 
-  // Check for password to make changes
-  if (!password) {
-    throw new CustomError.BadRequestError('Please provide password to make changes');
-  }
-
-  // Check for login and password
-  if (!login || !password || !permission || !event) {
-    throw new CustomError.BadRequestError('Please provide all values');
-  }
-
-  // Fetch permission
-  const PermissionDB = await Permission.findOne({ value: permission });
-  
-  // Check permission
-  if (!PermissionDB) {
-    throw new CustomError.BadRequestError(
-      `No permission with '${permission}' name`
-    );
-  }
-
   // Set new values
-  newUser.login = login;
-  newUser.event = event;
+  if (login) {
+    newUser.login = login;
+  }
+
+  if (event) {
+    newUser.event = event;
+  }
 
   // Check if password is set
-  if (password) {
-    newUser.password = newUser.generateHash(password);
+  if (newPassword) {
+    newUser.password = newUser.generateHash(newPassword);
   }
 
-  if (req.session.userId !== newUser.id) {
-    newUser.permission = PermissionDB._id;
-
-    // Fetch calendar
-    const newCalendar = await Calendar.findOne({ _id: newUser.date });
-    
-    // Check calendar
-    if (!newCalendar) {
-      throw new CustomError.BadRequestError(`No connection to calendar`);
+  if (req.user.userId !== newUser.id) {
+    // Update role
+    if (role) {
+      // Fetch role
+      const roleRecord = await Role.findOne({ value: role });
+      
+      // Check role
+      if (!roleRecord) {
+        throw new CustomError.BadRequestError(`No role with '${role}' name`);
+      }
+      newUser.role = roleRecord._id;
     }
-  
-    // Set new values
-    newCalendar.date = date ? date : '';
-    newCalendar.expiryDate = expiryDate ? expiryDate : '';
-    await newCalendar.save();
+
+    // Update calendar
+    if (date || expiryDate) {
+      // Fetch calendar
+      const newCalendar = await Calendar.findOne({ _id: newUser.date });
+      
+      // Check calendar
+      if (!newCalendar) {
+        throw new CustomError.BadRequestError(`No connection to calendar`);
+      }
+    
+      // Set new values
+      newCalendar.date = date ? date : '';
+      newCalendar.expiryDate = expiryDate ? expiryDate : '';
+      await newCalendar.save();
+    }
   }
 
   await newUser.save();
-
   res.status(StatusCodes.OK).send({ msg: `You've updated the user` });
 }
 
@@ -197,6 +203,7 @@ const updateUser = async (req, res) => {
  */
 const deleteUser = async (req, res) => {
   const { userId } = req.body;
+  CustomError.requireProvidedValues(userId);
 
   // Find the user
   const user = await User.findOne({ _id: userId });
@@ -208,12 +215,7 @@ const deleteUser = async (req, res) => {
 
   // Remove
   await user.remove();
-  res.status(StatusCodes.OK).send({ msg: 'Success ! Product removed.' });
-}
-
-const getPermissions = async (req, res) => {
-  const Permissions = await Permission.find({});
-  res.status(StatusCodes.OK).send({ Permissions });
+  res.status(StatusCodes.OK).send({ msg: 'Success ! User removed.' });
 }
 
 module.exports = {
@@ -221,6 +223,5 @@ module.exports = {
   getAllUsers,
   createUser,
   updateUser,
-  deleteUser,
-  getPermissions
+  deleteUser
 }

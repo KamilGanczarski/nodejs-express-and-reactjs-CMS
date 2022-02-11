@@ -25,10 +25,14 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide directory'],
     minlength: 1
   },
-  permission: {
+  role: {
     type: mongoose.Types.ObjectId,
-    ref: 'Permission',
-    required: [true, 'Please provide permission reference'],
+    ref: 'Role',
+    required: [true, 'Please provide role reference'],
+  },
+  permission: {
+    type: Number,
+    required: [true, 'Please provide permission']
   },
   date: {
     type: mongoose.Types.ObjectId,

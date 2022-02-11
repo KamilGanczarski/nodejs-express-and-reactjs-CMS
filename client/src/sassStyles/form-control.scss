@@ -97,6 +97,7 @@
 .form-group-custom > input:not(:placeholder-shown) + label,
 .form-group-custom > input:focus + label {
 	top: -3px;
+	font-size: 0.75rem;
 }
 
 .form-group-custom > textarea:focus {

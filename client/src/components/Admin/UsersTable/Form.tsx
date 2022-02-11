@@ -35,7 +35,7 @@ export default function Form({ userType, fetchData }: Props) {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    axios.post(`${baseUrl}/api/v1/user`, {
+    axios.post(`${baseUrl}/api/v1/users`, {
         login: login,
         password: password,
         event: event,

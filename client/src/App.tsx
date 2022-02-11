@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 // Import pages
-import Home from './pages/Home';
-import About from './pages/About';
-import Login from './pages/Login';
-import Error from './pages/Error';
-import AdminRoute from './pages/admin/AdminRoute';
+import Home from './views/Home';
+import About from './views/About';
+import Login from './views/Login';
+import Error from './views/Error';
+import AdminRoute from './views/admin/AdminRoute';
 
 // Import components
 import Navbar from './components/Navbar/Navbar';

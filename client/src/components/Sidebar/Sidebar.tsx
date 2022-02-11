@@ -7,14 +7,14 @@ import Dropdown from './Dropdown';
 import Hyperlink from './Hyperlink';
 import OnclickButton from './OnclickButton';
 
-import { links, LinkSidebarType } from './data';
+import { links, LinkModel } from './data';
 
 type Props = {};
 
 export default function Sidebar({}: Props) {
-  const [topButtons, setTopButtons] = useState<LinkSidebarType[]>([]);
-  const [middleButtons, setMiddleButtons] = useState<LinkSidebarType[]>([]);
-  const [bottomButtons, setBottomButtons] = useState<LinkSidebarType[]>([]);
+  const [topButtons, setTopButtons] = useState<LinkModel[]>([]);
+  const [middleButtons, setMiddleButtons] = useState<LinkModel[]>([]);
+  const [bottomButtons, setBottomButtons] = useState<LinkModel[]>([]);
 
   const fetchData = async () => {
     // Top buttons

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl } from '../../data';
+import { baseUrl, axiosHeaders } from '../../data';
 
 type Props = {
   newUserId: string;
@@ -28,11 +28,7 @@ export default function EditUserForm({ newUserId }: Props) {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, {
-        headers: {
-          'Authorization': `${localStorage.token}`
-        }
-      })
+    await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
         if (res.data && !newUserId) {
           setEditLoggedUser(true);
@@ -54,20 +50,24 @@ export default function EditUserForm({ newUserId }: Props) {
   }
 
   const fetchPermissions = async () => {
-    try {
-      const res = await axios.get(`${baseUrl}/api/v1/permissions`);
-      if (res.data.Permissions) {
-        setPermissions(res.data.Permissions)
-        console.log(Permissions)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    // If token in local storage is set
+    if (!localStorage.token) return;
+
+    await axios.get(`${baseUrl}/api/v1/permissions`, axiosHeaders)
+      .then(res => {
+        if (res.data.Permissions) {
+          setPermissions(res.data.Permissions);
+          console.log(Permissions);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   const fetchUser = async (id: string) => {
     try {
-      const res = await axios.get(`${baseUrl}/api/v1/user/${id}`)
+      const res = await axios.get(`${baseUrl}/api/v1/users/${id}`)
       const user = res.data.user;
       if (user) {
         // Set login
@@ -105,7 +105,7 @@ export default function EditUserForm({ newUserId }: Props) {
   const editUserForm = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    axios.patch(`${baseUrl}/api/v1/user`, {
+    axios.patch(`${baseUrl}/api/v1/users`, {
         userId: userId,
         login: login,
         password: password,
@@ -133,7 +133,7 @@ export default function EditUserForm({ newUserId }: Props) {
    * Send requst to user to delete user
    */
   const deleteUser = () => {
-    axios.delete(`${baseUrl}/api/v1/user`, {
+    axios.delete(`${baseUrl}/api/v1/users`, {
         data: { userId: userId }
       })
       .then((response) => {

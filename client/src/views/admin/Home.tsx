@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import Sidebar from '../../components/Sidebar/Sidebar';
 import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks';
-import { links, LinkSidebarType } from '../../components/Admin/BlockLinks/home-data';
+import { links, LinkModel } from '../../components/Sidebar/data';
 
 type Props = {};
 
 export default function Home({}: Props) {
-  const [buttons, setButtons] = useState<LinkSidebarType[]>([])
+  const [buttons, setButtons] = useState<LinkModel[]>([])
   
   const deployLinks = () => {
     setButtons(links)

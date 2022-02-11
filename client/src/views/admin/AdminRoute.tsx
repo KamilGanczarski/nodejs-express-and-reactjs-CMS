@@ -3,13 +3,13 @@ import { Route, Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl } from '../../components/data';
+import { baseUrl, axiosHeaders } from '../../components/data';
 
 // Import pages
 import Home from './Home';
 import Clients from './Clients';
 import EditUser from './EditUser';
-import Error from '../../pages/Error';
+import Error from '../../views/Error';
 
 type Props = {};
 
@@ -22,11 +22,7 @@ export default function AdminRoute({}: Props) {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, {
-        headers: {
-          'Authorization': `${localStorage.token}`
-        }
-      })
+    await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
         setAuth(true);
         setIsLoading(false);

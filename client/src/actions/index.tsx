@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl, baseAppUrl } from '../components/data';
+import { baseUrl, baseAppUrl, axiosHeaders } from '../components/data';
 
 export const logoutUserRequest = async () => {
   // If token in local storage is set
@@ -10,11 +10,7 @@ export const logoutUserRequest = async () => {
   // Remove token from local storage
   localStorage.removeItem('token');
 
-  await axios.get(`${baseUrl}/api/v1/auth/logout`, {
-      headers: {
-        'Authorization': `${localStorage.token}`
-      }
-    })
+  await axios.get(`${baseUrl}/api/v1/auth/logout`, axiosHeaders)
     .then(res => {
       window.location.replace(`${baseAppUrl}/login`);
     })

@@ -4,8 +4,8 @@ const CustomError = require('../errors');
 const { attachCookiesToResponse, createTokenUser } = require('../utils');
 
 const login = async (req, res) => {
-  const { login, password } = req.body
-  
+  const { login, password } = req.body;
+
   // Check for login and password
   if (!login || !password) {
     throw new CustomError.BadRequestError('Please provide login and password')
@@ -13,17 +13,17 @@ const login = async (req, res) => {
 
   // Find user
   const user = await User.findOne({ login: login })
-    .populate({ path: 'permission' })
-    .populate({ path: 'date' })
+    .populate({ path: 'role' })
+    .populate({ path: 'date' });
 
   // Check if user exists
   if (!user) {
-    throw new CustomError.UnauthenticatedError('Invalid Credentials')
+    throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
 
   // Check password
   if (!user.validPassword(password)) {
-    throw new CustomError.UnauthenticatedError('Invalid Credentials')
+    throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
 
   const tokenUser = createTokenUser(user);
@@ -41,7 +41,7 @@ const logout = (req, res) => {
 }
 
 const checkValidToken = (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: "You're logged in" });
+  res.status(StatusCodes.OK).json({ user: req.user });
 }
 
 module.exports = {

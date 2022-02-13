@@ -13,7 +13,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
    * @param {Event} e Event from sender
    * @param {Number} id User's id
    */
-   const clientPreview = (e: React.MouseEvent, id: number) => {
+   const customerPreview = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
     if (User.permission.value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
@@ -26,7 +26,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
    * Relocate to edit user page
    * @param {Number} id User's id
    */
-  const clientEditLink = (id: number) => {
+  const customerEditLink = (id: number) => {
     if (userType === "cooperator") {
       window.location.href = `/admin/edit-user/${id}`;
     } else {
@@ -48,12 +48,12 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
       <td
         colSpan={2}
         className="text-start"
-        onClick={()=>clientEditLink(User._id)}>
+        onClick={()=>customerEditLink(User._id)}>
         {/* Id */}
         <p className="m-0">{User.webId + 1}</p>
         
         {/* Photo and event */}
-        {['client', 'portfolio history wedding'].includes(userType) && User.files.length > 0 ?
+        {['customer', 'portfolio history wedding'].includes(userType) && User.files.length > 0 ?
           // Photo
           <div className="w-100 bg-black img-16-9-container active">
             <img
@@ -67,7 +67,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
             </div>
           </div>
           // Event
-          : ['client', 'portfolio history wedding'].includes(userType) ?
+          : ['customer', 'portfolio history wedding'].includes(userType) ?
           <div className="w-100 m-0 mx-auto text-center fw-bold">
               <h5 className="pt-0 pb-4 m-0">{User.event}</h5>
               <p className="text-theme-1">No photo</p>
@@ -77,7 +77,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         }
 
         {/* Login */}
-        {['client', 'cooperator'].includes(userType) &&
+        {['customer', 'cooperator'].includes(userType) &&
           <p className="pt-3 m-0 text-start">
             <span className="fw-bold">Login: </span>   
             <span className="text-theme-1">{User.login}</span>
@@ -85,7 +85,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         }
 
         {/* Date */}
-        {['client', 'portfolio history wedding'].includes(userType) &&
+        {['customer', 'portfolio history wedding'].includes(userType) &&
           <p className="py-3 m-0 text-start">
             <span className="fw-bold">Event date: </span>
             {User.date.date != null ?
@@ -113,10 +113,10 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         </p>
 
         {/* Preview */}
-        {['client', 'portfolio history wedding'].includes(userType) &&
+        {['customer', 'portfolio history wedding'].includes(userType) &&
           <button
             className="btn btn-sm w-100 px-4 py-2 my-2 fw-bold text-hover-theme"
-            onClick={(e)=>clientPreview(e, User._id)}>
+            onClick={(e)=>customerPreview(e, User._id)}>
             Preview
           </button>
         }

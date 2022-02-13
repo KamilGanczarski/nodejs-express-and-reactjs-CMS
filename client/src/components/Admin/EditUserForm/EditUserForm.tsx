@@ -2,27 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl, axiosHeaders } from '../../data';
+import { baseUrl, axiosHeaders, RoleModel } from '../../data';
 
 type Props = {
   newUserId: string;
 };
-
-// interface PermissionModel {
-
-// }
 
 export default function EditUserForm({ newUserId }: Props) {
   // Form's inputs
   const [ userId, setUserId ] = useState('')
   const [ login, setLogin ] = useState('')
   const [ password, setPassword ] = useState('')
-  const [ permission, setPermission ] = useState('')
+  const [ role, setRole ] = useState('')
   const [ event, setEvent ] = useState('')
   const [ date, setDate ] = useState('')
   const [ expiryDate, setExpiryDate ] = useState('')
   const [ editLoggedUser, setEditLoggedUser ] = useState(false)
-  const [ permissions, setPermissions ] = useState([])
+  const [ roles, setRoles ] = useState([])
 
   const fetchLoggedUser = async () => {
     // If token in local storage is set
@@ -30,14 +26,14 @@ export default function EditUserForm({ newUserId }: Props) {
 
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
-        if (res.data && !newUserId) {
+        if (res.data.user && !newUserId) {
           setEditLoggedUser(true);
-          setUserId(res.data.id);
-          fetchUser(res.data.id);
-        } else if (newUserId && newUserId === res.data.id) {
+          setUserId(res.data.user.userId);
+          fetchUser(res.data.user.userId);
+        } else if (newUserId && newUserId === res.data.user.userId) {
           setEditLoggedUser(true);
-          setUserId(res.data.id);
-          fetchUser(res.data.id);
+          setUserId(res.data.user.userId);
+          fetchUser(res.data.user.userId);
         } else {
           setEditLoggedUser(false);
           setUserId(newUserId);
@@ -49,15 +45,14 @@ export default function EditUserForm({ newUserId }: Props) {
       });
   }
 
-  const fetchPermissions = async () => {
+  const fetchRoles = async () => {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/permissions`, axiosHeaders)
+    await axios.get(`${baseUrl}/api/v1/roles`, axiosHeaders)
       .then(res => {
-        if (res.data.Permissions) {
-          setPermissions(res.data.Permissions);
-          console.log(Permissions);
+        if (res.data.roles) {
+          setRoles(res.data.roles);
         }
       })
       .catch(error => {
@@ -66,16 +61,19 @@ export default function EditUserForm({ newUserId }: Props) {
   }
 
   const fetchUser = async (id: string) => {
+    // If token in local storage is set
+    if (!localStorage.token) return;
+
     try {
-      const res = await axios.get(`${baseUrl}/api/v1/users/${id}`)
+      const res = await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
       const user = res.data.user;
       if (user) {
         // Set login
         setLogin(user.login);
         // Set event name
         setEvent(user.event);
-        // Set permission
-        setPermission(user.permission.value);
+        // Set role
+        setRole(user.role.value);
 
         // Set event date
         if (user.date.date) {
@@ -105,15 +103,18 @@ export default function EditUserForm({ newUserId }: Props) {
   const editUserForm = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
+    // If token in local storage is set
+    if (!localStorage.token) return;
+
     axios.patch(`${baseUrl}/api/v1/users`, {
         userId: userId,
         login: login,
         password: password,
-        permission: permission,
+        role: role,
         event: event,
         date: date,
         expiryDate: expiryDate
-      })
+      }, axiosHeaders)
       .then((response) => {
         console.log(response);
         fetchUser(userId);
@@ -133,8 +134,12 @@ export default function EditUserForm({ newUserId }: Props) {
    * Send requst to user to delete user
    */
   const deleteUser = () => {
+    // If token in local storage is set
+    if (!localStorage.token) return;
+
     axios.delete(`${baseUrl}/api/v1/users`, {
-        data: { userId: userId }
+        data: { userId: userId },
+        headers: axiosHeaders.headers
       })
       .then((response) => {
         console.log(response);
@@ -151,7 +156,7 @@ export default function EditUserForm({ newUserId }: Props) {
       setUserId(newUserId);
     }
     fetchLoggedUser();
-    fetchPermissions();
+    fetchRoles();
   } , []);
 
   return (
@@ -260,25 +265,25 @@ export default function EditUserForm({ newUserId }: Props) {
           </div>
         }
 
-        {/* Permission */}
+        {/* Role */}
         {editLoggedUser &&
           <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
             <p
               className="ps-3 m-0 form-label-custom"
               style={{paddingTop: 2 + 'px'}}>
-              Permission
+              Role
             </p>
             <select
               name="permission"
               id="permission"
               className="form-control py-0 mt-0 bg-transparent form-control-custom form-control-custom-select text-theme"
-              value={permission}
-              onChange={(e)=>setPermission(e.target.value)}>
-              {/* {permissions.map((item, index) => {
+              value={role}
+              onChange={(e)=>setRole(e.target.value)}>
+              {roles.map((item: RoleModel, index) => {
                 return (
                   <option key={index}>{item.value}</option>
                 )
-              })} */}
+              })}
             </select>
           </div>
         }

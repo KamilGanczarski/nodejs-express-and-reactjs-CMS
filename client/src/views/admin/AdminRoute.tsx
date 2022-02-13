@@ -7,7 +7,7 @@ import { baseUrl, axiosHeaders } from '../../components/data';
 
 // Import pages
 import Home from './Home';
-import Clients from './Clients';
+import Customers from './Customers';
 import EditUser from './EditUser';
 import Error from '../../views/Error';
 
@@ -51,8 +51,8 @@ export default function AdminRoute({}: Props) {
       {/* Home page */}
       <Route exact path={`${path}/home`} component={Home} />
 
-      {/* Clients */}
-      <Route exact path={`${path}/clients`} component={Clients} />
+      {/* Customers */}
+      <Route exact path={`${path}/customers`} component={Customers} />
 
       {/* Edit user (admin / cooperator) */}
       <Route exact path={`${path}/edit-user`} component={EditUser} />

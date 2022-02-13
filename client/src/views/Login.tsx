@@ -38,7 +38,7 @@ export default function Login({}: Props) {
           // Set token from local storage
           localStorage.setItem('token', response.data.token);
           const decodedToken: TokenModel = jwt_decode(response.data.token);
-          redirectAfterLogin(decodedToken.user.permission);
+          redirectAfterLogin(decodedToken.user.role);
         }
       })
       .catch(error => {

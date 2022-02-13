@@ -58,8 +58,8 @@ export const links: LinkModel[] = [
     onclick: () => nothing()
   }, {
     id: 4,
-    label: "Clients",
-    link: "/admin/clients",
+    label: "Customers",
+    link: "/admin/customers",
     type: "button",
     icon: "icon-users",
     position: "top",

@@ -13,8 +13,8 @@ const {
 } = require('../controllers/role');
 
 router.route('/')
-  .get(authenticateUser, authorizePermissions('admin'), getRoles)
-  .post(authenticateUser, authorizePermissions('admin'), createRole)
-  .delete(authenticateUser, authorizePermissions('admin'), deleteRole);
+  .get(authenticateUser, authorizePermissions('MANAGE_USER'), getRoles)
+  .post(authenticateUser, authorizePermissions('MANAGE_USER'), createRole)
+  .delete(authenticateUser, authorizePermissions('MANAGE_USER'), deleteRole);
 
 module.exports = router;

@@ -13,7 +13,7 @@ export default function TableRow({ RowUser, userType }: Props) {
    * @param {Event} e Event from sender
    * @param {Number} id User's id
    */
-   const clientPreview = (id: number) => {
+   const customerPreview = (id: number) => {
     if (User.permission.value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
     } else {
@@ -25,7 +25,7 @@ export default function TableRow({ RowUser, userType }: Props) {
    * Relocate to edit user page
    * @param {Number} id User's id
    */
-  const clientEditLink = (id: number) => {
+  const customerEditLink = (id: number) => {
     if (userType === "cooperator") {
       window.location.href = `/admin/edit-user/${id}`;
     } else {
@@ -57,12 +57,12 @@ export default function TableRow({ RowUser, userType }: Props) {
   return (
     <tr className="border-top table-row">
       {/* Id */}
-      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
+      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
         {User.webId + 1}
       </td>
 
       {/* Photo and login */}
-      <td className="btn-sm w-300-px" onClick={()=>clientEditLink(User._id)}>
+      <td className="btn-sm w-300-px" onClick={()=>customerEditLink(User._id)}>
         {User.files.length > 0 ?
           <div className="w-100 bg-black img-16-9-container active">
             <img
@@ -81,11 +81,11 @@ export default function TableRow({ RowUser, userType }: Props) {
       </td>
 
       {/* Event name */}
-      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>{User.event}</td>
+      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>{User.event}</td>
 
       {/* Event date */}
-      {['client', 'portfolio history wedding'].includes(userType) &&
-        <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
+      {['customer', 'portfolio history wedding'].includes(userType) &&
+        <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
             {User.date.date != null ?
               <span>
                 {User.date.dateShow}<br />({User.date.passed})
@@ -97,7 +97,7 @@ export default function TableRow({ RowUser, userType }: Props) {
       }
 
       {/* Expiry date */}
-      <td className="btn-sm" onClick={()=>clientEditLink(User._id)}>
+      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
         {User.date.expiryDate != null ?
           <span>
             {User.date.expiryDateShow}
@@ -110,10 +110,10 @@ export default function TableRow({ RowUser, userType }: Props) {
       </td>
 
       {/* Preview button */}
-      {['client', 'portfolio history wedding'].includes(userType) &&
+      {['customer', 'portfolio history wedding'].includes(userType) &&
         <td
           className="btn-sm transition-effect text-hover-theme td-no-hover"
-          onClick={()=>clientPreview(User._id)}
+          onClick={()=>customerPreview(User._id)}
           onMouseOver={(e)=>hoverRow(e)}>
           Preview
         </td>

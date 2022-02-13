@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl } from '../../data';
+import { baseUrl, axiosHeaders } from '../../data';
 
 type Props = {
   userType: string;
@@ -41,8 +41,8 @@ export default function Form({ userType, fetchData }: Props) {
         event: event,
         date: date,
         expiryDate: expiryDate,
-        permission: userType
-      })
+        role: userType
+      }, axiosHeaders)
       .then((response) => {
         console.log(response);
         fetchData();
@@ -70,7 +70,7 @@ export default function Form({ userType, fetchData }: Props) {
   return (
     <section
       className="modal fade bd-example-modal-lg"
-      id="add-client-modal"
+      id="add-customer-modal"
       tabIndex={-1}
       role="dialog"
       aria-labelledby="exampleModalLabel"

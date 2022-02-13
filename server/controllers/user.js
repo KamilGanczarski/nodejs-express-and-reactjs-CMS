@@ -21,12 +21,7 @@ const getUser = async (req, res) => {
     .populate({ path: 'date' })
     .select('-password')
     .then((user) => {
-      let resUser = Object.assign(user, {
-        asd: 'sda'
-        // loggedUser: user._id === req.session._id
-      });
-
-      res.status(StatusCodes.OK).send({ resUser });
+      res.status(StatusCodes.OK).send({ user });
     // There is no user with this id
     }).catch(function (err) {
       throw new CustomError.BadRequestError('No user found');
@@ -37,26 +32,18 @@ const getUser = async (req, res) => {
  * Get users by rol or without it get all
  */
 const getAllUsers = async (req, res) => {
-  const { role } = req.params;
+  const { role } = req.query;
 
-  if (role) {
-    await User.find({})
-      .populate({ path: 'role' })
-      .populate({ path: 'date' })
-      .select('-password')
-      .exec((err, users) => {
+  await User.find({})
+    .populate({ path: 'role' })
+    .populate({ path: 'date' })
+    .select('-password')
+    .exec((err, users) => {
+      if (role) {
         users = users.filter((user) => user.role.value === role);
-        res.status(StatusCodes.OK).send({ users });
-      })
-  } else {
-    await User.find({})
-      .populate({ path: 'role' })
-      .populate({ path: 'date' })
-      .select('-password')
-      .exec((err, users) => {
-        res.status(StatusCodes.OK).send({ users });
-      });
-  }
+      }
+      res.status(StatusCodes.OK).send({ users });
+    });
 }
 
 /**
@@ -181,7 +168,7 @@ const updateUser = async (req, res) => {
     if (date || expiryDate) {
       // Fetch calendar
       const newCalendar = await Calendar.findOne({ _id: newUser.date });
-      
+
       // Check calendar
       if (!newCalendar) {
         throw new CustomError.BadRequestError(`No connection to calendar`);

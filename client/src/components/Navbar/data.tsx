@@ -78,7 +78,7 @@ export const settings: NavbarSettingsType = {
   noDynamicAndNoTransparent: [
     '/admin',
     '/admin/home',
-    '/admin/clients',
+    '/admin/customers',
     '/admin/edit-user'
   ]
 };

@@ -22,9 +22,8 @@ router.route('/')
   .patch(authenticateUser, authorizePermissions('MANAGE_USER'), updateUser)
   .delete(authenticateUser, authorizePermissions('MANAGE_USER'), deleteUser);
 
-// Fetch user by id
 router.route('/:id')
-  .get(authenticateUser, authorizePermissions('admin'), getUser)
+  .get(authenticateUser, authorizePermissions('VIEW_USER'), getUser);
 
 // Get users with specific permission -- use sort in params
 // router.route('/:permission')

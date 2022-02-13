@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl } from '../../data';
+import { baseUrl, axiosHeaders } from '../../data';
 
 // Import components
 import Form from './Form';
@@ -107,9 +107,14 @@ export default function UsersTable({ userType }: Props) {
   }
 
   const fetchData = async () => {
+    // If token in local storage is set
+    if (!localStorage.token) return;
+
     try {
-      const res = await axios
-        .get(`${baseUrl}/api/v1/users${userType && `/${userType}`}`);
+      const res = await axios.get(`${baseUrl}/api/v1/users`, {
+        params: { role: userType },
+        headers: axiosHeaders.headers
+      });
       let newUsers: any[] = res.data.users;
 
       newUsers.map((User, id) => {
@@ -155,7 +160,7 @@ export default function UsersTable({ userType }: Props) {
             <button
               className="btn btn-sm fw-bold text-hover-theme btn-slide-icon"
               data-bs-toggle="modal"
-              data-bs-target="#add-client-modal">
+              data-bs-target="#add-customer-modal">
               <span className="text-theme">Add</span>
               <i className="icon-plus theme"></i>
             </button>
@@ -190,7 +195,7 @@ export default function UsersTable({ userType }: Props) {
                 })}
 
                 {/* Gallery preview */}
-                {['client', 'portfolio history wedding'].includes(userType) &&
+                {['customer', 'portfolio history wedding'].includes(userType) &&
                   <th className="py-1 border-0">
                     <button className="btn btn-sm w-100 px-0 py-2 fw-bold text-theme-1">
                       Gallery

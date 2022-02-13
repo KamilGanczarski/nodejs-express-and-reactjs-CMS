@@ -5,8 +5,8 @@ const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const getRoles = async (req, res) => {
-  const Roles = await Role.find({});
-  res.status(StatusCodes.OK).send({ Roles });
+  const roles = await Role.find({});
+  res.status(StatusCodes.OK).send({ roles });
 }
 
 const createRole = async (req, res) => {
@@ -18,7 +18,7 @@ const createRole = async (req, res) => {
   newRole.value = role;
 
   // Create date in mongodb
-  const RoleRecord = await Role.create(newRole);
+  await Role.create(newRole);
 
   res.status(StatusCodes.OK).send({ msg: 'Success ! Role created.' });
 }

@@ -24,8 +24,14 @@ export interface TokenModel {
   user: {
     userId: string;
     login: string;
-    permission: string;
+    permission: number;
+    role: string;
   }
+}
+
+export interface RoleModel {
+  _id: string;
+  value: string;
 }
 
 export const checkValidToken = async () => {
@@ -44,7 +50,7 @@ export const checkValidToken = async () => {
 export const redirectIValidToken = async () => {
   try {
     const res: any = await checkValidToken();
-    redirectAfterLogin(res.data.user.permission);
+    redirectAfterLogin(res.data.user.role);
   } catch (error: any) {
     console.log(error.message)
   }

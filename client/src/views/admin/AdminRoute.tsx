@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 // Backend settings
-import { baseUrl, axiosHeaders } from '../../components/data';
+import { baseUrl, axiosHeaders, redirectTo, TokenModel } from '../../components/data';
 
 // Import pages
 import Home from './Home';
@@ -24,6 +25,10 @@ export default function AdminRoute({}: Props) {
 
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
+        const decodedToken: TokenModel = jwt_decode(res.data.token);
+        if (decodedToken.user.changePassword) {
+          redirectTo('/change-password', `${decodedToken.user.login}`);
+        }
         setAuth(true);
         setIsLoading(false);
       })

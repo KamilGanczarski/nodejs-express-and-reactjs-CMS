@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 export const baseUrl = 'http://localhost:3001';
 export const baseAppUrl = 'http://localhost:3000';
@@ -26,6 +27,7 @@ export interface TokenModel {
     login: string;
     permission: number;
     role: string;
+    changePassword: Boolean;
   }
 }
 
@@ -50,10 +52,21 @@ export const checkValidToken = async () => {
 export const redirectIValidToken = async () => {
   try {
     const res: any = await checkValidToken();
-    redirectAfterLogin(res.data.user.role);
+    const decodedToken: TokenModel = jwt_decode(res.data.token);
+    if (decodedToken.user.changePassword) {
+      redirectTo('/change-password', `${decodedToken.user.login}`);
+      return;
+    }
+    redirectAfterLogin(decodedToken.user.role);
   } catch (error: any) {
     console.log(error.message)
   }
+}
+
+export const redirectTo = (link: string, parameters: string) => {
+  window.location.replace(
+    `${baseAppUrl}${link}${parameters && '/' + parameters}`
+  );
 }
 
 // export const checkHttpStatus = async () => {

@@ -138,7 +138,7 @@ export default function EditUserForm({ newUserId }: Props) {
     if (!localStorage.token) return;
 
     axios.delete(`${baseUrl}/api/v1/users`, {
-        data: { userId: userId },
+        data: { id: userId },
         headers: axiosHeaders.headers
       })
       .then((response) => {

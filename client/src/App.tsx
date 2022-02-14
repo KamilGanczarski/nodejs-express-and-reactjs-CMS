@@ -9,6 +9,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 import Home from './views/Home';
 import About from './views/About';
 import Login from './views/Login';
+import SetOwnPassword from './views/SetOwnPassword';
 import Error from './views/Error';
 import AdminRoute from './views/admin/AdminRoute';
 
@@ -39,6 +40,12 @@ function App() {
 
           {/* Login */}
           <Route exact path="/login" component={Login} />
+
+          {/* Change password after first login page */}
+          <Route
+            exact
+            path={`/change-password/:login`}
+            component={SetOwnPassword} />
 
           {/* AdminRoute */}
           <Route path='/admin' component={AdminRoute} />

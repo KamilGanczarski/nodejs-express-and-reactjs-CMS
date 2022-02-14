@@ -25,7 +25,8 @@ const authenticateUser = async (req, res, next) => {
       userId: payload.user.userId,
       login: payload.user.login,
       permission: payload.user.permission,
-      role: payload.user.role
+      role: payload.user.role,
+      changePassword: payload.user.changePassword
     }
     next();
   } catch (error) {

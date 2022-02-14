@@ -96,6 +96,7 @@ const createUser = async (req, res) => {
   newUser.login = login;
   newUser.password = newUser.generateHash(password);
   newUser.event = event;
+  newUser.changePassword = true;
   newUser.dir = await fetchAndUpdateNewDirectory();
   newUser.role = roleRecord._id;
   newUser.permission = permissionByRole(role);
@@ -113,10 +114,11 @@ const updateUser = async (req, res) => {
   const {
     userId,
     login,
+    event,
+    changePassword,
     password,
     newPassword,
     role,
-    event,
     date,
     expiryDate
   } = req.body;
@@ -144,6 +146,10 @@ const updateUser = async (req, res) => {
 
   if (event) {
     newUser.event = event;
+  }
+
+  if (changePassword) {
+    newUser.changePassword = changePassword;
   }
 
   // Check if password is set
@@ -189,15 +195,15 @@ const updateUser = async (req, res) => {
  * Delete user
  */
 const deleteUser = async (req, res) => {
-  const { userId } = req.body;
-  CustomError.requireProvidedValues(userId);
+  const { id } = req.body;
+  CustomError.requireProvidedValues(id);
 
   // Find the user
-  const user = await User.findOne({ _id: userId });
+  const user = await User.findOne({ _id: id });
 
   // If doesn't exist
   if (!user) {
-    throw new CustomError.NotFoundError(`No user with id: ${userId}`);
+    throw new CustomError.NotFoundError(`No user with id: ${id}`);
   }
 
   // Remove

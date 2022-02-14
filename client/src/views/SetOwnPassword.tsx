@@ -1,47 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 
 // Backend settings
 import {
   baseUrl,
-  redirectIValidToken,
   redirectAfterLogin,
-  redirectTo,
+  axiosHeaders,
   TokenModel
 } from '../components/data';
 
 // Style
 import '../sassStyles/pages/login.scss';
 
-type Props = {};
+type Props = {}
+interface ChangePasswordParamsModel {
+  login: string;
+}
 
-export default function Login({}: Props) {
-  const [ login, setLogin ] = useState('');
+export default function SetOwnPassword({}: Props) {
+  const params: ChangePasswordParamsModel = useParams();
+  const login = params.login;
   const [ password, setPassword ] = useState('');
+  const [ repeatPassword, setRepeatPassword ] = useState('');
   const [ loginResponse, setLoginResponse ] = useState('');
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // If token in local storage is set
+    if (!localStorage.token) return;
 
-    // Remove token from local storage
-    localStorage.removeItem('token');
+    if (password !== repeatPassword) {
+      setLoginResponse('Passwords should by the same');
+      return;
+    }
+
     setLoginResponse('');
 
-    await axios.post(`${baseUrl}/api/v1/auth/login`, {
+    await axios.post(`${baseUrl}/api/v1/auth/change-password`, {
         login: login,
         password: password
-      })
+      }, axiosHeaders)
       .then((response) => {
         if (response.data.token) {
           // Set token from local storage
           localStorage.setItem('token', response.data.token);
           const decodedToken: TokenModel = jwt_decode(response.data.token);
-          if (decodedToken.user.changePassword) {
-            redirectTo('/change-password', `${login}`);
-          } else {
-            redirectAfterLogin(decodedToken.user.role);
-          }
+          redirectAfterLogin(decodedToken.user.role);
         }
       })
       .catch(error => {
@@ -51,17 +57,13 @@ export default function Login({}: Props) {
       });
   }
 
-  useEffect(() => {
-    redirectIValidToken()
-  }, []);
-
   return (
     <section className="w-100 prevent-user-select login-main">
       <div className="container form">
         <div className="p-5 shadow-custom">
           {/* Title */}
           <h4 className="mb-4 text-center text-white">
-            Sign in to your gallery
+            Change your password due to your own safety
           </h4>
 
           {/* Form */}
@@ -78,7 +80,7 @@ export default function Login({}: Props) {
                 required
                 className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
                 value={login}
-                onChange={(e)=>setLogin(e.target.value)} />
+                disabled />
               <label className="form-label-custom ps-3" htmlFor="login">
                 Login
               </label>
@@ -96,7 +98,23 @@ export default function Login({}: Props) {
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)} />
               <label className="form-label-custom ps-3" htmlFor="pass">
-                Password
+                New password
+              </label>
+            </div>
+
+            {/* Repeat password */}
+            <div className="form-group w-100 mt-2 form-group-custom">
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder=" "
+                required
+                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+                value={repeatPassword}
+                onChange={(e)=>setRepeatPassword(e.target.value)} />
+              <label className="form-label-custom ps-3" htmlFor="pass">
+                Repeat new password
               </label>
             </div>
 
@@ -118,7 +136,7 @@ export default function Login({}: Props) {
             <button
               type="submit" 
               className="btn btn-sm btn-md btn-ghost w-100 py-2 mt-4">
-              <span className="fw-bold">Log in</span>
+              <span className="fw-bold">Confirm</span>
             </button>
 
             {/* reCAPTCHA */}
@@ -135,5 +153,5 @@ export default function Login({}: Props) {
         </div>
       </div>
     </section>
-  );
+  )
 }

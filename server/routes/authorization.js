@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   login,
   logout,
-  checkValidToken
+  checkValidToken,
+  changePassword
 } = require('../controllers/authorization');
 const { authenticateUser } = require('../middleware/authorization');
 
@@ -18,5 +19,9 @@ router.route('/logout')
 // Check login
 router.route('/check-token')
   .get(authenticateUser, checkValidToken);
+
+// Change password
+router.route('/change-password')
+  .post(authenticateUser, changePassword);
 
 module.exports = router;

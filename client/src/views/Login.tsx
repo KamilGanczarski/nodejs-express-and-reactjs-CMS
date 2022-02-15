@@ -45,6 +45,7 @@ export default function Login({}: Props) {
         }
       })
       .catch(error => {
+        setPassword('');
         if (error.response.data.msg) {
           setLoginResponse(error.response.data.msg);
         }
@@ -95,7 +96,7 @@ export default function Login({}: Props) {
                 className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="pass">
+              <label className="form-label-custom ps-3" htmlFor="password">
                 Password
               </label>
             </div>

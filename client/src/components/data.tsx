@@ -36,6 +36,21 @@ export interface RoleModel {
   value: string;
 }
 
+export interface PermissionModel {
+  _id: string;
+  name: string;
+  description: string;
+  checked: boolean;
+}
+
+export const getTokenDecoded = (): TokenModel => {
+  return decodeToken(localStorage.token);
+}
+
+export const decodeToken = (token: string): TokenModel => {
+  return jwt_decode(token);
+}
+
 export const checkValidToken = async () => {
   // If token in local storage is set
   if (!localStorage.token) {
@@ -52,7 +67,7 @@ export const checkValidToken = async () => {
 export const redirectIValidToken = async () => {
   try {
     const res: any = await checkValidToken();
-    const decodedToken: TokenModel = jwt_decode(res.data.token);
+    const decodedToken: TokenModel = decodeToken(res.data.token);
     if (decodedToken.user.changePassword) {
       redirectTo('/change-password', `${decodedToken.user.login}`);
       return;

@@ -15,8 +15,9 @@ const UserSchema = new mongoose.Schema({
     maxlength: 50,
     minlength: 3
   },
-  changePassword: {
-    type: Boolean
+  expiryDateOfPassword: {
+    type: Date,
+    default: ''
   },
   password: {
     type: String,

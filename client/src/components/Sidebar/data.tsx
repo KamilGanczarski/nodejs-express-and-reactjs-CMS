@@ -68,7 +68,7 @@ export const links: LinkModel[] = [
   }, {
     id: 5,
     label: "Administrators",
-    link: "/admin/admins",
+    link: "/admin/cooperators",
     type: "button",
     icon: "icon-user-md",
     position: "top",

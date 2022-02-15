@@ -1,49 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 // Backend settings
-import { baseUrl, axiosHeaders, RoleModel } from '../../data';
+import { baseUrl, axiosHeaders, RoleModel, TokenModel } from '../../data';
 
 type Props = {
-  newUserId: string;
+  userId: string;
+  editLoggedUser: boolean;
 };
 
-export default function EditUserForm({ newUserId }: Props) {
+export default function EditUserForm({ userId, editLoggedUser }: Props) {
   // Form's inputs
-  const [ userId, setUserId ] = useState('')
-  const [ login, setLogin ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ role, setRole ] = useState('')
-  const [ event, setEvent ] = useState('')
-  const [ date, setDate ] = useState('')
-  const [ expiryDate, setExpiryDate ] = useState('')
-  const [ editLoggedUser, setEditLoggedUser ] = useState(false)
-  const [ roles, setRoles ] = useState([])
-
-  const fetchLoggedUser = async () => {
-    // If token in local storage is set
-    if (!localStorage.token) return;
-
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
-      .then(res => {
-        if (res.data.user && !newUserId) {
-          setEditLoggedUser(true);
-          setUserId(res.data.user.userId);
-          fetchUser(res.data.user.userId);
-        } else if (newUserId && newUserId === res.data.user.userId) {
-          setEditLoggedUser(true);
-          setUserId(res.data.user.userId);
-          fetchUser(res.data.user.userId);
-        } else {
-          setEditLoggedUser(false);
-          setUserId(newUserId);
-          fetchUser(newUserId);
-        }
-      })
-      .catch(error => {
-        setEditLoggedUser(false);
-      });
-  }
+  const [ login, setLogin ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ role, setRole ] = useState('');
+  const [ event, setEvent ] = useState('');
+  const [ date, setDate ] = useState('');
+  const [ expiryDate, setExpiryDate ] = useState('');
+  const [ roles, setRoles ] = useState<RoleModel[]>([]);
 
   const fetchRoles = async () => {
     // If token in local storage is set
@@ -152,10 +127,7 @@ export default function EditUserForm({ newUserId }: Props) {
   }
 
   useEffect(() => {
-    if (newUserId) {
-      setUserId(newUserId);
-    }
-    fetchLoggedUser();
+    fetchUser(userId);
     fetchRoles();
   } , []);
 

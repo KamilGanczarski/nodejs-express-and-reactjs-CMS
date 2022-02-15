@@ -3,6 +3,18 @@ const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { attachCookiesToResponse, createTokenUser } = require('../utils');
 
+/**
+ * Compare date
+ * @param {Date} firstDate Date object
+ * @param {Date} secondDate Date object
+ * @returns true if second date passed first one
+ */
+ const compareDates = (firstDate, secondDate) => {
+  return firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)
+    ? true
+    : false;
+}
+
 const login = async (req, res) => {
   const { login, password } = req.body;
 
@@ -27,10 +39,12 @@ const login = async (req, res) => {
   }
 
   let tokenUser = createTokenUser(user);
-  // Delete role to change password after login
-  if (user.changePassword) {
-    delete tokenUser.role;
-  }
+  // Compare date and set changePassword for fronted
+  const date = new Date;
+  const expiryDateOfPassword = tokenUser.expiryDateOfPassword;
+  tokenUser.changePassword = compareDates(expiryDateOfPassword, date);
+  delete tokenUser.expiryDateOfPassword;
+
   const token = attachCookiesToResponse({ res, user: { ...tokenUser } });
   res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
 }
@@ -73,7 +87,10 @@ const changePassword = async (req, res) => {
   }
 
   user.password = user.generateHash(password);
-  user.changePassword = false;
+  // Set date now + 60days
+  var months = new Date();
+  months.setDate(months.getDate() + 60);
+  user.expiryDateOfPassword = months;
   await user.save();
 
   const tokenUser = createTokenUser(user);

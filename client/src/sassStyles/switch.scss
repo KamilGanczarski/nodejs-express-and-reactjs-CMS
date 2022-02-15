@@ -1,0 +1,90 @@
+// Custom switch
+.switch {
+   display: inline-block;
+}
+
+.switch input {
+   display: none;
+}
+
+.switch small {
+   display: inline-block;
+   width: 38px;
+   height: 14px;
+   margin-top: 5px;
+   background: #555;
+   border-radius: 30px;
+   position: relative;
+   cursor: pointer;
+}
+
+.switch small:after {
+   content: "";
+   position: absolute;
+   color: #fff;
+   font-size: 14px;
+   font-weight: 600;
+   width: 100%;
+   left: 0px;
+   text-align: right;
+   padding: 3px 3px;
+   box-sizing: border-box;
+   line-height: 18px;
+}
+
+.switch small:before {
+   content: "";
+   position: absolute;
+   width: 22px;
+   height: 22px;
+   background: #909090;
+   border-radius: 50%;
+   top: -4px;
+   left: -3px;
+   -webkit-transition: all .2s ease;
+      -moz-transition: all .2s ease;
+       -ms-transition: all .2s ease;
+        -o-transition: all .2s ease;
+           transition: all .2s ease;
+   box-shadow: -3px 0 3px #0000001a;
+}
+
+.switch.switch-normal input:checked ~ small {
+   -webkit-transition: all .2s ease;
+      -moz-transition: all .2s ease;
+       -ms-transition: all .2s ease;
+        -o-transition: all .2s ease;
+           transition: all .2s ease;
+}
+
+.switch.switch-normal input:checked ~ small:after {
+   content: "";
+   text-align: left;
+}
+
+/* Switch */
+.switch.switch-normal input:checked ~ small:before {
+   background: $main-color;
+   -webkit-box-shadow: 0 0 10px $main-color !important;
+      -moz-box-shadow: 0 0 10px $main-color !important;
+           box-shadow: 0 0 10px $main-color !important;
+   transform: translate(25px, 0px);
+  -webkit-transition: all .3s ease;
+     -moz-transition: all .3s ease;
+      -ms-transition: all .3s ease;
+       -o-transition: all .3s ease;
+          transition: all .3s ease;
+}
+
+.switch input.active ~ small:before {
+  background: $main-color;
+  -webkit-box-shadow: 0 0 10px $main-color !important;
+     -moz-box-shadow: 0 0 10px $main-color !important;
+          box-shadow: 0 0 10px $main-color !important;
+  transform: translate(25px, 0px);
+  -webkit-transition: all .3s ease;
+     -moz-transition: all .3s ease;
+      -ms-transition: all .3s ease;
+       -o-transition: all .3s ease;
+          transition: all .3s ease;
+}

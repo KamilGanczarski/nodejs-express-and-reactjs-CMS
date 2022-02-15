@@ -32,7 +32,7 @@ export default function SetOwnPassword({}: Props) {
     if (!localStorage.token) return;
 
     if (password !== repeatPassword) {
-      setLoginResponse('Passwords should by the same');
+      setLoginResponse('Passwords should be the same');
       return;
     }
 
@@ -97,7 +97,7 @@ export default function SetOwnPassword({}: Props) {
                 className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="pass">
+              <label className="form-label-custom ps-3" htmlFor="password">
                 New password
               </label>
             </div>
@@ -106,14 +106,16 @@ export default function SetOwnPassword({}: Props) {
             <div className="form-group w-100 mt-2 form-group-custom">
               <input
                 type="password"
-                name="password"
-                id="password"
+                name="repeat-password"
+                id="repeat-password"
                 placeholder=" "
                 required
                 className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
                 value={repeatPassword}
                 onChange={(e)=>setRepeatPassword(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="pass">
+              <label
+                className="form-label-custom ps-3"
+                htmlFor="repeat-password">
                 Repeat new password
               </label>
             </div>

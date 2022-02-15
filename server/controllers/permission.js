@@ -1,17 +1,17 @@
 // Models
 const Permission = require('../models/Permission');
 const User = require('../models/User');
-
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
+const { attachCookiesToResponse, createTokenUser } = require('../utils');
 const {
   fetchPermissionPosition,
   checkPermission
 } = require('./api/permission');
 
 const getAllPermissions = async (req, res) => {
-  const Permissions = await Permission.find({});
-  res.status(StatusCodes.OK).send({ Permissions });
+  const permissions = await Permission.find({});
+  res.status(StatusCodes.OK).send({ permissions });
 }
 
 const updatePermission = async (req, res) => {
@@ -35,14 +35,14 @@ const managePermissionToUser = async (req, res) => {
     addPermission,
     deletePermission
   } = req.body;
-  CustomError.requireProvidedValues(userId, addPermission, deletePermission);
+  CustomError.requireProvidedValues(userId);
 
   // Find the user
   const user = await User.findOne({ _id: userId });
   
   // If doesn't exist
   if (!user) {
-    throw new CustomError.NotFoundError(`No user with id: ${userId}`);
+    throw new CustomError.BadRequestError(`No user with id: ${userId}`);
   }
 
   // Add permission
@@ -62,7 +62,10 @@ const managePermissionToUser = async (req, res) => {
   }
 
   await user.save();
-  res.status(StatusCodes.OK).send({ msg: "New permissions has been approved" });
+
+  const tokenUser = createTokenUser(user);
+  const token = attachCookiesToResponse({ res, user: { ...tokenUser } });
+  res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
 }
 
 const deletePermission = async (req, res) => {

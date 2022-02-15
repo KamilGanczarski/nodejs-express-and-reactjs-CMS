@@ -96,7 +96,9 @@ const createUser = async (req, res) => {
   newUser.login = login;
   newUser.password = newUser.generateHash(password);
   newUser.event = event;
-  newUser.changePassword = true;
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  newUser.expiryDateOfPassword = yesterday;
   newUser.dir = await fetchAndUpdateNewDirectory();
   newUser.role = roleRecord._id;
   newUser.permission = permissionByRole(role);

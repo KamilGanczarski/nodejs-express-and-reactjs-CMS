@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 
 // Backend settings
-import { baseUrl, axiosHeaders, redirectTo, TokenModel } from '../../components/data';
+import {
+  baseUrl,
+  axiosHeaders,
+  decodeToken,
+  redirectTo,
+  TokenModel
+} from '../../components/data';
 
 // Import pages
 import Home from './Home';
+import Cooperators from './Cooperators';
 import Customers from './Customers';
 import EditUser from './EditUser';
 import Error from '../../views/Error';
@@ -25,7 +31,7 @@ export default function AdminRoute({}: Props) {
 
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
-        const decodedToken: TokenModel = jwt_decode(res.data.token);
+        const decodedToken: TokenModel = decodeToken(res.data.token);
         if (decodedToken.user.changePassword) {
           redirectTo('/change-password', `${decodedToken.user.login}`);
         }
@@ -55,6 +61,9 @@ export default function AdminRoute({}: Props) {
     <Switch>
       {/* Home page */}
       <Route exact path={`${path}/home`} component={Home} />
+
+      {/* Cooperators */}
+      <Route exact path={`${path}/cooperators`} component={Cooperators} />
 
       {/* Customers */}
       <Route exact path={`${path}/customers`} component={Customers} />

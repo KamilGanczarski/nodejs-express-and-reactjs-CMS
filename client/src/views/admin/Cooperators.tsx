@@ -6,7 +6,7 @@ import UsersTable from '../../components/Admin/UsersTable/UsersTable';
 
 type Props = {}
 
-export default function Customers({}: Props) {
+export default function Cooperators({}: Props) {
   return (
     <section className="d-flex Sidebar admin">
       {/* Sidebar admin */}
@@ -17,10 +17,10 @@ export default function Customers({}: Props) {
       {/* Sidebar page content wrapper */}
       <main className="main container-fluid px-0">
         <div className="div-under-navbar"></div>
-        <h2 className="py-5 mx-0 my-0 text-center">Customers</h2>
+        <h2 className="py-5 mx-0 my-0 text-center">Cooperators</h2>
 
-        <UsersTable userType='customer' />
+        <UsersTable userType='cooperators' />
       </main>
     </section>
-  );
+  )
 }

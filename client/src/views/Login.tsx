@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 
-// Backend settings
+// Utils
+import { TokenModel } from '../utils/interfaces';
 import {
   baseUrl,
-  redirectIValidToken,
   redirectAfterLogin,
-  redirectTo,
-  TokenModel
-} from '../components/data';
+  redirectIValidToken,
+  redirectTo
+} from '../utils/tokenAPI';
 
 // Style
 import '../sassStyles/pages/login.scss';

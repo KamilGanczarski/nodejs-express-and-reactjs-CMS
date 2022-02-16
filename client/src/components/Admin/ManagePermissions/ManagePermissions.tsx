@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// Backend settings
-import {
-  baseUrl,
-  axiosHeaders,
-  PermissionModel,
-} from '../../data';
+// Utils
+import { PermissionModel } from '../../../utils/interfaces';
+import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
 import Switch from './Switch';

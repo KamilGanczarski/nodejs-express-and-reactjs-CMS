@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// Backend settings
-import { baseUrl, axiosHeaders, UserModel } from '../../data';
+// Utils
+import { UserFrontendModel } from '../../../utils/interfaces';
+import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
 import Form from './Form';
@@ -32,8 +33,8 @@ type Props = {
 export default function UsersTable({ userType }: Props) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [prevSort, setPrevSort] = useState('webId');
-  const [Users, setUsers] = useState<UserModel[]>([]);
-  const [UsersTable, setUsersTable] = useState<UserModel[]>([]);
+  const [Users, setUsers] = useState<UserFrontendModel[]>([]);
+  const [UsersTable, setUsersTable] = useState<UserFrontendModel[]>([]);
   const [SortValues, setSortValues] = useState<SortValueModel[]>([]);
 
   // Pagination
@@ -75,7 +76,7 @@ export default function UsersTable({ userType }: Props) {
    */
    const sortUsers = (property: string, n: number, reverse: boolean = false):void => {
     let active: acriveEnum = 'up';
-    let NewUsersTable: UserModel[] = [...UsersTable];
+    let NewUsersTable: UserFrontendModel[] = [...UsersTable];
     if (property === prevSort && SortValues[n].active === 'down' || reverse) {
       NewUsersTable.sort((a: any, b: any): number => {
         // Event date sort

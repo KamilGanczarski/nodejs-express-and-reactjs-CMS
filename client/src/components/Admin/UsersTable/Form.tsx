@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// Backend settings
-import { baseUrl, axiosHeaders } from '../../data';
+// Utils
+import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 type Props = {
   userType: string;

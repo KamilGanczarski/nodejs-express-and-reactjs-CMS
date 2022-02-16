@@ -1,5 +1,6 @@
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
+import { TokenModel } from './interfaces';
 
 export const baseUrl = 'http://localhost:3001';
 export const baseAppUrl = 'http://localhost:3000';
@@ -7,52 +8,6 @@ export const axiosHeaders = {
   headers: {
     'Authorization': `${localStorage.token}`
   }
-}
-
-interface DateModel {
-  _id: string;
-  date: string;
-  expiryDate: string;
-  contract: boolean;
-  pdf: string;
-  price: string;
-  advance: string;
-  howMuchPaid: string;
-}
-
-export interface RoleModel {
-  _id: string;
-  value: string;
-}
-
-export interface UserModel {
-  _id: string;
-  webId: number;
-  login: string;
-  event: string;
-  dir: string;
-  date: DateModel;
-  permission: number;
-  role: RoleModel;
-}
-
-export interface TokenModel {
-  user: {
-    userId: string;
-    login: string;
-    permission: number;
-    role: string;
-    changePassword: Boolean;
-  }
-}
-
-export interface PermissionModel {
-  _id: string;
-  name: string;
-  value: number;
-  deleteValue: number;
-  description: string;
-  checked: boolean;
 }
 
 export const redirectAfterLogin = (permission: string) => {

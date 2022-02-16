@@ -3,13 +3,13 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 
-// Backend settings
+// Utils
+import { TokenModel } from '../utils/interfaces';
 import {
   baseUrl,
-  redirectAfterLogin,
   axiosHeaders,
-  TokenModel
-} from '../components/data';
+  redirectAfterLogin
+} from '../utils/tokenAPI';
 
 // Style
 import '../sassStyles/pages/login.scss';

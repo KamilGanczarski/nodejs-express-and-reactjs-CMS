@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Backend settings
-import { baseUrl, baseAppUrl, axiosHeaders } from '../components/data';
+// Utils
+import { baseUrl, baseAppUrl, axiosHeaders } from '../utils/tokenAPI';
 
 export const logoutUserRequest = async () => {
   // If token in local storage is set

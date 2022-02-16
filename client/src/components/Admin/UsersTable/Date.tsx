@@ -1,3 +1,6 @@
+// Utils
+import { UserModel, UserFrontendModel } from '../../../utils/interfaces';
+
 /**
  * How many days contain a year
  * @param {Date} DateV in structure { y, m, d, h, min, s }
@@ -16,7 +19,7 @@
  * @param {String} date Date in string linke RRRR-MM-DD
  * @returns {Sttring} How many days left or have passed
  */
-export const	calcPassedTime = (date: string): string => {
+export const calcPassedTime = (date: string): string => {
   const today = new Date();
   let eventDate = new Date(date);
   let passed = (today.getTime() - eventDate.getTime()) / 1000 / 60 / 60 / 24

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// Backend settings
-import { baseUrl, axiosHeaders, RoleModel } from '../../data';
+// Utils
+import { RoleModel } from '../../../utils/interfaces';
+import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 type Props = {
   userId: string;

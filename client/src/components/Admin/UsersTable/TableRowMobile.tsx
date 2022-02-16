@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
+// Utils
+import { UserFrontendModel } from '../../../utils/interfaces';
+
 type Props = {
-  RowUser: {};
+  RowUser: UserFrontendModel;
   userType: string;
 };
 
 export default function TableRowMobile({ RowUser, userType }: Props) {
-  const [User, setUser] = useState<any>({})
+  const [User, setUser] = useState<UserFrontendModel>()
 
   /**
    * Relocate to preview
    * @param {Event} e Event from sender
    * @param {Number} id User's id
    */
-   const customerPreview = (e: React.MouseEvent, id: number) => {
+   const customerPreview = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    if (User.permission.value === 'portfolio history wedding') {
+    if (User && User.role.value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
     } else {
       window.location.href = `/admin/gallery-preview/${id}`;
@@ -26,7 +29,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
    * Relocate to edit user page
    * @param {Number} id User's id
    */
-  const customerEditLink = (id: number) => {
+  const customerEditLink = (id: string) => {
     if (userType === "cooperator") {
       window.location.href = `/admin/edit-user/${id}`;
     } else {
@@ -39,7 +42,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
   }, [RowUser]);
 
   // If User is not set
-  if (Object.keys(User).length === 0) {
+  if (!User) {
     return <tr className="border-top table-row"></tr>;
   }
 

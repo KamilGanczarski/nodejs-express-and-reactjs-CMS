@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-// Backend settings
+// Utils
+import { TokenModel } from '../../utils/interfaces';
 import {
   baseUrl,
   axiosHeaders,
   decodeToken,
-  redirectTo,
-  TokenModel
-} from '../../components/data';
+  redirectTo
+} from '../../utils/tokenAPI';
 
 // Import pages
 import Home from './Home';

@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-// Backend settings
-import {
-  baseUrl,
-  axiosHeaders,
-  getTokenDecoded,
-  UserModel,
-  TokenModel
-} from '../../components/data';
+// Utils
+import { UserModel, TokenModel } from '../../utils/interfaces';
+import { baseUrl, axiosHeaders, getTokenDecoded } from '../../utils/tokenAPI';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -54,7 +49,6 @@ export default function EditUser({}: Props) {
   const fetchLoggedUser = async (id: string) => {
     await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
       .then(res => {
-        console.log(res.data.user.permission)
         setUser(res.data.user);
       })
       .catch(error => {

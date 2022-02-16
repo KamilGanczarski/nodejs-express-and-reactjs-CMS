@@ -9,16 +9,31 @@ export const axiosHeaders = {
   }
 }
 
-export const redirectAfterLogin = (permission: string) => {
-  switch (permission) {
-    case 'admin':
-      window.location.replace(`${baseAppUrl}/admin/home`);
-      break;
+interface DateModel {
+  _id: string;
+  date: string;
+  expiryDate: string;
+  contract: boolean;
+  pdf: string;
+  price: string;
+  advance: string;
+  howMuchPaid: string;
+}
 
-    default:
-      window.location.replace(`${baseAppUrl}/404`);
-      break;
-  }
+export interface RoleModel {
+  _id: string;
+  value: string;
+}
+
+export interface UserModel {
+  _id: string;
+  webId: number;
+  login: string;
+  event: string;
+  dir: string;
+  date: DateModel;
+  permission: number;
+  role: RoleModel;
 }
 
 export interface TokenModel {
@@ -31,16 +46,25 @@ export interface TokenModel {
   }
 }
 
-export interface RoleModel {
-  _id: string;
-  value: string;
-}
-
 export interface PermissionModel {
   _id: string;
   name: string;
+  value: number;
+  deleteValue: number;
   description: string;
   checked: boolean;
+}
+
+export const redirectAfterLogin = (permission: string) => {
+  switch (permission) {
+    case 'admin':
+      window.location.replace(`${baseAppUrl}/admin/home`);
+      break;
+
+    default:
+      window.location.replace(`${baseAppUrl}/404`);
+      break;
+  }
 }
 
 export const getTokenDecoded = (): TokenModel => {
@@ -78,7 +102,7 @@ export const redirectIValidToken = async () => {
   }
 }
 
-export const redirectTo = (link: string, parameters: string) => {
+export const redirectTo = (link: string, parameters: string = '') => {
   window.location.replace(
     `${baseAppUrl}${link}${parameters && '/' + parameters}`
   );

@@ -6,7 +6,8 @@ import axios from 'axios';
 import {
   baseUrl,
   axiosHeaders,
-  decodeToken,
+  getTokenDecoded,
+  UserModel,
   TokenModel
 } from '../../components/data';
 
@@ -23,34 +24,46 @@ type Props = {};
 
 export default function EditUser({}: Props) {
   const { propsUserId } = useParams<EditUserParams>();
+
   const [ userId, setUserId ] = useState('');
+  const [ User, setUser ] = useState<UserModel>();
   const [ editLoggedUser, setEditLoggedUser ] = useState(false);
 
-  const fetchLoggedUser = async () => {
+  const checkUser = () => {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
+    const decodedToken: TokenModel = getTokenDecoded();
+    let currectUserId: string = '';
+    if (decodedToken.user.userId && !propsUserId) {
+      setEditLoggedUser(true);
+      setUserId(decodedToken.user.userId);
+      currectUserId = decodedToken.user.userId;
+    } else if (propsUserId && propsUserId === decodedToken.user.userId) {
+      setEditLoggedUser(true);
+      setUserId(decodedToken.user.userId);
+      currectUserId = decodedToken.user.userId;
+    } else {
+      setEditLoggedUser(false);
+      setUserId(propsUserId);
+      currectUserId = propsUserId;
+    }
+    fetchLoggedUser(currectUserId);
+  }
+
+  const fetchLoggedUser = async (id: string) => {
+    await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
       .then(res => {
-        const decodedToken: TokenModel = decodeToken(res.data.token);
-        if (decodedToken.user.userId && !propsUserId) {
-          setEditLoggedUser(true);
-          setUserId(decodedToken.user.userId);
-        } else if (propsUserId && propsUserId === res.data.user.userId) {
-          setEditLoggedUser(true);
-          setUserId(decodedToken.user.userId);
-        } else {
-          setEditLoggedUser(false);
-          setUserId(propsUserId);
-        }
+        console.log(res.data.user.permission)
+        setUser(res.data.user);
       })
       .catch(error => {
-        setEditLoggedUser(false);
+        console.log(error);
       });
   }
 
   useEffect(() => {
-    fetchLoggedUser();
+    checkUser();
   } , []);
 
   return (
@@ -68,8 +81,11 @@ export default function EditUser({}: Props) {
         {userId &&
           <>
             <EditUserForm userId={userId} editLoggedUser={editLoggedUser} />
-            {editLoggedUser &&
-              <ManagePermissions userId={userId} />
+            {!editLoggedUser && User &&
+              <ManagePermissions
+                userId={userId}
+                permission={User.permission}
+                fetchLoggedUser={fetchLoggedUser} />
             }
           </>
         }

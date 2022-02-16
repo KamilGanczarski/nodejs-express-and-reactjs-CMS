@@ -19,7 +19,7 @@ export default function Cooperators({}: Props) {
         <div className="div-under-navbar"></div>
         <h2 className="py-5 mx-0 my-0 text-center">Cooperators</h2>
 
-        <UsersTable userType='cooperators' />
+        <UsersTable userType='cooperator' />
       </main>
     </section>
   )

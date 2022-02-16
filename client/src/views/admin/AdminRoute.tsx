@@ -32,8 +32,12 @@ export default function AdminRoute({}: Props) {
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
         const decodedToken: TokenModel = decodeToken(res.data.token);
+        // Redirect to change-password if password expired
         if (decodedToken.user.changePassword) {
           redirectTo('/change-password', `${decodedToken.user.login}`);
+        // Redirect to login if user hasn't specyfic permissions
+        } else if (!['admin'].includes(decodedToken.user.role)) {
+          redirectTo('/login');
         }
         setAuth(true);
         setIsLoading(false);
@@ -72,7 +76,7 @@ export default function AdminRoute({}: Props) {
       <Route exact path={`${path}/edit-user`} component={EditUser} />
 
       {/* Edit user with id (admin / cooperator) */}
-      <Route exact path={`${path}/edit-user/:id`} component={EditUser} />
+      <Route exact path={`${path}/edit-user/:propsUserId`} component={EditUser} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

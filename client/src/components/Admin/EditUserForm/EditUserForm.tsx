@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 
 // Backend settings
-import { baseUrl, axiosHeaders, RoleModel, TokenModel } from '../../data';
+import { baseUrl, axiosHeaders, RoleModel } from '../../data';
 
 type Props = {
   userId: string;
@@ -101,10 +100,6 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
       });
   }
   
-  interface DeleteUserModel {
-    userId: string;
-  }
-
   /**
    * Send requst to user to delete user
    */
@@ -218,7 +213,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
         </div>
 
         {/* Expiration date */}
-        {editLoggedUser &&
+        {!editLoggedUser &&
           <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
             <input
               type="date"
@@ -238,7 +233,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
         }
 
         {/* Role */}
-        {editLoggedUser &&
+        {!editLoggedUser &&
           <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
             <p
               className="ps-3 m-0 form-label-custom"

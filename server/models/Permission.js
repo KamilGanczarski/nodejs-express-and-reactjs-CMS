@@ -8,6 +8,18 @@ const PermissionSchema = mongoose.Schema({
     minlength: 3,
     unique: true
   },
+  value: {
+    type: Number,
+    required: [true, 'Please provide value'],
+    minlength: 1,
+    unique: true
+  },
+  deleteValue: {
+    type: Number,
+    required: [true, 'Please provide delete value'],
+    minlength: 1,
+    unique: true
+  },
   description: {
     type: String,
     required: [true, 'Please provide description'],

@@ -1,30 +1,3 @@
-interface DateModel {
-  _id: string;
-  date: string;
-  expiryDate: string;
-  contract: boolean;
-  pdf: string;
-  price: string;
-  advance: string;
-  howMuchPaid: string;
-
-}
-
-interface PermissionModel {
-  _id: string;
-  value: string;
-}
-
-export interface UserModel {
-  _id: string;
-  webId: number;
-  login: string;
-  event: string;
-  dir: string;
-  permission: PermissionModel;
-  date: DateModel;
-}
-
 export type acriveEnum = 'down' | 'up' | 'no';
 
 export interface SortValueModel {

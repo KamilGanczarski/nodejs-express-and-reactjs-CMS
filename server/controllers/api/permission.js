@@ -7,24 +7,24 @@ const rolesWithPermissions = [
 ];
 
 /**
- * Fetch permission and convert to 2^n n - position from 0 
+ * Fetch permission
  * @param {*} permission Permission from Permission table in mongodb
- * @returns Return 2^n
+ * @returns Return permission value
  */
-const fetchPermissionPosition = async (permission) => {
+const fetchPermissionValue = async (permission, valueType = 'value') => {
   // Find permission id
-  const Permissions = await Permission.find({});
-  const permissionId = Permissions.findIndex((element, id) =>
-    element.name === permission
-  );
+  const Permissions = await Permission.find({ name: permission });
 
   // If no permission like provided
-  if (permissionId === -1) {
+  if (!Permissions) {
     return 0;
   }
 
-  // Convert number to  binary to 1 in n-th position 
-  return 2 ** permissionId;
+  if (valueType === 'deleteValue') {
+    return Permissions[0].deleteValue;
+  } else {
+    return Permissions[0].value;
+  }
 }
 
 /**
@@ -34,14 +34,15 @@ const fetchPermissionPosition = async (permission) => {
  * @returns 1 if User has permission or 0 if hasn't
  */
 const checkPermission = async (user, permission) => {
-  const index = await fetchPermissionPosition(permission);
+  const value = await fetchPermissionValue(permission);
 
   // If no permission like provided
-  if (index === 0) {
+  if (value === 0) {
     return 0;
   }
 
-  return index & user.permission;
+  // Compare two numbers and check result is the same as enter value
+  return parseInt(value & user.permission) === value;
 }
 
 /**
@@ -63,7 +64,7 @@ const permissionByRole = (role) => {
 }
 
 module.exports = {
-  fetchPermissionPosition,
+  fetchPermissionValue,
   checkPermission,
   permissionByRole
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Backend settings
-import { baseUrl, axiosHeaders } from '../../data';
+import { baseUrl, axiosHeaders, UserModel } from '../../data';
 
 // Import components
 import Form from './Form';
@@ -20,7 +20,6 @@ import { prepareDateInUser } from './Date';
 import {
   SortValuesData,
   tableRowsLimitBtn,
-  UserModel,
   acriveEnum,
   SortValueModel,
   ScopeBtnModel

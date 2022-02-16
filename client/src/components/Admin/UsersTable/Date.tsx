@@ -54,13 +54,6 @@ export const prepareDate_dd_mm_rrrr = (date: Date):  string => {
   return dateString;
 }
 
-interface UserModel {
-  User: {
-    date: string;
-
-  }
-}
-
 /**
  * Customize date in user
  * @param {String} User User in each row in table

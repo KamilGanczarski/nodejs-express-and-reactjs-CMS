@@ -6,8 +6,6 @@ import {
   baseUrl,
   axiosHeaders,
   PermissionModel,
-  getTokenDecoded,
-  TokenModel
 } from '../../data';
 
 // Import components
@@ -15,9 +13,15 @@ import Switch from './Switch';
 
 type Props = {
   userId: string;
+  permission: number;
+  fetchLoggedUser: (userId: string) => void;
 }
 
-export default function ManagePermissions({ userId }: Props) {
+export default function ManagePermissions({
+  userId,
+  permission,
+  fetchLoggedUser
+}: Props) {
   const [ permissions, setPermissions ] = useState<PermissionModel[]>([]);
   const addPermission: string[] = [];
   const deletePermission: string[] = [];
@@ -37,12 +41,11 @@ export default function ManagePermissions({ userId }: Props) {
       });
   }
 
-  const separatePermission = (newPermissions: PermissionModel[]) => {
-    const decodedToken: TokenModel = getTokenDecoded();
-
+  const separatePermission = (perms: PermissionModel[]) => {
+    const newPermissions = [...perms];
     // Check permission like binary
-    newPermissions.forEach((permission: PermissionModel, i: number) => {
-      permission.checked = decodedToken.user.permission & 2**i ? true : false;
+    newPermissions.forEach((newPermission: PermissionModel, i: number) => {
+      newPermission.checked = permission & 2**i ? true : false;
     });
 
     setPermissions(newPermissions);
@@ -64,15 +67,12 @@ export default function ManagePermissions({ userId }: Props) {
       deletePermission: deletePermission
     }, axiosHeaders)
     .then((response) => {
-      // Set token from local storage
-      localStorage.setItem('token', response.data.token);
-      console.log(response);
-      fetchPermissions();
+      fetchLoggedUser(userId);
+      // separatePermission(permissions);
     })
     .catch(error => {
       if (error.response.data.msg) {
         console.log(error.response.data.msg);
-        // setLoginResponse(error.response.data.msg);
       }
     })
   }
@@ -80,6 +80,10 @@ export default function ManagePermissions({ userId }: Props) {
   useEffect(() => {
     fetchPermissions();
   }, []);
+
+  useEffect(() => {
+    separatePermission(permissions);
+  }, [permission]);
 
   return (
     <article className="col-sm-12 col-xl-11 row p-4 mx-auto">

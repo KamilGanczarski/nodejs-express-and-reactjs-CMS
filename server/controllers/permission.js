@@ -5,7 +5,7 @@ const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 const { attachCookiesToResponse, createTokenUser } = require('../utils');
 const {
-  fetchPermissionPosition,
+  fetchPermissionValue,
   checkPermission
 } = require('./api/permission');
 
@@ -15,12 +15,14 @@ const getAllPermissions = async (req, res) => {
 }
 
 const updatePermission = async (req, res) => {
-  const { name, description } = req.body;
-  CustomError.requireProvidedValues(name, description);
+  const { name, value, deleteValue, description } = req.body;
+  CustomError.requireProvidedValues(name, value, deleteValue, description);
 
   // Create new permission
   const newPermission = new Permission();
   newPermission.name = name;
+  newPermission.value = value;
+  newPermission.deleteValue = deleteValue;
   newPermission.description = description;
 
   // Create permission in mongodb
@@ -48,16 +50,16 @@ const managePermissionToUser = async (req, res) => {
   // Add permission
   for await (const element of addPermission) {
     if (!await checkPermission(user, element)) {
-      let index =  await fetchPermissionPosition(element);
-      user.permission = user.permission | index;
+      let value =  await fetchPermissionValue(element);
+      user.permission = user.permission | value;
     }
   }
 
   // Delete permission
   for await (const element of deletePermission) {
     if (await checkPermission(user, element)) {
-      let index =  await fetchPermissionPosition(element);
-      user.permission = user.permission & (~index);
+      let value =  await fetchPermissionValue(element, 'deleteValue');
+      user.permission = user.permission & (~value);
     }
   }
 

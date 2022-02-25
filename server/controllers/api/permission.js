@@ -1,4 +1,4 @@
-const Permission = require('../../models/Permission');
+const db = require('../../db/connect');
 
 const rolesWithPermissions = [
   { role: 'admin', permission: 7 },
@@ -13,7 +13,12 @@ const rolesWithPermissions = [
  */
 const fetchPermissionValue = async (permission, valueType = 'value') => {
   // Find permission id
-  const Permissions = await Permission.find({ name: permission });
+  const Permissions = await db.query(
+      `SELECT * FROM permissions WHERE name = $1`,
+      [permission]
+    )
+    .then((result) => result)
+    .catch((err) => 0);
 
   // If no permission like provided
   if (!Permissions) {
@@ -21,7 +26,7 @@ const fetchPermissionValue = async (permission, valueType = 'value') => {
   }
 
   if (valueType === 'deleteValue') {
-    return Permissions[0].deleteValue;
+    return Permissions[0].deletevalue;
   } else {
     return Permissions[0].value;
   }
@@ -63,8 +68,33 @@ const permissionByRole = (role) => {
   return roleWithPermission.permission;
 }
 
+/**
+ * Convert permission value to array of permisssions
+ * @param {number} number Permission value 
+ * @returns Array of permissions which user possess
+ */
+const convertPermissionNumberToArray = async (number) => {
+  // Fetch permissions
+  const permissions = await db.query('SELECT * FROM permissions', [])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No permission with id: ${id}`);
+    });
+
+  // Add only permission which user possess
+  let result = [];
+  permissions.forEach(permission => {
+    if (number & 2**permission.value === 2**permission.value) {
+      result.push(permission.name);
+    }
+  });
+
+  return result;
+}
+
 module.exports = {
   fetchPermissionValue,
   checkPermission,
-  permissionByRole
+  permissionByRole,
+  convertPermissionNumberToArray
 }

@@ -17,7 +17,7 @@ export default function TableRow({ RowUser, userType }: Props) {
    * @param {Number} id User's id
    */
    const customerPreview = (id: string) => {
-    if (User && User.role.value === 'portfolio history wedding') {
+    if (User && User.roles[0].value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
     } else {
       window.location.href = `/admin/gallery-preview/${id}`;
@@ -40,12 +40,13 @@ export default function TableRow({ RowUser, userType }: Props) {
    * Prevent change background parent node if onmouseover
    * @param {Event} e Event from sender
    */
-  const hoverRow = (e: React.MouseEvent) => {
-    const element = e.target;
-    // element.parentNode.classList.add("hovered");
-    // element.addEventListener("mouseleave", () => {
-    //   element.parentNode.classList.remove("hovered");
-    // });
+  const hoverRow = (e: React.MouseEvent<HTMLElement>): void => {
+    const element = e.currentTarget;
+    const parentNode = element.parentNode as HTMLElement;
+    parentNode.classList.add("hovered");
+    element.addEventListener("mouseleave", () => {
+      parentNode.classList.remove("hovered");
+    });
   }
 
   useEffect(() => {
@@ -54,18 +55,20 @@ export default function TableRow({ RowUser, userType }: Props) {
 
   // If User is not set
   if (!User) {
-    return <tr className="border-top table-row"></tr>;
+    return (
+      <tr className="border-top table-row"></tr>
+    );
   }
 
   return (
     <tr className="border-top table-row">
       {/* Id */}
-      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
+      <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
         {User.webId + 1}
       </td>
 
       {/* Photo and login */}
-      <td className="btn-sm w-300-px" onClick={()=>customerEditLink(User._id)}>
+      <td className="btn-sm w-300-px" onClick={()=>customerEditLink(User.id)}>
         {User.files.length > 0 ?
           <div className="w-100 bg-black img-16-9-container active">
             <img
@@ -84,28 +87,30 @@ export default function TableRow({ RowUser, userType }: Props) {
       </td>
 
       {/* Event name */}
-      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>{User.event}</td>
+      <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
+        {User.event}
+      </td>
 
       {/* Event date */}
       {['customer', 'portfolio history wedding'].includes(userType) &&
-        <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
-            {User.date.date != null ?
-              <span>
-                {User.date.dateShow}<br />({User.date.passed})
-              </span>
-              :
-              <i className="icon-calendar-plus-o text-custom"></i>
-            }
+        <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
+          {User.dateShow.date !== '' ?
+            <span>
+              {User.dateShow.date}<br />({User.dateShow.passed})
+            </span>
+            :
+            <i className="icon-calendar-plus-o text-custom"></i>
+          }
         </td>
       }
 
       {/* Expiry date */}
-      <td className="btn-sm" onClick={()=>customerEditLink(User._id)}>
-        {User.date.expiryDate != null ?
+      <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
+        {User.dateShow.expiryDate !== '' ?
           <span>
-            {User.date.expiryDateShow}
+            {User.dateShow.expiryDate}
             <br />
-            ({User.date.passedEnd})
+            ({User.dateShow.passedEnd})
           </span>
           :
           <i className="icon-calendar-plus-o text-custom"></i>
@@ -116,7 +121,7 @@ export default function TableRow({ RowUser, userType }: Props) {
       {['customer', 'portfolio history wedding'].includes(userType) &&
         <td
           className="btn-sm transition-effect text-hover-theme td-no-hover"
-          onClick={()=>customerPreview(User._id)}
+          onClick={()=>customerPreview(User.id)}
           onMouseOver={(e)=>hoverRow(e)}>
           Preview
         </td>
@@ -130,9 +135,9 @@ export default function TableRow({ RowUser, userType }: Props) {
         aria-expanded="false"
         aria-controls={`table-collape-${User.webId}`}
         onMouseOver={(e)=>hoverRow(e)}>
-          <button className="btn text-hover-theme collapse-icon-rotate">
-            <i className="icon-down-open text-custom"></i>
-          </button>
+        <button className="btn text-hover-theme collapse-icon-rotate">
+          <i className="icon-down-open text-custom"></i>
+        </button>
       </td>
     </tr>
   );

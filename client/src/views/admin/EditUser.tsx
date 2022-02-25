@@ -30,23 +30,18 @@ export default function EditUser({}: Props) {
 
     const decodedToken: TokenModel = getTokenDecoded();
     let currectUserId: string = '';
-    if (decodedToken.user.userId && !propsUserId) {
+    if (!propsUserId || propsUserId === decodedToken.user.userId) {
       setEditLoggedUser(true);
-      setUserId(decodedToken.user.userId);
-      currectUserId = decodedToken.user.userId;
-    } else if (propsUserId && propsUserId === decodedToken.user.userId) {
-      setEditLoggedUser(true);
-      setUserId(decodedToken.user.userId);
       currectUserId = decodedToken.user.userId;
     } else {
       setEditLoggedUser(false);
-      setUserId(propsUserId);
       currectUserId = propsUserId;
     }
-    fetchLoggedUser(currectUserId);
+    setUserId(currectUserId);
+    fetchCurrentUser(currectUserId);
   }
 
-  const fetchLoggedUser = async (id: string) => {
+  const fetchCurrentUser = async (id: string) => {
     await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
       .then(res => {
         setUser(res.data.user);
@@ -79,7 +74,7 @@ export default function EditUser({}: Props) {
               <ManagePermissions
                 userId={userId}
                 permission={User.permission}
-                fetchLoggedUser={fetchLoggedUser} />
+                fetchCurrentUser={fetchCurrentUser} />
             }
           </>
         }

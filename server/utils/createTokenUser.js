@@ -1,10 +1,10 @@
 const createTokenUser = (user) => {
   return {
-    userId: user._id,
+    userId: user.id,
     login: user.login,
     permission: user.permission,
-    role: user.role.value,
-    expiryDateOfPassword: user.expiryDateOfPassword
+    role: user.roles[0].value,
+    passwordExpiryDate: user.passwordexpirydate
   }
 }
 

@@ -11,6 +11,9 @@ import {
   redirectAfterLogin
 } from '../utils/tokenAPI';
 
+// Components
+import CustomInput from '../components/CustomInput/CustomInput';
+
 // Style
 import '../sassStyles/pages/login.scss';
 
@@ -21,7 +24,7 @@ interface ChangePasswordParamsModel {
 
 export default function SetOwnPassword({}: Props) {
   const params: ChangePasswordParamsModel = useParams();
-  const login = params.login;
+  const [ login, setLogin ] = useState(params.login);
   const [ password, setPassword ] = useState('');
   const [ repeatPassword, setRepeatPassword ] = useState('');
   const [ loginResponse, setLoginResponse ] = useState('');
@@ -71,53 +74,42 @@ export default function SetOwnPassword({}: Props) {
             className="login-form"
             onSubmit={onSubmitHandler}>
             {/* Login */}
-            <div className="form-group w-100 form-group-custom">
-              <input
-                type="text"
-                name="login"
-                id="login"
-                placeholder=" "
-                required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+            <div className="w-100 px-0">
+              <CustomInput
+                type='text'
+                name='login'
+                label='Login'
                 value={login}
-                disabled />
-              <label className="form-label-custom ps-3" htmlFor="login">
-                Login
-              </label>
+                setValue={setLogin}
+                optional={false}
+                disabled={true}
+                pxLg='0' />
             </div>
 
             {/* Password */}
-            <div className="form-group w-100 mt-2 form-group-custom">
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder=" "
-                required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+            <div className="w-100 px-0">
+              <CustomInput
+                type='password'
+                name='password'
+                label='New password'
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="password">
-                New password
-              </label>
+                setValue={setPassword}
+                optional={false}
+                disabled={false}
+                pxLg='0' />
             </div>
 
             {/* Repeat password */}
-            <div className="form-group w-100 mt-2 form-group-custom">
-              <input
-                type="password"
-                name="repeat-password"
-                id="repeat-password"
-                placeholder=" "
-                required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+            <div className="w-100 px-0">
+              <CustomInput
+                type='password'
+                name='repeat-password'
+                label='Repeat new password'
                 value={repeatPassword}
-                onChange={(e)=>setRepeatPassword(e.target.value)} />
-              <label
-                className="form-label-custom ps-3"
-                htmlFor="repeat-password">
-                Repeat new password
-              </label>
+                setValue={setRepeatPassword}
+                optional={false}
+                disabled={false}
+                pxLg='0' />
             </div>
 
             {/* Response */}

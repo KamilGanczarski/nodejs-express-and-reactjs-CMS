@@ -11,6 +11,9 @@ import {
   redirectTo
 } from '../utils/tokenAPI';
 
+// Components
+import CustomInput from '../components/CustomInput/CustomInput';
+
 // Style
 import '../sassStyles/pages/login.scss';
 
@@ -70,35 +73,29 @@ export default function Login({}: Props) {
             className="login-form"
             onSubmit={onSubmitHandler}>
             {/* Login */}
-            <div className="form-group w-100 form-group-custom">
-              <input
-                type="text"
-                name="login"
-                id="login"
-                placeholder=" "
-                required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+            <div className="w-100 px-0">
+              <CustomInput
+                type='text'
+                name='login'
+                label='Login'
                 value={login}
-                onChange={(e)=>setLogin(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="login">
-                Login
-              </label>
+                setValue={setLogin}
+                optional={false}
+                disabled={false}
+                pxLg='0' />
             </div>
 
             {/* Password */}
-            <div className="form-group w-100 mt-2 form-group-custom">
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder=" "
-                required
-                className="form-control-custom w-100 px-3 py-4 mt-3 text-light"
+            <div className="w-100 px-0">
+              <CustomInput
+                type='password'
+                name='edit-password'
+                label='Password'
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)} />
-              <label className="form-label-custom ps-3" htmlFor="password">
-                Password
-              </label>
+                setValue={setPassword}
+                optional={false}
+                disabled={false}
+                pxLg='0' />
             </div>
 
             {/* Response */}

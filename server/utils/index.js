@@ -1,9 +1,18 @@
-const { createJWT, isTokenValid, attachCookiesToResponse } = require('./jwt');
+const {
+  createJWT,
+  isTokenValid,
+  attachCookiesToResponse,
+  createToken
+} = require('./jwt');
 const createTokenUser = require('./createTokenUser');
+const { generateHash, validPassword } = require('./password');
 
 module.exports = {
   createJWT,
   isTokenValid,
   attachCookiesToResponse,
-  createTokenUser
+  createToken,
+  createTokenUser,
+  generateHash,
+  validPassword
 }

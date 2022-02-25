@@ -116,19 +116,19 @@ export default function UsersTable({ userType }: Props) {
         headers: axiosHeaders.headers
       });
       let newUsers: any[] = res.data.users;
-
       newUsers.map((User, id) => {
         User.webId = id;
         // Temporary
         User.files = [];
         // Prepare date
-        User = prepareDateInUser(User);
+        User.dateShow = prepareDateInUser(User);
       });
 
       setUsers(newUsers);
       setUsersTable(newUsers);
     } catch (error) {
-      console.log(error);
+      setUsers([]);
+      // console.log(error);
     }
   }
 

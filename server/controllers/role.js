@@ -1,24 +1,28 @@
-// Models
-const Role = require('../models/Role');
-
+const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const getRoles = async (req, res) => {
-  const roles = await Role.find({});
-  res.status(StatusCodes.OK).send({ roles });
+  // Fetch roles
+  await db.query(`SELECT * FROM user_roles`, [])
+    .then((roles) => {
+      res.status(StatusCodes.OK).send({ roles });
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No role with id: ${id}`);
+    });
 }
 
 const createRole = async (req, res) => {
   const { role } = req.body;
   CustomError.requireProvidedValues(role);
 
-  // Create new date
-  const newRole = new Role();
-  newRole.value = role;
-
-  // Create date in mongodb
-  await Role.create(newRole);
+  // Insert role
+  await db.query(`INSERT INTO user_roles (value) VALUES ($1)`, [role])
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.BadRequestError("New role hasn't been added");
+    });
 
   res.status(StatusCodes.OK).send({ msg: 'Success ! Role created.' });
 }
@@ -28,16 +32,27 @@ const deleteRole = async (req, res) => {
   CustomError.requireProvidedValues(roleId);
 
   // Find the role
-  const role = await Role.findOne({ _id: roleId });
+  await db.query(
+      `SELECT * FROM user_roles WHERE id = $1`,
+      [roleId]
+    )
+    .then((result) => {
+      if (result.length === 0) {
+        throw new CustomError.BadRequestError(`No role with id: ${roleId}`);
+      }
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No role with id: ${roleId}`);
+    });
 
-  // If doesn't exist
-  if (!role) {
-    throw new CustomError.NotFoundError(`No role with id: ${roleId}`);
-  }
-
-  // Remove
-  await role.remove();
-  res.status(StatusCodes.OK).send({ msg: 'Success ! Role removed.' });
+  // Remove the role
+  await db.query(`DELETE FROM user_roles WHERE id = $1`, [roleId])
+    .then((result) => {
+      res.status(StatusCodes.OK).send({ msg: 'Success ! Role removed.' });
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No role with id: ${roleId}`);
+    });
 }
 
 module.exports = {

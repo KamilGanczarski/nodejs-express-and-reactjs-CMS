@@ -1,19 +1,11 @@
-const User = require('../models/User');
+const db = require('../db/connect');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
-const { attachCookiesToResponse, createTokenUser } = require('../utils');
-
-/**
- * Compare date
- * @param {Date} firstDate Date object
- * @param {Date} secondDate Date object
- * @returns true if second date passed first one
- */
- const compareDates = (firstDate, secondDate) => {
-  return firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)
-    ? true
-    : false;
-}
+const {
+  generateHash,
+  validPassword,
+  createToken
+} = require('../utils');
 
 const login = async (req, res) => {
   const { login, password } = req.body;
@@ -24,28 +16,47 @@ const login = async (req, res) => {
   }
 
   // Find user
-  const user = await User.findOne({ login: login })
-    .populate({ path: 'role' })
-    .populate({ path: 'date' });
-
-  // Check if user exists
-  if (!user) {
-    throw new CustomError.UnauthenticatedError('Invalid Credentials');
-  }
+  const user = await db.query(
+      `SELECT
+        users.id,
+        users.login,
+        users.event,
+        users.password,
+        users.passwordExpiryDate,
+        users.permission,
+        users.date,
+        users.expiryDate,
+        users.dir,
+        (
+          SELECT jsonb_agg(nested_roles)
+          FROM (
+            SELECT * FROM user_roles
+              WHERE user_roles.id = users.role_id
+          ) AS nested_roles
+        ) AS roles,
+        (
+          SELECT jsonb_agg(nested_contact)
+          FROM (
+            SELECT * FROM contract WHERE contract.user_id = users.id
+          ) AS nested_contact
+        ) AS contact
+      FROM users
+      INNER JOIN user_roles ON (user_roles.id = users.role_id)
+      INNER JOIN contract ON (contract.user_id = users.id)
+      WHERE users.login = $1`,
+      [login])
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.UnauthenticatedError('Invalid Credentials');
+    });
 
   // Check password
-  if (!user.validPassword(password)) {
+  if (!validPassword(password, user.password)) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
 
-  let tokenUser = createTokenUser(user);
-  // Compare date and set changePassword for fronted
-  const date = new Date;
-  const expiryDateOfPassword = tokenUser.expiryDateOfPassword;
-  tokenUser.changePassword = compareDates(expiryDateOfPassword, date);
-  delete tokenUser.expiryDateOfPassword;
-
-  const token = attachCookiesToResponse({ res, user: { ...tokenUser } });
+  // Set new token
+  const token = await createToken(res, user);
   res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
 }
 
@@ -62,17 +73,19 @@ const checkValidToken = (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-  const { login, password } = req.body;
+  const { userId, login, password } = req.body;
 
   // Check for login and password
-  if (!login || !password) {
+  if (!userId || !login || !password) {
     throw new CustomError.BadRequestError('Please provide login and password')
   }
 
   // Find user
-  const user = await User.findOne({ _id: req.user.userId })
-    .populate({ path: 'role' })
-    .populate({ path: 'date' });
+  const user = await db.query('SELECT * FROM users WHERE id = $1', [userId])
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.UnauthenticatedError('Invalid Credentials');
+    });
 
   // Check if user exists
   if (!user) {
@@ -80,21 +93,62 @@ const changePassword = async (req, res) => {
   }
 
   // Check the same password
-  if (user.validPassword(password)) {
+  if (validPassword(password, user.password)) {
     throw new CustomError.UnauthenticatedError(
       'The same password, you should make up a new one'
     );
   }
 
-  user.password = user.generateHash(password);
   // Set date now + 60days
   var months = new Date();
   months.setDate(months.getDate() + 60);
-  user.expiryDateOfPassword = months;
-  await user.save();
+  await db.query(
+      `UPDATE users SET password = $1, passwordExpiryDate = $2 WHERE id = $3`,
+      [generateHash(password), months, userId]
+    )
+    .then((result) => result)
+    .catch((err) => {
+      console.log(err)
+      throw new CustomError.BadRequestError("Change has't been approved");
+    });
 
-  const tokenUser = createTokenUser(user);
-  const token = attachCookiesToResponse({ res, user: { ...tokenUser } });
+  // Find user
+  const newUser = await db.query(
+      `SELECT
+        users.id,
+        users.login,
+        users.event,
+        users.passwordExpiryDate,
+        users.permission,
+        users.date,
+        users.expiryDate,
+        users.dir,
+        (
+          SELECT jsonb_agg(nested_roles)
+          FROM (
+            SELECT * FROM user_roles
+              WHERE user_roles.id = users.role_id
+          ) AS nested_roles
+        ) AS roles,
+        (
+          SELECT jsonb_agg(nested_contact)
+          FROM (
+            SELECT * FROM contract WHERE contract.user_id = users.id
+          ) AS nested_contact
+        ) AS contact
+      FROM users
+      INNER JOIN user_roles ON (user_roles.id = users.role_id)
+      INNER JOIN contract ON (contract.user_id = users.id)
+      WHERE users.id = $1`,
+      [userId]
+    )
+    .then((result) => result[0].row_to_json)
+    .catch((err) => {
+      throw new CustomError.UnauthenticatedError('Invalid Credentials');
+    });
+
+  // Set new token
+  const token = await createToken(res, newUser);
   res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
 }
 

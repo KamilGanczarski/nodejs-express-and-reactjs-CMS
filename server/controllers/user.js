@@ -1,13 +1,13 @@
-// Models
-const User = require('../models/User');
-const Role = require('../models/Role');
-const Calendar = require('../models/Calendar');
-
+const db = require('../db/connect');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 
 const { fetchAndUpdateNewDirectory } = require('./api/directory');
-const { permissionByRole } = require('./api/permission');
+const {
+  permissionByRole,
+  convertPermissionNumberToArray
+} = require('./api/permission');
+const { generateHash } = require('../utils');
 
 /**
  * Get user by id
@@ -16,16 +16,49 @@ const getUser = async (req, res) => {
   const { id } = req.params;
   CustomError.requireProvidedValues(id);
 
-  await User.findOne({ _id: id })
-    .populate({ path: 'role' })
-    .populate({ path: 'date' })
-    .select('-password')
-    .then((user) => {
-      res.status(StatusCodes.OK).send({ user });
-    // There is no user with this id
-    }).catch(function (err) {
-      throw new CustomError.BadRequestError('No user found');
+  // Fetch user
+  let user = await db.query(
+      `SELECT
+        users.id,
+        users.login,
+        users.event,
+        users.passwordExpiryDate,
+        users.permission,
+        users.date,
+        users.expiryDate,
+        users.dir,
+        (
+          SELECT jsonb_agg(nested_roles)
+          FROM (
+            SELECT * FROM user_roles
+              WHERE user_roles.id = users.role_id
+          ) AS nested_roles
+        ) AS roles,
+        (
+          SELECT jsonb_agg(nested_contact)
+          FROM (
+            SELECT * FROM contract WHERE contract.user_id = users.id
+          ) AS nested_contact
+        ) AS contact
+      FROM users
+      INNER JOIN user_roles ON (user_roles.id = users.role_id)
+      INNER JOIN contract ON (contract.user_id = users.id)
+      WHERE users.id = $1`,
+      [id]
+    )
+    .then((result) => {
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        throw new CustomError.BadRequestError(`No user with id: ${id}`);
+      }
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No user with id: ${id}`);
     });
+
+  user.permissions = await convertPermissionNumberToArray(user.permission);
+  res.status(StatusCodes.OK).send({ user });
 }
 
 /**
@@ -33,17 +66,61 @@ const getUser = async (req, res) => {
  */
 const getAllUsers = async (req, res) => {
   const { role } = req.query;
+  
+  let roleQuery = '';
+  let roleParams = [];
+  if (role) {
+    roleQuery = ` AND user_roles.value = $1`;
+    roleParams.push(role);
+  }
 
-  await User.find({})
-    .populate({ path: 'role' })
-    .populate({ path: 'date' })
-    .select('-password')
-    .exec((err, users) => {
-      if (role) {
-        users = users.filter((user) => user.role.value === role);
+  // Fetch user
+  let users = await db.query(
+      `SELECT
+          users.id,
+          users.login,
+          users.event,
+          users.passwordExpiryDate,
+          users.permission,
+          users.date,
+          users.expiryDate,
+          users.dir,
+          (
+            SELECT jsonb_agg(nested_roles)
+            FROM (
+              SELECT * FROM user_roles
+                WHERE user_roles.id = users.role_id ${roleQuery}
+            ) AS nested_roles
+          ) AS roles,
+          (
+            SELECT jsonb_agg(nested_contact)
+            FROM (
+              SELECT * FROM contract WHERE contract.user_id = users.id
+            ) AS nested_contact
+          ) AS contact
+        FROM users
+        INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleQuery}
+        INNER JOIN contract ON (contract.user_id = users.id)`,
+      roleParams
+    )
+    .then((users) => {
+      if (users.length > 0) {
+        return users;
+      } else {
+        throw new CustomError.BadRequestError(
+          `No users with this role: ${role}`
+        );
       }
-      res.status(StatusCodes.OK).send({ users });
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No users with this role: ${role}`);
     });
+  
+  for (const user of users) {
+    user.permissions = await convertPermissionNumberToArray(user.permission);
+  }
+
+  res.status(StatusCodes.OK).send({ users });
 }
 
 /**
@@ -61,52 +138,80 @@ const createUser = async (req, res) => {
   CustomError.requireProvidedValues(login, password, role, event);
 
   // Find user with this login
-  const alreadySubmitted = await User.findOne({ login: login });
-  if (alreadySubmitted) {
-    throw new CustomError.BadRequestError(
-      'Already created user with this username'
-    );
-  }
-
-  // Create new date
-  const newDate = new Calendar();
-  newDate.date = date ? date : '';
-  newDate.expiryDate = expiryDate ? expiryDate : '';
-  newDate.contract = false;
-  newDate.pdf = '';
-  newDate.price = '';
-  newDate.advance = '';
-  newDate.howMuchPaid = '';
-
-  // Create date
-  const CalendarDB = await Calendar.create(newDate);
+  await db.query(`SELECT * FROM users WHERE login = $1`, [login])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(
+        'Already created user with this username'
+      );
+    });
 
   // Fetch role
-  const roleRecord = await Role.findOne({ value: role });
-  
-  // Check role
-  if (!roleRecord) {
-    throw new CustomError.BadRequestError(
-      `No role with '${role}' name`
-    );
-  }
+  const roleRecord = await db.query(
+      `SELECT * FROM user_roles WHERE value = $1`,
+      [role]
+    )
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No role with '${role}' name`);
+    });
 
   // Create new user
-  const newUser = new User();
-  newUser.login = login;
-  newUser.password = newUser.generateHash(password);
-  newUser.event = event;
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  newUser.expiryDateOfPassword = yesterday;
-  newUser.dir = await fetchAndUpdateNewDirectory();
-  newUser.role = roleRecord._id;
-  newUser.permission = permissionByRole(role);
-  newUser.date = CalendarDB._id;
+  const dir  = await fetchAndUpdateNewDirectory();
 
-  await User.create(newUser);
+  let queryParams = [
+    login,                        // login
+    event,                        // event
+    generateHash(password),       // password
+    yesterday,                    // passwordExpiryDate
+    permissionByRole(role),       // permission
+    dir,                          // dir
+    date ? new Date(date.replace(' ', 'T')) : null,             // date
+    expiryDate ? new Date(expiryDate.replace(' ', 'T')) : null, // expiryDate
+    roleRecord[0].id              // role_id
+  ];
 
-  res.status(StatusCodes.OK).send({ newUser });
+  const newUserId = await db.query(
+    `INSERT INTO users (
+      login,
+      event,
+      password,
+      passwordExpiryDate,
+      permission,
+      dir,
+      date,
+      expiryDate,
+      role_id
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+    queryParams
+  )
+  .then((result) => result)
+  .catch((err) => {
+    throw new CustomError.BadRequestError('User with this login aleady exists');
+  });
+
+  // Insert new contract
+  queryParams = [ parseInt(newUserId[0].id), false, '', 0, 0, 0 ];
+
+  await db.query(
+    `INSERT INTO contract (
+      user_id,
+      contract,
+      pdf,
+      price,
+      advance,
+      howMuchPaid
+    ) VALUES ($1, $2, $3, $4, $5, $6)`,
+    queryParams
+  )
+  .then((result) => result)
+  .catch((err) => {
+    throw new CustomError.BadRequestError("New contact hasn't been created");
+  });
+
+  res.status(StatusCodes.OK).send({ id: newUserId[0].id });
 }
 
 /**
@@ -134,62 +239,89 @@ const updateUser = async (req, res) => {
   }
 
   // Find the user
-  const newUser = await User.findOne({ _id: userId });
-  
+  const user = await db.query('SELECT * FROM users WHERE id = $1', [userId])
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.NotFoundError(`No user with id: ${userId}`);
+    });
+
   // If doesn't exist
-  if (!newUser) {
+  if (!user) {
     throw new CustomError.NotFoundError(`No user with id: ${userId}`);
+  }
+
+  let updateQuery = `UPDATE users SET`;
+  let updateParamsSigns = '';
+  let updateParams = [];
+
+  const addToQuery = (field, count) => {
+    return `${count > 1 ? ',' : ''} ${field} = $${count}`;
   }
 
   // Set new values
   if (login) {
-    newUser.login = login;
+    updateQuery += addToQuery('login', updateParams.length + 1);
+    updateParams.push(login);
   }
 
   if (event) {
-    newUser.event = event;
-  }
-
-  if (changePassword) {
-    newUser.changePassword = changePassword;
+    updateQuery += addToQuery('event', updateParams.length + 1);
+    updateParams.push(event);
   }
 
   // Check if password is set
   if (newPassword) {
-    newUser.password = newUser.generateHash(newPassword);
+    let hashPassword = generateHash(newPassword);
+    updateQuery += addToQuery('password', updateParams.length + 1);
+    updateParams.push(hashPassword);
   }
 
-  if (req.user.userId !== newUser.id) {
+
+  if (req.user.userId !== user.id) {
     // Update role
     if (role) {
-      // Fetch role
-      const roleRecord = await Role.findOne({ value: role });
-      
+      // Find the role
+      const roleRecord = await db.query(
+          `SELECT * FROM user_roles WHERE value = $1`,
+          [role]
+        )
+        .then((result) => result[0])
+        .catch((err) => {
+          throw new CustomError.BadRequestError(`No role with id: ${id}`);
+        });
+
       // Check role
       if (!roleRecord) {
         throw new CustomError.BadRequestError(`No role with '${role}' name`);
       }
-      newUser.role = roleRecord._id;
+
+      // Set new values
+      updateQuery += addToQuery('role_id', updateParams.length + 1);
+      updateParams.push(roleRecord.id);
     }
 
     // Update calendar
-    if (date || expiryDate) {
-      // Fetch calendar
-      const newCalendar = await Calendar.findOne({ _id: newUser.date });
-
-      // Check calendar
-      if (!newCalendar) {
-        throw new CustomError.BadRequestError(`No connection to calendar`);
-      }
-    
-      // Set new values
-      newCalendar.date = date ? date : '';
-      newCalendar.expiryDate = expiryDate ? expiryDate : '';
-      await newCalendar.save();
+    if (date) {
+      updateQuery += addToQuery('date', updateParams.length + 1);
+      updateParams.push(new Date(date.replace(' ', 'T')));
+    }
+    if (expiryDate) {
+      updateQuery += addToQuery('expiryDate', updateParams.length + 1);
+      updateParams.push(new Date(expiryDate.replace(' ', 'T')));
     }
   }
 
-  await newUser.save();
+  updateParams.push(userId);
+  updateQuery += ` WHERE id = $${updateParams.length};`;
+
+  // Update user
+  await db.query(updateQuery, updateParams)
+    .then((result) => result)
+    .catch((err) => {
+      console.log(err)
+      throw new CustomError.BadRequestError(`Changes hasn't been pproved`);
+    });
+
   res.status(StatusCodes.OK).send({ msg: `You've updated the user` });
 }
 
@@ -200,16 +332,36 @@ const deleteUser = async (req, res) => {
   const { id } = req.body;
   CustomError.requireProvidedValues(id);
 
-  // Find the user
-  const user = await User.findOne({ _id: id });
+  // Find user with this login
+  await db.query(`SELECT * FROM users WHERE id = $1`, [id])
+    .then((result) => { 
+      if (!result.length) {
+        throw new CustomError.NotFoundError(`No user with id: ${id}`);
+      }
+      return result;
+    })
+    .catch((err) => {
+      throw new CustomError.NotFoundError(`No user with id: ${id}`);
+    });
 
-  // If doesn't exist
-  if (!user) {
-    throw new CustomError.NotFoundError(`No user with id: ${id}`);
-  }
+  // Remove contact
+  await db.query(`DELETE FROM contract WHERE user_id = $1`, [id])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.NotFoundError(
+        `Contract hasn't been deleted with id: ${id}`
+      );
+    });
 
-  // Remove
-  await user.remove();
+  // Remove user
+  await db.query(`DELETE FROM users WHERE id = $1`, [id])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.NotFoundError(
+        `User hasn't been deleted with id: ${id}`
+      );
+    });
+
   res.status(StatusCodes.OK).send({ msg: 'Success ! User removed.' });
 }
 

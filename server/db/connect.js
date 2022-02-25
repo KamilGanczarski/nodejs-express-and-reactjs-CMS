@@ -1,7 +1,20 @@
-const mongoose = require('mongoose');
+const { Client } = require('pg');
 
-const connectDB = (url) => {
-  return mongoose.connect(url);
-};
+const client = new Client({
+  connectionString: process.env.POSTGRESQL_URI
+});
 
-module.exports = connectDB;
+client.connect();
+
+module.exports = {
+  query: (text, params) => {
+    return new Promise((resolve, reject) => {
+      client.query(text, params, (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(res.rows)
+      })
+    });
+  }
+}

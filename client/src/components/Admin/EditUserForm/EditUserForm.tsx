@@ -3,7 +3,10 @@ import axios from 'axios';
 
 // Utils
 import { RoleModel } from '../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { baseUrl, axiosHeaders, redirectTo } from '../../../utils/tokenAPI';
+
+// Componenets
+import CustomInput from '../../CustomInput/CustomInput';
 
 type Props = {
   userId: string;
@@ -48,25 +51,26 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
         // Set event name
         setEvent(user.event);
         // Set role
-        setRole(user.role.value);
+        setRole(user.roles[0].value);
 
         // Set event date
-        if (user.date.date) {
-          const date = new Date(user.date.date);
+        if (user.date) {
+          const date = new Date(user.date);
           setDate(date.toISOString().substring(0,10));
         } else {
           setDate('');
         }
 
         // Set event expiration date
-        if (user.date.expiratioDate) {
-          const expiratioDate = new Date(user.date.expiratioDate);
-          setExpiryDate(expiratioDate.toISOString().substring(0,10));
+        if (user.expirydate) {
+          const expirydate = new Date(user.expirydate);
+          setExpiryDate(expirydate.toISOString().substring(0,10));
         } else {
           setExpiryDate('');
         }
       }
     } catch (error) {
+      redirectTo('/admin/home');
       console.log(error);
     }
   }
@@ -142,117 +146,94 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
         </h5>
 
         {/* Login */}
-        <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-          <input
-            type="text"
-            name="edit-login"
-            id="edit-login"
-            placeholder=" "
-            required
-            className="form-control-custom w-100 px-3 py-4 mt-3 text-theme"
+        <div className="col-sm-12 col-xl-6 px-0 mb-3">
+          <CustomInput
+            type='text'
+            name='edit-login'
+            label='Login'
             value={login}
-            onChange={(e)=>setLogin(e.target.value)} />
-          <label
-            htmlFor="edit-login"
-            className="form-label-custom ps-3 ps-xl-4 ms-xl-3">
-            Login
-          </label>
+            setValue={setLogin}
+            optional={false}
+            disabled={false}
+            pxLg='4' />
         </div>
 
         {/* Password */}
-        <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-          <input
-            type="password"
-            name="edit-password"
-            id="edit-password"
-            placeholder=" "
-            required
-            className="form-control-custom w-100 px-3 py-4 mt-3 text-theme"
+        <div className="col-sm-12 col-xl-6 px-0 mb-3">
+          <CustomInput
+            type='password'
+            name='edit-password'
+            label='Password'
             value={password}
-            onChange={(e)=>setPassword(e.target.value)} />
-          <label
-            htmlFor="edit-password"
-            className="form-label-custom ps-3 ps-xl-4 ms-xl-3">
-            Password
-          </label>
+            setValue={setPassword}
+            optional={false}
+            disabled={false}
+            pxLg='4' />
         </div>
 
         {/* Description */}
-        <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-          <input
-            type="text"
-            name="edit-description"
-            id="edit-description"
-            placeholder=" "
-            required
-            className="form-control-custom w-100 px-3 py-4 mt-3 text-theme"
+        <div className="col-sm-12 col-xl-6 px-0 mb-3">
+          <CustomInput
+            type='text'
+            name='edit-description'
+            label='Description'
             value={event}
-            onChange={(e)=>setEvent(e.target.value)} />
-          <label
-            htmlFor="edit-description"
-            className="form-label-custom ps-3 ps-xl-4 ms-xl-3">
-            Description
-          </label>
+            setValue={setEvent}
+            optional={false}
+            disabled={false}
+            pxLg='4' />
         </div>
 
+        {/* Role */}
+        {!editLoggedUser &&
+          <div className="col-sm-12 col-xl-6 px-0 px-xl-4 mb-3">
+            <div className="form-group px-0 mb-4 form-group-custom">
+              <p
+                className="ps-3 m-0 form-label-custom"
+                style={{paddingTop: 8 + 'px', fontSize: 0.75 + 'rem'}}>
+                Role
+              </p>
+              <select
+                name="permission"
+                id="permission"
+                className="form-control py-0 mt-0 bg-transparent form-control-custom form-control-custom-select text-theme"
+                value={role}
+                onChange={(e)=>setRole(e.target.value)}>
+                {roles.map((item: RoleModel, index) => {
+                  return (
+                    <option key={index}>{item.value}</option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+        }
+
         {/* Event date */}
-        <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-          <input
-            type="date"
-            name="edit-event-date"
-            id="edit-event-date"
-            placeholder=" "
-            className="form-control-custom w-100 px-3 py-4 mt-3 text-theme"
+        <div className="col-sm-12 col-xl-6 px-0">
+          <CustomInput
+            type='date'
+            name='edit-event-date'
+            label='Event date'
             value={date}
-            onChange={(e)=>setDate(e.target.value)} />
-          <label
-            htmlFor="edit-event-date"
-            className="form-label-custom ps-3 ps-xl-4 ms-xl-3">
-            Event date
-          </label>
-          <p className="pt-2 m-0 small">(optionally)</p>
+            setValue={setDate}
+            optional={true}
+            disabled={false}
+            pxLg='4' />
         </div>
 
         {/* Expiration date */}
         {!editLoggedUser &&
-          <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-            <input
-              type="date"
-              name="edit-expiration"
-              id="edit-expiration"
-              placeholder=" "
-              className="form-control-custom w-100 px-3 py-4 mt-3 text-theme"
+          <div className="col-sm-12 col-xl-6 px-0">
+            <CustomInput
+              type='date'
+              name='edit-expiration'
+              label='Expiration date'
               value={expiryDate}
-              onChange={(e)=>setExpiryDate(e.target.value)} />
-            <label
-              htmlFor="edit-expiration"
-              className="form-label-custom ps-3 ps-xl-4 ms-xl-3">
-              Expiration date
-            </label>
-            <p className="pt-2 m-0 small">(optionally)</p>
-          </div>
-        }
-
-        {/* Role */}
-        {!editLoggedUser &&
-          <div className="form-group col-sm-12 col-xl-6 px-0 px-xl-4 mb-4 form-group-custom">
-            <p
-              className="ps-3 m-0 form-label-custom"
-              style={{paddingTop: 2 + 'px'}}>
-              Role
-            </p>
-            <select
-              name="permission"
-              id="permission"
-              className="form-control py-0 mt-0 bg-transparent form-control-custom form-control-custom-select text-theme"
-              value={role}
-              onChange={(e)=>setRole(e.target.value)}>
-              {roles.map((item: RoleModel, index) => {
-                return (
-                  <option key={index}>{item.value}</option>
-                )
-              })}
-            </select>
+              setValue={setExpiryDate}
+              optional={true}
+              disabled={false}
+              pxLg='4' />
           </div>
         }
 

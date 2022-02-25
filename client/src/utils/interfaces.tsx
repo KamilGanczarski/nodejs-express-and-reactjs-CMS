@@ -1,49 +1,40 @@
 import { SignatureHelpTriggerReason } from "typescript";
 
-// Date interface
-interface DateModel {
-  _id: string;
-  date: string;
-  expiryDate: string;
-  contract: boolean;
+interface ContractModel {
   pdf: string;
-  price: string;
-  advance: string;
-  howMuchPaid: string;
+  price: number;
+  advance: number;
+  user_id: number;
+  contract: boolean;
+  howmuchpaid: number;
 }
 
 // Date interface
-interface DateModifiedModel {
-  _id: string;
+export interface ShowDateModel {
   date: string;
-  dateShow: string;
   passed: string;
   expiryDate: string;
-  expiryDateShow: string;
   passedEnd: string;
-  contract: boolean;
-  pdf: string;
-  price: string;
-  advance: string;
-  howMuchPaid: string;
 }
 
 // Role interface
 export interface RoleModel {
-  _id: string;
+  id: number;
   value: string;
 }
 
 // User interface connected with DateModel and RoleModel
 export interface UserModel {
-  _id: string;
-  webId: number;
+  id: number;
   login: string;
   event: string;
+  passwordexpirydate: string;
+  date: string;
+  expirydate: string;
   dir: string;
-  date: DateModel;
   permission: number;
-  role: RoleModel;
+  roles: RoleModel[];
+  contract: ContractModel[];
 }
 
 interface FileModel {
@@ -52,15 +43,19 @@ interface FileModel {
 
 // User interface connected with DateModel and RoleModel
 export interface UserFrontendModel {
-  _id: string;
+  id: string;
   webId: number;
   login: string;
   event: string;
+  passwordexpirydate: string;
+  date: string;
+  dateShow: ShowDateModel;
+  expirydate: string;
   dir: string;
-  date: DateModifiedModel;
   permission: number;
-  role: RoleModel;
-  files: FileModel[];
+  roles: RoleModel[];
+  contract: ContractModel[];
+  files: FileModel[]
 }
 
 // Token iterface the same like token from server
@@ -76,7 +71,7 @@ export interface TokenModel {
 
 // Permission token
 export interface PermissionModel {
-  _id: string;
+  id: string;
   name: string;
   value: number;
   deleteValue: number;

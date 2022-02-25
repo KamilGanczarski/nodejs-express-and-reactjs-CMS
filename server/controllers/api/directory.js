@@ -1,9 +1,16 @@
-const Variables = require('../../models/Variables')
+const db = require('../../db/connect');
 
 // Update directory
 const fetchAndUpdateNewDirectory = async () => {
   // Fetch current value
-  const directory = await Variables.findOne({ property: 'directory key' });
+  const directory = await db.query(
+      `SELECT * FROM variables WHERE property = $1`,
+      ['directory key']
+    )
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.NotFoundError('No directory key found');
+    });
 
   // Convert to number, increment and convert again to hex
   let newDirectory = (parseInt(directory.value, 16) + 1).toString(16);
@@ -20,7 +27,15 @@ const fetchAndUpdateNewDirectory = async () => {
   }
 
   // Update in database
-  await Variables.findByIdAndUpdate(directory._id, { value: newDirectory });
+  await db.query(
+      `UPDATE variables SET value = $1 WHERE property = $2`,
+      [newDirectory, 'directory key']
+    )
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.NotFoundError('No directory key found');
+    });
+
   return hexString;
 }
 

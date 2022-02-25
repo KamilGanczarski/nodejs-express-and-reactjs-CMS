@@ -11,13 +11,13 @@ import Switch from './Switch';
 type Props = {
   userId: string;
   permission: number;
-  fetchLoggedUser: (userId: string) => void;
+  fetchCurrentUser: (userId: string) => void;
 }
 
 export default function ManagePermissions({
   userId,
   permission,
-  fetchLoggedUser
+  fetchCurrentUser
 }: Props) {
   const [ permissions, setPermissions ] = useState<PermissionModel[]>([]);
   const addPermission: string[] = [];
@@ -58,13 +58,13 @@ export default function ManagePermissions({
       deletePermission.push(name);
     }
 
-    axios.patch(`${baseUrl}/api/v1/permissions`, {
+    await axios.patch(`${baseUrl}/api/v1/permissions`, {
       userId: userId,
       addPermission: addPermission,
       deletePermission: deletePermission
     }, axiosHeaders)
     .then((response) => {
-      fetchLoggedUser(userId);
+      fetchCurrentUser(userId);
       // separatePermission(permissions);
     })
     .catch(error => {

@@ -1,5 +1,5 @@
 // Utils
-import { UserModel, UserFrontendModel } from '../../../utils/interfaces';
+import { ShowDateModel } from '../../../utils/interfaces';
 
 /**
  * How many days contain a year
@@ -22,6 +22,7 @@ import { UserModel, UserFrontendModel } from '../../../utils/interfaces';
 export const calcPassedTime = (date: string): string => {
   const today = new Date();
   let eventDate = new Date(date);
+
   let passed = (today.getTime() - eventDate.getTime()) / 1000 / 60 / 60 / 24
     + leapYears(today) - leapYears(eventDate);
   passed = Math.floor(passed);
@@ -70,25 +71,32 @@ export const prepareDate_dd_mm_rrrr = (date: Date):  string => {
  *    expiryDateShow: String
  * }}
  */
-export const prepareDateInUser = (User: any) => {
+export const prepareDateInUser = (User: any): ShowDateModel => {
+  let ShowDate: ShowDateModel = {
+    date: '',
+    passed: '',
+    expiryDate: '',
+    passedEnd: ''
+  };
+
   let newUser = { ...User };
 
   // Calc how many days left or have passed
-  if (newUser.date.date != null) {
-    newUser.date.passed = calcPassedTime(newUser.date.date);
+  if (newUser.date != null) {
+    ShowDate.passed = calcPassedTime(newUser.date);
   } else {
-    newUser.date.passed = "";
+    ShowDate.passed = "";
   }
 
   // Calc how many days left or have passed
-  if (newUser.date.expiryDate != null) {
-    newUser.date.passedEnd = calcPassedTime(newUser.date.expiryDate);
+  if (newUser.expirydate != null) {
+    ShowDate.passedEnd = calcPassedTime(newUser.expirydate);
   } else {
-    newUser.date.passedEnd = "";
+    ShowDate.passedEnd = "";
   }
 
   // Show custom date in format dd.mm.rrrr
-  newUser.date.dateShow = prepareDate_dd_mm_rrrr(newUser.date.date);
-  newUser.date.expiryDateShow = prepareDate_dd_mm_rrrr(newUser.date.expiryDate);
-  return newUser;
+  ShowDate.date = prepareDate_dd_mm_rrrr(newUser.date);
+  ShowDate.expiryDate = prepareDate_dd_mm_rrrr(newUser.expirydate);
+  return ShowDate;
 }

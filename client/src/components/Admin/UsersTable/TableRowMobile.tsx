@@ -18,7 +18,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
    */
    const customerPreview = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    if (User && User.role.value === 'portfolio history wedding') {
+    if (User && User.roles[0].value === 'portfolio history wedding') {
       window.location.href = `/portfolio/history-wedding/${id}`;
     } else {
       window.location.href = `/admin/gallery-preview/${id}`;
@@ -51,7 +51,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
       <td
         colSpan={2}
         className="text-start"
-        onClick={()=>customerEditLink(User._id)}>
+        onClick={()=>customerEditLink(User.id)}>
         {/* Id */}
         <p className="m-0">{User.webId + 1}</p>
         
@@ -91,10 +91,10 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         {['customer', 'portfolio history wedding'].includes(userType) &&
           <p className="py-3 m-0 text-start">
             <span className="fw-bold">Event date: </span>
-            {User.date.date != null ?
+            {User.dateShow.date != null ?
               <span className="text-theme-1">
-                {User.date.dateShow}
-                ({User.date.passed})
+                {User.dateShow.date}
+                ({User.dateShow.passed})
               </span>
               :
               <i className="icon-calendar-plus-o text-custom"></i>
@@ -105,10 +105,10 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         {/* Expiry date */}
         <p className="text-start">
           <span className="fw-bold">Expiration date: </span>
-          {User.date.expiryDate != null ?
+          {User.dateShow.expiryDate != null ?
             <span className="text-theme-1">
-              {User.date.expiryDateShow}
-              ({User.date.passedEnd})
+              {User.dateShow.expiryDate}
+              ({User.dateShow.passedEnd})
             </span>
             :
             <i className="icon-calendar-plus-o text-custom"></i>
@@ -119,7 +119,7 @@ export default function TableRowMobile({ RowUser, userType }: Props) {
         {['customer', 'portfolio history wedding'].includes(userType) &&
           <button
             className="btn btn-sm w-100 px-4 py-2 my-2 fw-bold text-hover-theme"
-            onClick={(e)=>customerPreview(e, User._id)}>
+            onClick={(e)=>customerPreview(e, User.id)}>
             Preview
           </button>
         }

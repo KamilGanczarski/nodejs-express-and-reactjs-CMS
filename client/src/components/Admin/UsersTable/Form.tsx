@@ -4,6 +4,9 @@ import axios from 'axios';
 // Utils
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
+// Componenets
+import CustomInput from '../../CustomInput/CustomInput';
+
 type Props = {
   userType: string;
   fetchData: () => void;
@@ -19,17 +22,17 @@ export default function Form({ userType, fetchData }: Props) {
 
   const showEventDate = (): string => {
     if (userType === 'cooperator') {
-      return 'form-group col-sm-12 p-0 mb-4 form-group-custom d-none';
+      return 'col-sm-12 mb-4 d-none';
     } else {
-      return 'form-group col-sm-12 col-lg-6 p-0 p-0 pe-lg-3 mb-4 form-group-custom';
+      return 'col-sm-12 col-xl-6 mb-4 ps-1';
     }
   }
 
   const showExpiryDate = (): string => {
     if (userType === 'cooperator') {
-      return 'form-group col-sm-12 p-0 mb-4 form-group-custom';
+      return 'col-sm-12 mb-4';
     } else {
-      return 'form-group col-sm-12 col-lg-6 p-0 ps-lg-3 mb-4 form-group-custom';
+      return 'col-sm-12 col-xl-6 mb-4 pe-1';
     }
   }
 
@@ -98,92 +101,73 @@ export default function Form({ userType, fetchData }: Props) {
               onSubmit={onSubmitHandler}>
               {/* Login */}
               {!['portfolio history wedding'].includes(userType) &&
-                <div className="form-group w-100 px-0 mb-4 form-group-custom">
-                  <input
-                    type="text"
-                    id="login"
-                    name="login"
-                    placeholder=" "
+                <div className="w-100 px-0">
+                  <CustomInput
+                    type='text'
+                    name='login'
+                    label='Login'
                     value={login}
-                    onChange={(e)=>setLogin(e.target.value)}
-                    required
-                    className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
-                  <label className="form-label-custom ps-3" htmlFor="login">
-                    Login
-                    </label>
+                    setValue={setLogin}
+                    optional={false}
+                    disabled={false}
+                    pxLg='0' />
                 </div>
               }
 
               {/* Password */}
               {!['portfolio history wedding'].includes(userType) &&
-                <div className="form-group w-100 px-0 mb-4 form-group-custom">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder=" "
+                <div className="w-100 px-0">
+                  <CustomInput
+                    type='password'
+                    name='password'
+                    label='Password'
                     value={password}
-                    onChange={(e)=>setPassword(e.target.value)}
-                    required
-                    className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
-                  <label className="form-label-custom ps-3" htmlFor="password">
-                    Password
-                  </label>
+                    setValue={setPassword}
+                    optional={false}
+                    disabled={false}
+                    pxLg='0' />
                 </div>
               }
 
               {/* Event name */}
-              <div className="form-group w-100 px-0 mb-4 form-group-custom">
-                <input
-                  type="text"
-                  id="event_name"
-                  name="event_name"
-                  placeholder=" "
+              <div className="w-100 px-0 mb-3">
+                <CustomInput
+                  type='text'
+                  name='event'
+                  label='Event name'
                   value={event}
-                  onChange={(e)=>setEvent(e.target.value)}
-                  required
-                  className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
-                <label className="form-label-custom ps-3" htmlFor="event_name">
-                  Event name
-                </label>
+                  setValue={setEvent}
+                  optional={false}
+                  disabled={false}
+                  pxLg='0' />
               </div>
 
-              <div className="form-group w-100 px-0 row pb-4 mx-0 mb-0">
-                {/* Event date */}
-                <div className={showEventDate()}>
-                  <input
-                    type="date"
-                    id="event_date"
-                    name="event_date"
-                    placeholder=" "
-                    value={date}
-                    onChange={(e)=>setDate(e.target.value)}
-                    className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
-                  <label
-                    className="form-label-custom ps-3"
-                    htmlFor="event_date">
-                    Event date (optional)
-                  </label>
-                </div>
-
-                {/* Expiry date */}
-                <div className={showExpiryDate()}>
-                  <input
-                    type="date"
-                    id="expiry_date"
-                    name="expiry_date"
-                    placeholder=" "
-                    value={expiryDate}
-                    onChange={(e)=>setExpiryDate(e.target.value)}
-                    className="form-control-custom w-100 px-3 py-4 mt-3 text-theme" />
-                  <label
-                    className="form-label-custom ps-3"
-                    htmlFor="expiry_date">
-                    Expiration date (optional)
-                  </label>
-                </div>
+              {/* Event date */}
+              <div className={showEventDate()}>
+                <CustomInput
+                  type='date'
+                  name='event-date'
+                  label='Event date'
+                  value={date}
+                  setValue={setDate}
+                  optional={true}
+                  disabled={false}
+                  pxLg='0' />
               </div>
 
+              {/* Expiry date */}
+              <div className={showExpiryDate()}>
+                <CustomInput
+                  type='date'
+                  name='expiry-date'
+                  label='Expiration date'
+                  value={expiryDate}
+                  setValue={setExpiryDate}
+                  optional={true}
+                  disabled={false}
+                  pxLg='0' />
+              </div>
+    
               <input type="hidden" name="permission" value={userType} />
 
               <button

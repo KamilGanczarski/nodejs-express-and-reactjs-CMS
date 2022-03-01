@@ -5,7 +5,9 @@ const {
   generateHash,
   validPassword,
   createToken
-} = require('../utils');
+} = require('../utils/jwt');
+
+const { userQuery } = require('../utils/database');
 
 const login = async (req, res) => {
   const { login, password } = req.body;
@@ -17,34 +19,12 @@ const login = async (req, res) => {
 
   // Find user
   const user = await db.query(
-      `SELECT
-        users.id,
-        users.login,
-        users.event,
-        users.password,
-        users.passwordExpiryDate,
-        users.permission,
-        users.date,
-        users.expiryDate,
-        users.dir,
-        (
-          SELECT jsonb_agg(nested_roles)
-          FROM (
-            SELECT * FROM user_roles
-              WHERE user_roles.id = users.role_id
-          ) AS nested_roles
-        ) AS roles,
-        (
-          SELECT jsonb_agg(nested_contact)
-          FROM (
-            SELECT * FROM contract WHERE contract.user_id = users.id
-          ) AS nested_contact
-        ) AS contact
-      FROM users
-      INNER JOIN user_roles ON (user_roles.id = users.role_id)
-      INNER JOIN contract ON (contract.user_id = users.id)
-      WHERE users.login = $1`,
-      [login])
+      userQuery({
+        userCondition: 'WHERE users.login = $1', 
+        password: true
+      }),
+      [login]
+    )
     .then((result) => result[0])
     .catch((err) => {
       throw new CustomError.UnauthenticatedError('Invalid Credentials');
@@ -73,12 +53,13 @@ const checkValidToken = (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-  const { userId, login, password } = req.body;
+  const { login, password } = req.body;
 
   // Check for login and password
-  if (!userId || !login || !password) {
+  if (!login || !password) {
     throw new CustomError.BadRequestError('Please provide login and password')
   }
+  const userId = req.user.userId;
 
   // Find user
   const user = await db.query('SELECT * FROM users WHERE id = $1', [userId])
@@ -114,35 +95,10 @@ const changePassword = async (req, res) => {
 
   // Find user
   const newUser = await db.query(
-      `SELECT
-        users.id,
-        users.login,
-        users.event,
-        users.passwordExpiryDate,
-        users.permission,
-        users.date,
-        users.expiryDate,
-        users.dir,
-        (
-          SELECT jsonb_agg(nested_roles)
-          FROM (
-            SELECT * FROM user_roles
-              WHERE user_roles.id = users.role_id
-          ) AS nested_roles
-        ) AS roles,
-        (
-          SELECT jsonb_agg(nested_contact)
-          FROM (
-            SELECT * FROM contract WHERE contract.user_id = users.id
-          ) AS nested_contact
-        ) AS contact
-      FROM users
-      INNER JOIN user_roles ON (user_roles.id = users.role_id)
-      INNER JOIN contract ON (contract.user_id = users.id)
-      WHERE users.id = $1`,
+      userQuery({ userCondition: 'WHERE users.id = $1' }),
       [userId]
     )
-    .then((result) => result[0].row_to_json)
+    .then((result) => result[0])
     .catch((err) => {
       throw new CustomError.UnauthenticatedError('Invalid Credentials');
     });

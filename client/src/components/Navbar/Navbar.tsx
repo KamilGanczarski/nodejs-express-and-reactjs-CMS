@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
   Link,
   BrowserRouter as Router,
-  useLocation
+  useLocation,
+  useParams
 } from 'react-router-dom';
 
 // Components
@@ -17,7 +18,7 @@ import { scrollTo } from './ScrollTo'
 import './Navbar.scss'
 
 // Data and settings
-import { links, LinkType, settings, NavbarSettingsType } from './data';
+import { links, LinkType, settings } from './data';
 
 type Props = {};
 
@@ -34,10 +35,6 @@ export default function Navbar({}: Props) {
   let currentScrollPosition: number = 0; // Number to current position
   let prevScrollPosition: number = 0; // Number to previous position
   let scrollToTop: HTMLButtonElement; // Scroll to top button
-
-  const fetchData = async () => {
-    setButtons(links)
-  }
 
   /**
    * Scroll event handler to set navbar, scrollToTopBns hide or show
@@ -59,22 +56,26 @@ export default function Navbar({}: Props) {
       background = '#000000';
     }
     // Set variable color
-    let navbarFixedDOM = document.querySelector('.Navbar-fixed') as HTMLDivElement;
+    let navbarFixedDOM = document.querySelector(
+      '.Navbar-fixed'
+    ) as HTMLDivElement;
     navbarFixedDOM.style.setProperty('--navbar-shadow', background);
   }
 
   const adjustNavbarColor = () => {
     // Change color when navabr position is 0
     if (currentScrollPosition === 0 && position0) {
-        let navbarContentDOM = document.querySelector('#main-navbar-content') as HTMLDivElement;
-        if (!navbarContentDOM.classList.contains('show')) {
-          changeNavBackground(color0);
-        }
+      let navbarContentDOM = document.querySelector(
+        '#main-navbar-content'
+      ) as HTMLDivElement;
+      if (!navbarContentDOM.classList.contains('show')) {
+        changeNavBackground(color0);
+      }
     } else{
-        // Change color when navabr position is below 0
-        if (otherPosition) {
-          changeNavBackground(color1);
-        }
+      // Change color when navabr position is below 0
+      if (otherPosition) {
+        changeNavBackground(color1);
+      }
     }
   }
 
@@ -82,7 +83,9 @@ export default function Navbar({}: Props) {
    * Adjust navbar position fixed to top or out of user view
    */
   const adjustNavbarPosition = () => {
-    let navbarFixedDOM = document.querySelector('.Navbar-fixed') as HTMLDivElement;
+    let navbarFixedDOM = document.querySelector(
+      '.Navbar-fixed'
+    ) as HTMLDivElement;
     // If scroll up
     if (prevScrollPosition > currentScrollPosition) {
       if (dynamic) {
@@ -102,7 +105,9 @@ export default function Navbar({}: Props) {
   const scrollToTopBtn = () => {
     // Check if already set
     if (!scrollToTop) {
-      scrollToTop = document.querySelectorAll('.scroll-to-top')[0] as HTMLButtonElement;
+      scrollToTop = document.querySelectorAll(
+        '.scroll-to-top'
+      )[0] as HTMLButtonElement;
     }
 
     // Show button
@@ -125,24 +130,30 @@ export default function Navbar({}: Props) {
     nativeDynamic = _dynamic;
   }
 
+  const includesWithStartWith = (arr: string[], url: string): boolean => {
+    const find = arr.find(element => url.startsWith(element));
+    return find ? true : false;
+  }
+
   const setNavbarSettings = () => {
     const url = window.location.pathname;
+
     // Static navbar and no transparent
-    if (settings.noDynamicAndNoTransparent.includes(url)) {
+    if (includesWithStartWith(settings.noDynamicAndNoTransparent, url)) {
       setSettings(false, true, false);
       adjustNavbarColor();
       return;
     }
 
     // Static navbar
-    if (settings.noDynamic.includes(url)) {
+    if (includesWithStartWith(settings.noDynamic, url)) {
       setSettings(true, false, false);
       adjustNavbarColor();
       return;
     }
 
     // No transparent
-    if (settings.noTransparent.includes(url)) {
+    if (includesWithStartWith(settings.noTransparent, url)) {
       setSettings(false, true, true);
       adjustNavbarColor();
       return;
@@ -163,7 +174,7 @@ export default function Navbar({}: Props) {
   usePageViews();
 
   useEffect(() => {
-    fetchData()
+    setButtons(links);
     setNavbarSettings();
 
     window.onscroll = () => {
@@ -222,14 +233,12 @@ export default function Navbar({}: Props) {
               return <Dropdown
                 key={btn.id}
                 label={btn.label}
-                subButtons={btn.subButtons}
-              />;
+                subButtons={btn.subButtons} />;
             }
             return <Button
               key={btn.id}
               link={btn.link}
-              label={btn.label}
-            />;
+              label={btn.label} />;
           })}
         </ul>
 
@@ -252,14 +261,12 @@ export default function Navbar({}: Props) {
               return <MobileDropdown
                 key={btn.id}
                 label={btn.label}
-                subButtons={btn.subButtons}
-              />;
+                subButtons={btn.subButtons} />;
             }
             return <MobileButton
               key={btn.id}
               link={btn.link}
-              label={btn.label}
-            />;
+              label={btn.label} />;
           })}
         </ul>
       </div>

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+// Utils
+import { fetchUsersParams } from '../../../utils/interfaces';
+
 // Import data
 import {
   ScopeBtnModel
@@ -8,6 +11,7 @@ import {
 type Props = {
   UsersLength: number;
   setCurrPage: (num: number) => void;
+  fetchData: ({}: fetchUsersParams) => void;
   tableRowsLimitBtn: ScopeBtnModel[];
   rowsPerPage: number;
   setRowsPerPage: (limit: number) => void;
@@ -17,6 +21,7 @@ type Props = {
 export default function ScopeBtn({
   UsersLength,
   setCurrPage,
+  fetchData,
   tableRowsLimitBtn,
   rowsPerPage,
   setRowsPerPage,
@@ -41,11 +46,12 @@ export default function ScopeBtn({
    * @param {Number} limit Count how many users on page
    * @param {Number} n Order number to point active tableRowsLimitBtn's element
    */
-  const changeUsersCountOnPage = (limit: number, n: number) => {
+  const changeUsersCountPerPage = (limit: number, n: number) => {
     setRowsPerPage(limit);
     tableRowsLimitBtn.forEach(obj => obj.active = '');
     tableRowsLimitBtn[n].active = 'active';
     createPaginationButtons(limit);
+    fetchData({ sort: '', filter: '', page: n, perPage: limit });
   }
 
   useEffect(() => {
@@ -70,7 +76,7 @@ export default function ScopeBtn({
             <button
               key={index}
               className={`w-100 btn px-0 py-1 rounded-0 text-center text-hover-theme ${btn.active}`}
-              onClick={()=>changeUsersCountOnPage(btn.value, index)}>
+              onClick={()=>changeUsersCountPerPage(btn.value, index)}>
               {btn.value}
             </button>
           )

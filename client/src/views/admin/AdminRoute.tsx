@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, useRouteMatch, Redirect } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import axios from 'axios';
 
 // Utils
@@ -23,28 +23,29 @@ type Props = {};
 export default function AdminRoute({}: Props) {
   const { path } = useRouteMatch();
   const [ isLoading, setIsLoading ] = useState(true);
-  const [ auth, setAuth ] = useState(false);
 
   const checkValidToken = async () => {
     // If token in local storage is set
-    if (!localStorage.token) return;
+    if (!localStorage.token) {
+      redirectTo('/login');
+    };
 
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
         const decodedToken: TokenModel = decodeToken(res.data.token);
         // Redirect to change-password if password expired
         if (decodedToken.user.changePassword) {
-          redirectTo('/change-password', `${decodedToken.user.login}`);
+          redirectTo('/change-password');
         // Redirect to login if user hasn't specyfic permissions
         } else if (!['admin'].includes(decodedToken.user.role)) {
           redirectTo('/login');
         }
-        setAuth(true);
-        setIsLoading(false);
       })
       .catch(error => {
-        setIsLoading(false);
+        redirectTo('/login');
       });
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -54,11 +55,6 @@ export default function AdminRoute({}: Props) {
 
   if (isLoading) {
     return <div>Loading...</div>;
-  }
-
-  // Redirect to login if no authorization
-  if (!auth) {
-    return <Redirect to='/login' />
   }
 
   return (

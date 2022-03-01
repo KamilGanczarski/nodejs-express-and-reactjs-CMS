@@ -10,7 +10,7 @@ export interface SortValueModel {
 export const SortValuesData: SortValueModel[] = [
   {
     id: 0,
-    value: "webId",
+    value: "userId",
     active: "down",
     name: "#"
   }, {
@@ -30,7 +30,7 @@ export const SortValuesData: SortValueModel[] = [
     name: "Date"
   }, {
     id: 4,
-    value: "expiry_date",
+    value: "expirydate",
     active: "no",
     name: "Expiration date"
   }
@@ -47,10 +47,10 @@ export let tableRowsLimitBtn: tableRowsLimitBtnModel[] = [
     active: ''
   }, {
     value: 5,
-    active: 'active'
+    active: ''
   }, {
     value: 10,
-    active: ''
+    active: 'active'
   }, {
     value: 20,
     active: ''

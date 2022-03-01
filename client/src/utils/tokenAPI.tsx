@@ -48,7 +48,7 @@ export const redirectIValidToken = async () => {
     const res: any = await checkValidToken();
     const decodedToken: TokenModel = decodeToken(res.data.token);
     if (decodedToken.user.changePassword) {
-      redirectTo('/change-password', `${decodedToken.user.login}`);
+      redirectTo('/change-password');
       return;
     }
     redirectAfterLogin(decodedToken.user.role);

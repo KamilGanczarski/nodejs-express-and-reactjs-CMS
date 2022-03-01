@@ -44,7 +44,6 @@ interface FileModel {
 // User interface connected with DateModel and RoleModel
 export interface UserFrontendModel {
   id: string;
-  webId: number;
   login: string;
   event: string;
   passwordexpirydate: string;
@@ -77,4 +76,11 @@ export interface PermissionModel {
   deleteValue: number;
   description: string;
   checked: boolean;
+}
+
+export type fetchUsersParams = {
+  sort: string,
+  filter: string,
+  page: number,
+  perPage: number
 }

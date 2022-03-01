@@ -24,9 +24,7 @@ export default function Dropdown({ label, icon, subButtons }: Props) {
         <span className="d-inline text-uppercase fw-bold">{label}</span>
         <i className="icon-right-open text-h5 m-0 collapse-icon-rotate ms-auto me-3"></i>
       </button>
-      <div
-        className="w-100 collapse collapse-slide-sidebar"
-        id={`collapse-area-${label}`}>
+      <div className="w-100 collapse" id={`collapse-area-${label}`}>
         {subButtons.map((subButton, index) => {
           return (
             <Link

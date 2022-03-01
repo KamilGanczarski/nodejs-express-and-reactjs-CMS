@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 
 // Utils
@@ -8,7 +7,9 @@ import { TokenModel } from '../utils/interfaces';
 import {
   baseUrl,
   axiosHeaders,
-  redirectAfterLogin
+  redirectAfterLogin,
+  getTokenDecoded,
+  redirectTo
 } from '../utils/tokenAPI';
 
 // Components
@@ -18,16 +19,22 @@ import CustomInput from '../components/CustomInput/CustomInput';
 import '../sassStyles/pages/login.scss';
 
 type Props = {}
-interface ChangePasswordParamsModel {
-  login: string;
-}
 
 export default function SetOwnPassword({}: Props) {
-  const params: ChangePasswordParamsModel = useParams();
-  const [ login, setLogin ] = useState(params.login);
+  const [ login, setLogin ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ repeatPassword, setRepeatPassword ] = useState('');
   const [ loginResponse, setLoginResponse ] = useState('');
+
+  const setLoginFromToken = () => {
+    const decodedToken: TokenModel = getTokenDecoded();
+    setLogin(decodedToken.user.login);
+
+    // Redirect if no need to change password
+    if (!decodedToken.user.changePassword) {
+      redirectTo('/login');
+    }
+  }
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -59,6 +66,10 @@ export default function SetOwnPassword({}: Props) {
         }
       });
   }
+
+  useEffect(() => {
+    setLoginFromToken();
+  }, []);
 
   return (
     <section className="w-100 prevent-user-select login-main">

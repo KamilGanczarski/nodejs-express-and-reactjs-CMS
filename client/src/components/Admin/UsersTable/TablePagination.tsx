@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Utils
+import { fetchUsersParams } from '../../../utils/interfaces';
+
 interface ScopeBtn {
   value: number;
   active: string;
@@ -8,6 +11,7 @@ interface ScopeBtn {
 type Props = {
   currPage: number;
   setCurrPage: (num: number) => void;
+  fetchData: ({}: fetchUsersParams) => void;
   paginationBtns: ScopeBtn[];
   setPaginationBtns: (btns: ScopeBtn[]) => void;
   paginationInput: string;
@@ -17,12 +21,13 @@ type Props = {
 export default function TablePagination({
   currPage,
   setCurrPage,
+  fetchData,
   paginationBtns,
   setPaginationBtns,
   paginationInput,
   setPaginationInput
 }: Props) {
-    /**
+  /**
    * @param {Number} n Number from 0 to paginationBtns.length - 1
    */
   const changePage = (n: number): void => {
@@ -33,12 +38,13 @@ export default function TablePagination({
         setPaginationInput('');
       }
 
-      setCurrPage(n);
       let newPaginationBtns = [...paginationBtns];
       newPaginationBtns.forEach((obj, i) => {
         obj.active = i === n ? 'active' : '';
       });
       setPaginationBtns(newPaginationBtns);
+      setCurrPage(n);
+      fetchData({ sort: '', filter: '', page: n, perPage: 0 });
     }
   }
 

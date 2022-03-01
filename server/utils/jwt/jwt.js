@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const createTokenUser = require('./createTokenUser');
 const {
   convertPermissionNumberToArray
-} = require('../controllers/api/permission');
-const { compareDates } = require('./date/index')
+} = require('../../controllers/api/permission');
+const { compareDates } = require('../date/index')
 
 const createJWT = ({ payload }) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {

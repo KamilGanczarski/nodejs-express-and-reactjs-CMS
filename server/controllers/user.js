@@ -7,7 +7,21 @@ const {
   permissionByRole,
   convertPermissionNumberToArray
 } = require('./api/permission');
-const { generateHash } = require('../utils');
+
+const { generateHash } = require('../utils/jwt');
+const {
+  userQuery,
+  operatorsMap,
+  filterUserOptions,
+  setFilterQuery,
+  sortUserOptions,
+  setSortQuery,
+  setPagination
+} = require('../utils/database');
+
+const addToQuery = (field, count) => {
+  return `${count > 1 ? ',' : ''} ${field} = $${count}`;
+}
 
 /**
  * Get user by id
@@ -18,32 +32,7 @@ const getUser = async (req, res) => {
 
   // Fetch user
   let user = await db.query(
-      `SELECT
-        users.id,
-        users.login,
-        users.event,
-        users.passwordExpiryDate,
-        users.permission,
-        users.date,
-        users.expiryDate,
-        users.dir,
-        (
-          SELECT jsonb_agg(nested_roles)
-          FROM (
-            SELECT * FROM user_roles
-              WHERE user_roles.id = users.role_id
-          ) AS nested_roles
-        ) AS roles,
-        (
-          SELECT jsonb_agg(nested_contact)
-          FROM (
-            SELECT * FROM contract WHERE contract.user_id = users.id
-          ) AS nested_contact
-        ) AS contact
-      FROM users
-      INNER JOIN user_roles ON (user_roles.id = users.role_id)
-      INNER JOIN contract ON (contract.user_id = users.id)
-      WHERE users.id = $1`,
+      userQuery({ userCondition: 'WHERE users.id = $1' }),
       [id]
     )
     .then((result) => {
@@ -65,62 +54,78 @@ const getUser = async (req, res) => {
  * Get users by rol or without it get all
  */
 const getAllUsers = async (req, res) => {
-  const { role } = req.query;
-  
-  let roleQuery = '';
-  let roleParams = [];
-  if (role) {
-    roleQuery = ` AND user_roles.value = $1`;
-    roleParams.push(role);
+  const { perPage, page, sort, filter } = req.query;
+
+  // Set default rows per page
+  const perPageReq = perPage ? parseInt(perPage) : 10;
+  const pageReq = page ? parseInt(page) : 0;
+  const pagination = setPagination(perPageReq, pageReq);
+
+
+  let query = {
+    filter: {
+      users: '',
+      user_roles: '',
+      contract: ''
+    },
+    sort: '',
+    params: []
+  };
+
+  // Filter
+  if (filter) {
+    const numericFiltersReq = filter.split(",");
+    query = setFilterQuery(
+      numericFiltersReq,
+      operatorsMap,
+      filterUserOptions,
+      query
+    );
+  }
+
+  // Sort
+  if (sort) {
+    const sortReq = sort.split(",");
+    query = setSortQuery(sortReq, sortUserOptions, query);
   }
 
   // Fetch user
   let users = await db.query(
-      `SELECT
-          users.id,
-          users.login,
-          users.event,
-          users.passwordExpiryDate,
-          users.permission,
-          users.date,
-          users.expiryDate,
-          users.dir,
-          (
-            SELECT jsonb_agg(nested_roles)
-            FROM (
-              SELECT * FROM user_roles
-                WHERE user_roles.id = users.role_id ${roleQuery}
-            ) AS nested_roles
-          ) AS roles,
-          (
-            SELECT jsonb_agg(nested_contact)
-            FROM (
-              SELECT * FROM contract WHERE contract.user_id = users.id
-            ) AS nested_contact
-          ) AS contact
-        FROM users
-        INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleQuery}
-        INNER JOIN contract ON (contract.user_id = users.id)`,
-      roleParams
+      userQuery({
+        userCondition: query.filter.users,
+        roleCondition: query.filter.user_roles,
+        contractCondition: query.filter.contract,
+        sort: query.sort,
+        pagination: pagination
+      }),
+      query.params
     )
-    .then((users) => {
-      if (users.length > 0) {
-        return users;
-      } else {
-        throw new CustomError.BadRequestError(
-          `No users with this role: ${role}`
-        );
-      }
-    })
+    .then((users) => users)
     .catch((err) => {
-      throw new CustomError.BadRequestError(`No users with this role: ${role}`);
+      console.log(err)
+      throw new CustomError.BadRequestError(`No users with this role: ${page}`);
     });
-  
+
   for (const user of users) {
     user.permissions = await convertPermissionNumberToArray(user.permission);
   }
 
-  res.status(StatusCodes.OK).send({ users });
+  const tableCount = await db.query("SELECT COUNT(*) FROM Users;", [])
+    .then(users => users)
+    .catch(err => {
+      throw new CustomError.BadRequestError('No users');
+    });
+
+    perPageReq
+    pageReq
+
+  res.status(StatusCodes.OK).send({
+    users, // Main data
+    tableCount: tableCount[0].count, // Count of rows in users table
+    // TableCount devided by rows per page
+    pages: Math.ceil(tableCount[0].count / perPageReq),
+    currentPage: pageReq // Current page
+  });
 }
 
 /**
@@ -254,26 +259,22 @@ const updateUser = async (req, res) => {
   let updateParamsSigns = '';
   let updateParams = [];
 
-  const addToQuery = (field, count) => {
-    return `${count > 1 ? ',' : ''} ${field} = $${count}`;
-  }
-
   // Set new values
   if (login) {
-    updateQuery += addToQuery('login', updateParams.length + 1);
     updateParams.push(login);
+    updateQuery += addToQuery('login', updateParams.length);
   }
 
   if (event) {
-    updateQuery += addToQuery('event', updateParams.length + 1);
     updateParams.push(event);
+    updateQuery += addToQuery('event', updateParams.length);
   }
 
   // Check if password is set
   if (newPassword) {
     let hashPassword = generateHash(newPassword);
-    updateQuery += addToQuery('password', updateParams.length + 1);
     updateParams.push(hashPassword);
+    updateQuery += addToQuery('password', updateParams.length);
   }
 
 
@@ -296,18 +297,18 @@ const updateUser = async (req, res) => {
       }
 
       // Set new values
-      updateQuery += addToQuery('role_id', updateParams.length + 1);
       updateParams.push(roleRecord.id);
+      updateQuery += addToQuery('role_id', updateParams.length);
     }
 
     // Update calendar
     if (date) {
-      updateQuery += addToQuery('date', updateParams.length + 1);
       updateParams.push(new Date(date.replace(' ', 'T')));
+      updateQuery += addToQuery('date', updateParams.length);
     }
     if (expiryDate) {
-      updateQuery += addToQuery('expiryDate', updateParams.length + 1);
       updateParams.push(new Date(expiryDate.replace(' ', 'T')));
+      updateQuery += addToQuery('expiryDate', updateParams.length);
     }
   }
 

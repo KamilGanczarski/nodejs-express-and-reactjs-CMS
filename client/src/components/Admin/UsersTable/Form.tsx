@@ -3,13 +3,14 @@ import axios from 'axios';
 
 // Utils
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { fetchUsersParams } from '../../../utils/interfaces';
 
 // Componenets
 import CustomInput from '../../CustomInput/CustomInput';
 
 type Props = {
   userType: string;
-  fetchData: () => void;
+  fetchData: ({}: fetchUsersParams) => void;
 };
 
 export default function Form({ userType, fetchData }: Props) {
@@ -48,7 +49,7 @@ export default function Form({ userType, fetchData }: Props) {
       }, axiosHeaders)
       .then((response) => {
         console.log(response);
-        fetchData();
+        fetchData({ sort: '', filter: '', page: 0, perPage: 0 });
       })
       .catch(error => {
         if (error.response.data.msg) {

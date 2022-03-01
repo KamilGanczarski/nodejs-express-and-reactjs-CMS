@@ -1,11 +1,14 @@
 const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
-const { attachCookiesToResponse, createTokenUser } = require('../utils');
+
 const {
   fetchPermissionValue,
   checkPermission
 } = require('./api/permission');
+
+const { attachCookiesToResponse, createTokenUser } = require('../utils/jwt');
+const { userQuery } = require('../utils/database');
 
 const getAllPermissions = async (req, res) => {
   const permissions = await db.query(`SELECT * FROM permissions`, [])
@@ -45,32 +48,7 @@ const managePermissionToUser = async (req, res) => {
 
   // Find user
   const user = await db.query(
-      `SELECT
-        users.id,
-        users.login,
-        users.event,
-        users.passwordExpiryDate,
-        users.permission,
-        users.date,
-        users.expiryDate,
-        users.dir,
-        (
-          SELECT jsonb_agg(nested_roles)
-          FROM (
-            SELECT * FROM user_roles
-              WHERE user_roles.id = users.role_id
-          ) AS nested_roles
-        ) AS roles,
-        (
-          SELECT jsonb_agg(nested_contact)
-          FROM (
-            SELECT * FROM contract WHERE contract.user_id = users.id
-          ) AS nested_contact
-        ) AS contact
-      FROM users
-      INNER JOIN user_roles ON (user_roles.id = users.role_id)
-      INNER JOIN contract ON (contract.user_id = users.id)
-      WHERE users.id = $1`,
+      userQuery({ userCondition: 'WHERE users.id = $1' }),
       [userId]
     )
     .then((users) => {
@@ -112,9 +90,7 @@ const managePermissionToUser = async (req, res) => {
       throw new CustomError.BadRequestError("Permission hasn't been changed");
     });
 
-  const tokenUser = createTokenUser(user);
-  const token = attachCookiesToResponse({ res, user: { ...tokenUser } });
-  res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
+  res.status(StatusCodes.OK).json({ msg: "You've updated user's permission" });
 }
 
 const deletePermission = async (req, res) => {

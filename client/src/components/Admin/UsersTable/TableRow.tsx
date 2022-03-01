@@ -64,7 +64,7 @@ export default function TableRow({ RowUser, userType }: Props) {
     <tr className="border-top table-row">
       {/* Id */}
       <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
-        {User.webId + 1}
+        {User.id}
       </td>
 
       {/* Photo and login */}
@@ -131,9 +131,9 @@ export default function TableRow({ RowUser, userType }: Props) {
       <td
         className="btn-sm transition-effect td-no-hover bottom-rotate collapsed"
         data-bs-toggle="collapse"
-        data-bs-target={`#table-collape-${User.webId}`}
+        data-bs-target={`#table-collape-${User.id}`}
         aria-expanded="false"
-        aria-controls={`table-collape-${User.webId}`}
+        aria-controls={`table-collape-${User.id}`}
         onMouseOver={(e)=>hoverRow(e)}>
         <button className="btn text-hover-theme collapse-icon-rotate">
           <i className="icon-down-open text-custom"></i>

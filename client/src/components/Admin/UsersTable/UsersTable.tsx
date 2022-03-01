@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { UserFrontendModel } from '../../../utils/interfaces';
+import { UserFrontendModel, fetchUsersParams } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
@@ -31,42 +31,20 @@ type Props = {
 };
 
 export default function UsersTable({ userType }: Props) {
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [prevSort, setPrevSort] = useState('webId');
+  const [prevSort, setPrevSort] = useState('userId');
   const [Users, setUsers] = useState<UserFrontendModel[]>([]);
-  const [UsersTable, setUsersTable] = useState<UserFrontendModel[]>([]);
   const [SortValues, setSortValues] = useState<SortValueModel[]>([]);
+
+  // Filters and sort
+  const [sortParams, setSortParams] = useState<string>('');
+  const [filterParams, setFilterParams] = useState<string>('');
 
   // Pagination
   const [currPage, setCurrPage] = useState(0);
   const [paginationBtns, setPaginationBtns] = useState<ScopeBtnModel[]>([]);
   const [paginationInput, setPaginationInput] = useState('');
-
-  /**
-   * Event date sort
-   * @param {Object} a Object to sort 
-   * @param {Object} b Object to sort
-   * @param {String} sort What is sorted by 
-   * @param {Boolean} reverse Descending or ascending order
-   * @returns {Boolean} Compared values
-   */
-  const eventDateSort = (
-    a: any,
-    b: any,
-    sort: string,
-    reverse: boolean = false
-  ): number => {
-    // Check the same values
-    if (a[sort][sort] === b[sort][sort]) return 0;
-
-    // nulls sort after anything else
-    else if (a[sort][sort] === null) return 1;
-    else if (b[sort][sort] === null) return -1;
-
-    // Standard sort
-    if (reverse) return b[sort][sort] > a[sort][sort] ? 1 : -1;
-    else return a[sort][sort] > b[sort][sort] ? 1 : -1;
-  }
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [usersTotalLength, setUsersTotalLength] = useState(0);
 
   /**
    * Sort Users table be each value from SortValues
@@ -74,25 +52,13 @@ export default function UsersTable({ userType }: Props) {
    * @param {Number} n Index of object - SortValues
    * @param {Boolean} reverse Descending or ascending order
    */
-   const sortUsers = (property: string, n: number, reverse: boolean = false):void => {
+   const sortUsers = (value: string, n: number, reverse: boolean = false):void => {
     let active: acriveEnum = 'up';
-    let NewUsersTable: UserFrontendModel[] = [...UsersTable];
-    if (property === prevSort && SortValues[n].active === 'down' || reverse) {
-      NewUsersTable.sort((a: any, b: any): number => {
-        // Event date sort
-        if (property === 'date') return eventDateSort(a, b, property, true);
-
-        // Other values
-        return b[property] > a[property] ? 1 : -1;
-      });
+    if (value === prevSort && SortValues[n].active === 'down' || reverse) {
+      value = `${value} DESC`;
+      setSortParams(`${value}`);
     } else {
-      NewUsersTable.sort((a: any, b: any): number => {
-        // Event date sort
-        if (property === 'date') return eventDateSort(a, b, property);
-
-        // Other values
-        return a[property] > b[property] ? 1 : -1;
-      });
+      setSortParams(`${value}`);
       active = 'down';
     }
 
@@ -101,23 +67,33 @@ export default function UsersTable({ userType }: Props) {
     NewSortValues.forEach(obj => obj.active = 'no');
     NewSortValues[n].active = active;
 
-    setUsersTable(NewUsersTable);
-    setPrevSort(property);
+    setPrevSort(value);
     setSortValues(NewSortValues);
+    fetchData({ sort: value, filter: '', page: 0, perPage: 0 });
   }
 
-  const fetchData = async () => {
+  const fetchData = async ({
+    sort = '',
+    filter = '',
+    page = 0,
+    perPage = 0
+  }: fetchUsersParams) => {
+    // If params isn't set get values from useState
+    sort = sort ? sort : sortParams;
+    filter = filter ? filter : filterParams;
+    perPage = perPage ? perPage : rowsPerPage;
+
     // If token in local storage is set
     if (!localStorage.token) return;
 
     try {
       const res = await axios.get(`${baseUrl}/api/v1/users`, {
-        params: { role: userType },
+        params: { role: userType, page, perPage, sort, filter },
         headers: axiosHeaders.headers
       });
       let newUsers: any[] = res.data.users;
+      setUsersTotalLength(res.data.tableCount);
       newUsers.map((User, id) => {
-        User.webId = id;
         // Temporary
         User.files = [];
         // Prepare date
@@ -125,26 +101,15 @@ export default function UsersTable({ userType }: Props) {
       });
 
       setUsers(newUsers);
-      setUsersTable(newUsers);
     } catch (error) {
       setUsers([]);
       // console.log(error);
     }
   }
 
-  /**
-   * Show Users from (currPage * rowsPerPage) to next x-th user  
-   * @returns Array of object Users
-   */
-  const showTable = () => {
-    let arrayBegin = currPage * rowsPerPage;
-    let arrayEnd = arrayBegin + rowsPerPage;
-    return UsersTable.slice(arrayBegin, arrayEnd);
-  }
-
   useEffect(() => {
-    fetchData()
-    setSortValues(SortValuesData)
+    fetchData({ sort: '', filter: '', page: 0, perPage: 0 });
+    setSortValues(SortValuesData);
   }, []);
 
   return (
@@ -167,8 +132,9 @@ export default function UsersTable({ userType }: Props) {
 
             {/* Set tables scope */}
             <ScopeBtn
-              UsersLength={Users.length}
+              UsersLength={usersTotalLength}
               setCurrPage={setCurrPage}
+              fetchData={fetchData}
               tableRowsLimitBtn={tableRowsLimitBtn}
               rowsPerPage={rowsPerPage}
               setRowsPerPage={setRowsPerPage}
@@ -212,14 +178,14 @@ export default function UsersTable({ userType }: Props) {
               </tr>
             </thead>
             <tbody>
-              {UsersTable.length > 0 ?
+              {Users.length > 0 ?
                 // Rows with content
-                showTable().map((User, index) => {
+                Users.map((User, index) => {
                   return [
                     <TableRow key={index} RowUser={User} userType={userType} />,
                     <CollapseTableRow
                       key={`collapse-${index}`}
-                      webId={User.webId}
+                      userId={User.id}
                       login={User.login} />
                   ]
                 })
@@ -245,15 +211,15 @@ export default function UsersTable({ userType }: Props) {
               </tr>
             </thead>
             <tbody>
-              {UsersTable.length > 0 ?
+              {Users.length > 0 ?
                 // Rows with content
-                showTable().map((User, index) => {
-                  return [
+                Users.map((User, index) => {
+                  return (
                     <TableRowMobile
                       key={index}
                       RowUser={User}
-                      userType={userType} />,
-                  ]
+                      userType={userType} />
+                  )
                 })
                 :
                 // No content
@@ -269,11 +235,14 @@ export default function UsersTable({ userType }: Props) {
       </article>
 
       {/* Form */}
-      <Form userType={userType} fetchData={fetchData} />
+      <Form
+        userType={userType}
+        fetchData={fetchData} />
 
       <TablePagination
         currPage={currPage}
         setCurrPage={setCurrPage}
+        fetchData={fetchData}
         paginationBtns={paginationBtns}
         setPaginationBtns={setPaginationBtns}
         paginationInput={paginationInput}

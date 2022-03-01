@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -19,7 +19,7 @@ export default function Dropdown({ label, subButtons }: Props) {
           id="dropdown-menu-0"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <span>{label}</span>
+          <span>{label} <i className="icon-down-open"></i></span>
           <div></div>
         </button>
         <div

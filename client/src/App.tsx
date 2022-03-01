@@ -44,7 +44,7 @@ function App() {
           {/* Change password after first login page */}
           <Route
             exact
-            path={`/change-password/:login`}
+            path={`/change-password`}
             component={SetOwnPassword} />
 
           {/* AdminRoute */}

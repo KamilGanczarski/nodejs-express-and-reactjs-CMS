@@ -14,7 +14,7 @@ export default function Preloader({}: Props) {
 
   useEffect(() => {
     loadPreloaderEvent()
-  });
+  }, []);
 
   return (
     <div id="preloader" className="preloader"></div>

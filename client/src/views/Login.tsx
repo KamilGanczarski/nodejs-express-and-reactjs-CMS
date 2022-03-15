@@ -12,7 +12,7 @@ import {
 } from '../utils/tokenAPI';
 
 // Components
-import CustomInput from '../components/CustomInput/CustomInput';
+import CustomInput from '../components/CustomElements/CustomInput';
 
 // Style
 import '../sassStyles/pages/login.scss';

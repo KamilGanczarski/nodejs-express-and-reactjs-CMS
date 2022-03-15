@@ -16,6 +16,7 @@ import Home from './Home';
 import Cooperators from './Cooperators';
 import Customers from './Customers';
 import EditUser from './EditUser';
+import Calendar from './Calendar';
 import Error from '../../views/Error';
 
 type Props = {};
@@ -28,7 +29,7 @@ export default function AdminRoute({}: Props) {
     // If token in local storage is set
     if (!localStorage.token) {
       redirectTo('/login');
-    };
+    }
 
     await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
@@ -54,7 +55,7 @@ export default function AdminRoute({}: Props) {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   return (
@@ -73,6 +74,9 @@ export default function AdminRoute({}: Props) {
 
       {/* Edit user with id (admin / cooperator) */}
       <Route exact path={`${path}/edit-user/:propsUserId`} component={EditUser} />
+
+      {/* Edit user with id (admin / cooperator) */}
+      <Route exact path={`${path}/calendar`} component={Calendar} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

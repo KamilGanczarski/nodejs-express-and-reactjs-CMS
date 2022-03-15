@@ -84,3 +84,18 @@ export type fetchUsersParams = {
   page: number,
   perPage: number
 }
+
+export interface ScopeBtnModel {
+  value: number;
+  active: string;
+}
+
+export type acriveEnum = 'down' | 'up' | 'no';
+
+export interface SortValueModel {
+  id: number;
+  value: string;
+  active: acriveEnum;
+  name: string;
+  sortable: boolean;
+}

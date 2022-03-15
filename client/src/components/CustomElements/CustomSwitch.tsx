@@ -4,14 +4,14 @@ type Props = {
   name: string;
   description: string;
   checked: boolean;
-  changePermission: (name: string, checked: boolean) => any;
-}
+  changeValue: (name: string, checked: boolean) => any;
+};
 
-export default function Switch({
+export default function CustomSwitch({
   name,
   description,
   checked,
-  changePermission
+  changeValue
 }: Props) {
   return (
     <div v-for="Permission in Permissions_view"
@@ -20,7 +20,7 @@ export default function Switch({
       <label className="switch switch-normal w-auto m-0">
         <input
           type="checkbox"
-          onChange={(e)=>changePermission(name, e.target.checked)}
+          onChange={(e)=>changeValue(name, e.target.checked)}
           checked={checked} />
         <small></small>
       </label>

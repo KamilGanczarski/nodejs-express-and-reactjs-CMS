@@ -4,7 +4,7 @@ import React from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import UsersTable from '../../components/Admin/UsersTable/UsersTable';
 
-type Props = {}
+type Props = {};
 
 export default function Customers({}: Props) {
   return (

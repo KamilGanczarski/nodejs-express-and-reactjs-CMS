@@ -3,7 +3,8 @@ INSERT INTO user_roles VALUES
   (1, 'admin'),
   (2, 'cooperator'),
   (3, 'user'),
-  (4, 'customer');
+  (4, 'customer'),
+  (5, 'event');
 
 -- users
 INSERT INTO users (
@@ -50,11 +51,28 @@ INSERT INTO permissions (name, value, deleteValue, description) VALUES
 INSERT INTO variables (property, value) VALUES
   ('directory key', '00000000');
 
+-- variables
+INSERT INTO subsite_roles VALUES
+  (1, 'subsite'),
+  (2, 'offer'),
+  (3, 'portfolio'),
+  (4, 'portfolio history wedding'),
+  (5, 'blog');
+
+
 SELECT * FROM user_roles;
 SELECT * FROM users;
 SELECT * FROM contract;
 SELECT * FROM permissions;
 SELECT * FROM variables;
+
+SELECT * FROM subsites;
+SELECT * FROM components;
+SELECT * FROM subsite_components;
+SELECT * FROM file_status;
+SELECT * FROM file_info;
+SELECT * FROM content;
+SELECT * FROM newsletter;
 
 -- SELECT row_to_json(r, true)
 --   FROM (
@@ -123,11 +141,11 @@ SELECT * FROM variables;
 --     ) AS nested_roles
 --   ) AS roles,
 --   (
---     SELECT jsonb_agg(nested_contact)
+--     SELECT jsonb_agg(nested_contract)
 --     FROM (
 --       SELECT * FROM contract WHERE contract.user_id = users.id
---     ) AS nested_contact
---   ) AS contact
+--     ) AS nested_contract
+--   ) AS contract
 -- FROM users
 -- INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleQuery}
--- INNER JOIN contract ON (contract.user_id = users.id)
+-- INNER JOIN contract ON (contract.user_id = users.id);

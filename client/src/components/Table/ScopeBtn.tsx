@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 // Utils
-import { fetchUsersParams } from '../../../utils/interfaces';
+import { fetchUsersParams, ScopeBtnModel } from '../../utils/interfaces';
 
 // Import data
-import {
-  ScopeBtnModel
-} from './data.js'
+import { tableRowsLimitBtn } from './data'
 
 type Props = {
   UsersLength: number;
   setCurrPage: (num: number) => void;
   fetchData: ({}: fetchUsersParams) => void;
-  tableRowsLimitBtn: ScopeBtnModel[];
   rowsPerPage: number;
   setRowsPerPage: (limit: number) => void;
   setPaginationBtns: (buttons: ScopeBtnModel[]) => void;
@@ -22,7 +19,6 @@ export default function ScopeBtn({
   UsersLength,
   setCurrPage,
   fetchData,
-  tableRowsLimitBtn,
   rowsPerPage,
   setRowsPerPage,
   setPaginationBtns
@@ -51,7 +47,8 @@ export default function ScopeBtn({
     tableRowsLimitBtn.forEach(obj => obj.active = '');
     tableRowsLimitBtn[n].active = 'active';
     createPaginationButtons(limit);
-    fetchData({ sort: '', filter: '', page: n, perPage: limit });
+    setCurrPage(0);
+    fetchData({ sort: '', filter: '', page: 0, perPage: limit });
   }
 
   useEffect(() => {

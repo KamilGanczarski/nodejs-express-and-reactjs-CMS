@@ -82,7 +82,7 @@ const getAllUsers = async (req, res) => {
       query
     );
   }
-
+console.log(query.filter.user_roles)
   // Sort
   if (sort) {
     const sortReq = sort.split(",");
@@ -213,7 +213,7 @@ const createUser = async (req, res) => {
   )
   .then((result) => result)
   .catch((err) => {
-    throw new CustomError.BadRequestError("New contact hasn't been created");
+    throw new CustomError.BadRequestError("New contract hasn't been created");
   });
 
   res.status(StatusCodes.OK).send({ id: newUserId[0].id });
@@ -345,7 +345,7 @@ const deleteUser = async (req, res) => {
       throw new CustomError.NotFoundError(`No user with id: ${id}`);
     });
 
-  // Remove contact
+  // Remove contract
   await db.query(`DELETE FROM contract WHERE user_id = $1`, [id])
     .then((result) => result)
     .catch((err) => {

@@ -9,7 +9,7 @@ type Props = {
   optional: boolean;
   disabled: boolean;
   pxLg: string;
-}
+};
 
 export default function CustomInput({
   type,

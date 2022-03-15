@@ -13,12 +13,12 @@ import {
 } from '../utils/tokenAPI';
 
 // Components
-import CustomInput from '../components/CustomInput/CustomInput';
+import CustomInput from '../components/CustomElements/CustomInput';
 
 // Style
 import '../sassStyles/pages/login.scss';
 
-type Props = {}
+type Props = {};
 
 export default function SetOwnPassword({}: Props) {
   const [ login, setLogin ] = useState('');

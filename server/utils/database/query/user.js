@@ -6,7 +6,6 @@ const userQuery = ({
   pagination = '',
   password = false
 }) => {
-  console.log(userCondition)
   return `SELECT
     users.id,
     users.login,
@@ -25,11 +24,11 @@ const userQuery = ({
       ) AS nested_roles
     ) AS roles,
     (
-      SELECT jsonb_agg(nested_contact)
+      SELECT jsonb_agg(nested_contract)
       FROM (
         SELECT * FROM contract WHERE contract.user_id = users.id
-      ) AS nested_contact ${contractCondition}
-    ) AS contact
+      ) AS nested_contract ${contractCondition}
+    ) AS contract
   FROM users
   INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleCondition}
   INNER JOIN contract ON (contract.user_id = users.id) ${contractCondition}

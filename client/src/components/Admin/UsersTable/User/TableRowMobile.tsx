@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Utils
-import { UserFrontendModel } from '../../../utils/interfaces';
+import { UserFrontendModel } from '../../../../utils/interfaces';
 
 type Props = {
   RowUser: UserFrontendModel;
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function TableRowMobile({ RowUser, userType }: Props) {
-  const [User, setUser] = useState<UserFrontendModel>()
+  const [ User, setUser ] = useState<UserFrontendModel>();
 
   /**
    * Relocate to preview

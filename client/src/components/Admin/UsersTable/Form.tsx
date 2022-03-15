@@ -6,7 +6,9 @@ import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 import { fetchUsersParams } from '../../../utils/interfaces';
 
 // Componenets
-import CustomInput from '../../CustomInput/CustomInput';
+import CustomInput from '../../CustomElements/CustomInput';
+import CustomInputNumber from '../../CustomElements/CustomInputNumber';
+import CustomSwitch from '../../CustomElements/CustomSwitch';
 
 type Props = {
   userType: string;
@@ -20,31 +22,39 @@ export default function Form({ userType, fetchData }: Props) {
   const [ event, setEvent ] = useState('');
   const [ date, setDate ] = useState('');
   const [ expiryDate, setExpiryDate ] = useState('');
+  const [ contract, setContract ] = useState(false);
+  const [ price, setPrice ] = useState(0);
+  const [ advance, setAdvance ] = useState(0);
+  const [ howMuchPaid, setHowMuchPaid ] = useState(0);
 
   const showEventDate = (): string => {
-    if (userType === 'cooperator') {
-      return 'col-sm-12 mb-4 d-none';
-    } else {
+    if (['customer', 'event'].includes(userType)) {
       return 'col-sm-12 col-xl-6 mb-4 ps-1';
+    } else {
+      return 'col-sm-12 mb-4 d-none';
     }
   }
 
   const showExpiryDate = (): string => {
-    if (userType === 'cooperator') {
-      return 'col-sm-12 mb-4';
-    } else {
+    if (['customer', 'event'].includes(userType)) {
       return 'col-sm-12 col-xl-6 mb-4 pe-1';
+    } else {
+      return 'col-sm-12 mb-4';
     }
   }
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios.post(`${baseUrl}/api/v1/users`, {
-        login: login,
-        password: password,
-        event: event,
-        date: date,
-        expiryDate: expiryDate,
+        login,
+        password,
+        event,
+        date,
+        expiryDate,
+        contract,
+        price,
+        advance,
+        howMuchPaid,
         role: userType
       }, axiosHeaders)
       .then((response) => {
@@ -65,6 +75,10 @@ export default function Form({ userType, fetchData }: Props) {
       setLogin(userType);
       setPassword('*');
     }
+  }
+
+  const changeContractBool = (name: string, checked: boolean) => {
+    setContract(checked);
   }
 
   useEffect(() => {
@@ -169,6 +183,52 @@ export default function Form({ userType, fetchData }: Props) {
                   pxLg='0' />
               </div>
     
+              {/* Contract */}
+              <CustomSwitch
+                name='contract'
+                description='Contract'
+                checked={contract}
+                changeValue={changeContractBool} />
+
+              {/* Price */}
+              <div className="w-100 px-0 mb-3">
+                <CustomInputNumber
+                  type='text'
+                  name='price'
+                  label='Price'
+                  value={price}
+                  setValue={setPrice}
+                  optional={false}
+                  disabled={false}
+                  pxLg='0' />
+              </div>
+
+              {/* Down payment */}
+              <div className="w-100 px-0 mb-3">
+                <CustomInputNumber
+                  type='text'
+                  name='advance'
+                  label='Down payment'
+                  value={advance}
+                  setValue={setAdvance}
+                  optional={false}
+                  disabled={false}
+                  pxLg='0' />
+              </div>
+
+              {/* Price */}
+              <div className="w-100 px-0 mb-3">
+                <CustomInputNumber
+                  type='text'
+                  name='howMuchPaid'
+                  label='How much paid'
+                  value={howMuchPaid}
+                  setValue={setHowMuchPaid}
+                  optional={false}
+                  disabled={false}
+                  pxLg='0' />
+              </div>
+
               <input type="hidden" name="permission" value={userType} />
 
               <button

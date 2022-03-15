@@ -64,7 +64,7 @@ export default function Sidebar({}: Props) {
         <div className="div-under-navbar"></div>
         {/* Management */}
         <div className="w-100 py-4 my-1">
-          <div className="w-100 row">
+          <div className="w-100 row m-0">
             <Link
               to="/admin/home"
               className="btn w-auto px-4 py-2 mx-auto bg-transparent animated-box in">

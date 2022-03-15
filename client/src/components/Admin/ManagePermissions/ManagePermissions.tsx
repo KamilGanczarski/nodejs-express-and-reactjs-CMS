@@ -6,13 +6,13 @@ import { PermissionModel } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
-import Switch from './Switch';
+import CustomSwitch from '../../CustomElements/CustomSwitch';
 
 type Props = {
   userId: string;
   permission: number;
   fetchCurrentUser: (userId: string) => void;
-}
+};
 
 export default function ManagePermissions({
   userId,
@@ -89,12 +89,12 @@ export default function ManagePermissions({
       <div className="w-100 px-3">
         {permissions.map((permission, index) => {
           return (
-            <Switch
+            <CustomSwitch
               key={index}
               name={permission.name}
               description={permission.description}
               checked={permission.checked}
-              changePermission={changePermission} />
+              changeValue={changePermission} />
           )
         })}
       </div>

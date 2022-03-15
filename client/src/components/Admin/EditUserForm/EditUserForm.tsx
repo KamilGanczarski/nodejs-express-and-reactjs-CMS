@@ -6,7 +6,7 @@ import { RoleModel } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders, redirectTo } from '../../../utils/tokenAPI';
 
 // Componenets
-import CustomInput from '../../CustomInput/CustomInput';
+import CustomInput from '../../CustomElements/CustomInput';
 
 type Props = {
   userId: string;

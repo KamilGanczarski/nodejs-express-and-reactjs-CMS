@@ -26,6 +26,16 @@ const filterUserOptions = [
     value: 'contract.price',
     query: ''
   }, {
+    req: 'contract',
+    table: 'contract',
+    value: 'contract.contract',
+    query: ''
+  }, {
+    req: 'pdf',
+    table: 'contract',
+    value: 'contract.pdf',
+    query: ''
+  }, {
     req: 'advance',
     table: 'contract',
     value: 'contract.advance',
@@ -62,13 +72,12 @@ const setFilterQuery = (numericFilters, operatorsMap, options, query) => {
     if (inOperators) {
       // Split filter to field and value by operator
       const filterSplit = filter.split(inOperators);
-      if (filterSplit.length == 2) {
+      if (filterSplit.length === 2) {
         const optionKey = options.find(option => option.req === filterSplit[0]);
         if (optionKey) {
           switch (optionKey.table) {
             case 'user_roles':
               query.params.push(filterSplit[1]);
-              // and = query.filter.user_roles ? ' AND ' : 'WHERE ';
               query.filter.user_roles +=
                 ` AND ${optionKey.value} ${inOperators} $${query.params.length}`;
               break;

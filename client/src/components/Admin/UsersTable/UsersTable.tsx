@@ -2,53 +2,59 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { UserFrontendModel, fetchUsersParams } from '../../../utils/interfaces';
+import {
+  UserFrontendModel,
+  fetchUsersParams,
+  ScopeBtnModel,
+  acriveEnum,
+  SortValueModel
+} from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
+//    User
 import Form from './Form';
-import ScopeBtn from './ScopeBtn';
-import SortBtn from './SortBtn';
-import TableRow from './TableRow';
-import TableRowMobile from './TableRowMobile';
-import CollapseTableRow from './CollapseTableRow';
-import TablePagination from './TablePagination';
+import TableRow from './User/TableRow';
+import TableRowMobile from './User/TableRowMobile';
+import CollapseTableRow from './User/CollapseTableRow';
+//    Event
+import TableRowEvent from './Event/TableRow';
+import TableRowMobileEvent from './Event/TableRowMobile';
+import CollapseTableRowEvent from './Event/CollapseTableRow';
+//    Table elements
+import ScopeBtn from '../../Table/ScopeBtn';
+import SortBtn from '../../Table/SortBtn';
+import TablePagination from '../../Table/TablePagination';
 
 // Prepade date
 import { prepareDateInUser } from './Date';
 
 // Import data
-import {
-  SortValuesData,
-  tableRowsLimitBtn,
-  acriveEnum,
-  SortValueModel,
-  ScopeBtnModel
-} from './data'
+import { SortValuesDataUser, SortValuesDataCalendar } from './data'
 
 type Props = {
   userType: string;
 };
 
 export default function UsersTable({ userType }: Props) {
-  const [prevSort, setPrevSort] = useState('userId');
-  const [Users, setUsers] = useState<UserFrontendModel[]>([]);
-  const [SortValues, setSortValues] = useState<SortValueModel[]>([]);
+  const [ prevSort, setPrevSort ] = useState('userId');
+  const [ Users, setUsers ] = useState<UserFrontendModel[]>([]);
+  const [ SortValues, setSortValues ] = useState<SortValueModel[]>([]);
 
   // Filters and sort
-  const [sortParams, setSortParams] = useState<string>('');
-  const [filterParams, setFilterParams] = useState<string>('');
+  const [ sortParams, setSortParams ] = useState<string>('');
+  const [ filterParams, setFilterParams ] = useState<string>(`role=${userType}`);
 
   // Pagination
-  const [currPage, setCurrPage] = useState(0);
-  const [paginationBtns, setPaginationBtns] = useState<ScopeBtnModel[]>([]);
-  const [paginationInput, setPaginationInput] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [usersTotalLength, setUsersTotalLength] = useState(0);
+  const [ currPage, setCurrPage ] = useState(0);
+  const [ paginationBtns, setPaginationBtns ] = useState<ScopeBtnModel[]>([]);
+  const [ paginationInput, setPaginationInput ] = useState('');
+  const [ rowsPerPage, setRowsPerPage ] = useState(10);
+  const [ usersTotalLength, setUsersTotalLength ] = useState(0);
 
   /**
    * Sort Users table be each value from SortValues
-   * @param {String} sort Sort value 
+   * @param {String} sort Sort value
    * @param {Number} n Index of object - SortValues
    * @param {Boolean} reverse Descending or ascending order
    */
@@ -88,10 +94,12 @@ export default function UsersTable({ userType }: Props) {
 
     try {
       const res = await axios.get(`${baseUrl}/api/v1/users`, {
-        params: { role: userType, page, perPage, sort, filter },
+        params: { page, perPage, sort, filter },
         headers: axiosHeaders.headers
       });
+
       let newUsers: any[] = res.data.users;
+
       setUsersTotalLength(res.data.tableCount);
       newUsers.map((User, id) => {
         // Temporary
@@ -107,14 +115,22 @@ export default function UsersTable({ userType }: Props) {
     }
   }
 
+  const setSortData = () => {
+    if (userType === 'event') {
+      setSortValues(SortValuesDataCalendar);
+    } else {
+      setSortValues(SortValuesDataUser);
+    }
+  }
+
   useEffect(() => {
     fetchData({ sort: '', filter: '', page: 0, perPage: 0 });
-    setSortValues(SortValuesData);
+    setSortData();
   }, []);
 
   return (
-    <section className="w-100 row m-0 justify-content-center">
-      <article className="col-sm-12 col-xl-11 row p-4 mx-auto">
+    <article className="w-100 row m-0 justify-content-center">
+      <section className="col-sm-12 col-xl-11 row p-4 mx-auto">
         <div className="w-100 row px-2 mx-0 mb-5 border-bottom">
           {/* Main title */}
           <h5 className="col-12 col-lg-5 px-0 py-2 m-0">Management</h5>
@@ -135,7 +151,6 @@ export default function UsersTable({ userType }: Props) {
               UsersLength={usersTotalLength}
               setCurrPage={setCurrPage}
               fetchData={fetchData}
-              tableRowsLimitBtn={tableRowsLimitBtn}
               rowsPerPage={rowsPerPage}
               setRowsPerPage={setRowsPerPage}
               setPaginationBtns={setPaginationBtns} />
@@ -156,6 +171,7 @@ export default function UsersTable({ userType }: Props) {
                       name={btn.name}
                       value={btn.value}
                       active={btn.active}
+                      sortable={btn.sortable}
                       sortUsers={sortUsers} />
                   )
                 })}
@@ -181,8 +197,25 @@ export default function UsersTable({ userType }: Props) {
               {Users.length > 0 ?
                 // Rows with content
                 Users.map((User, index) => {
+                  // Event row
+                  if (userType === 'event') {
+                    return [
+                      <TableRowEvent
+                        key={index} 
+                        RowUser={User}
+                        userType={userType} />,
+                      <CollapseTableRowEvent
+                        key={`collapse-${index}`}
+                        userId={User.id}
+                        login={User.login} />
+                    ]
+                  }
+                  // User row
                   return [
-                    <TableRow key={index} RowUser={User} userType={userType} />,
+                    <TableRow
+                      key={index} 
+                      RowUser={User}
+                      userType={userType} />,
                     <CollapseTableRow
                       key={`collapse-${index}`}
                       userId={User.id}
@@ -192,7 +225,9 @@ export default function UsersTable({ userType }: Props) {
                 :
                 // No content
                 <tr className="border-top table-row bg-theme-hover">
-                  <td colSpan={7} className="text-center small text-theme-1">
+                  <td
+                    colSpan={userType === 'event' ? 9 : 7 }
+                    className="text-center small text-theme-1">
                     No data
                   </td>
                 </tr>
@@ -214,6 +249,15 @@ export default function UsersTable({ userType }: Props) {
               {Users.length > 0 ?
                 // Rows with content
                 Users.map((User, index) => {
+                  // Event row
+                  if (userType === 'event') {
+                    return (
+                      <TableRowMobileEvent
+                        key={index}
+                        RowUser={User}
+                        userType={userType} />
+                    )
+                  }
                   return (
                     <TableRowMobile
                       key={index}
@@ -232,7 +276,7 @@ export default function UsersTable({ userType }: Props) {
             </tbody>
           </table>
         </div>
-      </article>
+      </section>
 
       {/* Form */}
       <Form
@@ -247,6 +291,6 @@ export default function UsersTable({ userType }: Props) {
         setPaginationBtns={setPaginationBtns}
         paginationInput={paginationInput}
         setPaginationInput={setPaginationInput} />
-    </section>
+    </article>
   );
 }

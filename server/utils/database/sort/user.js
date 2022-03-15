@@ -6,9 +6,9 @@ const sortUserOptions = [
   ['expirydate', 'users.expirydate'],
   ['permission', 'users.permission'],
   ['role', 'user_roles.value'],
-  ['price', 'contact.price'],
-  ['advance', 'contact.advance'],
-  ['howmuchpaid', 'contact.howmuchpaid']
+  ['price', 'contract.price'],
+  ['advance', 'contract.advance'],
+  ['howmuchpaid', 'contract.howmuchpaid']
 ];
 
 /**

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 // Utils
-import { UserFrontendModel } from '../../../utils/interfaces';
+import { UserFrontendModel } from '../../../../utils/interfaces';
 
 type Props = {
   RowUser: UserFrontendModel;
   userType: string;
 };
 
-export default function TableRow({ RowUser, userType }: Props) {
-  const [User, setUser] = useState<UserFrontendModel>();
+export default function TableRowEvent({ RowUser, userType }: Props) {
+  const [ User, setUser ] = useState<UserFrontendModel>();
 
   /**
    * Relocate to preview
@@ -67,22 +67,14 @@ export default function TableRow({ RowUser, userType }: Props) {
         {User.id}
       </td>
 
-      {/* Photo and login */}
-      <td className="btn-sm w-300-px" onClick={()=>customerEditLink(User.id)}>
-        {User.files.length > 0 ?
-          <div className="w-100 bg-black img-16-9-container active">
-            <img
-              src={`uploads/${User.dir}/md_res_files/${User.files[0].path}`}
-              alt={User.event}
-              className="img-16-9 img-zoom-in" />
-            <div className="text-center text-middle-absolute">
-              <h6 className="w-100 px-3 m-0 text-light text-middle">
-                {User.login}
-              </h6>
-            </div>
-          </div>
+      {/* Event date */}
+      <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
+        {User.dateShow.date !== '' ?
+          <span>
+            {User.dateShow.date}<br />({User.dateShow.passed})
+          </span>
           :
-          <span>{User.login}</span>
+          <i className="icon-calendar-plus-o text-custom"></i>
         }
       </td>
 
@@ -90,42 +82,38 @@ export default function TableRow({ RowUser, userType }: Props) {
       <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
         {User.event}
       </td>
-
-      {/* Event date */}
-      {['customer', 'portfolio history wedding'].includes(userType) &&
-        <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
-          {User.dateShow.date !== '' ?
-            <span>
-              {User.dateShow.date}<br />({User.dateShow.passed})
-            </span>
-            :
-            <i className="icon-calendar-plus-o text-custom"></i>
-          }
-        </td>
-      }
-
-      {/* Expiry date */}
+  
+      {/* Contract */}
       <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
-        {User.dateShow.expiryDate !== '' ?
-          <span>
-            {User.dateShow.expiryDate}
-            <br />
-            ({User.dateShow.passedEnd})
-          </span>
+        {User.contract[0].contract ?
+          <i className="icon-check text-custom"></i>
           :
-          <i className="icon-calendar-plus-o text-custom"></i>
+          <i className="icon-cancel text-danger"></i>
         }
       </td>
 
-      {/* Preview button */}
-      {['customer', 'portfolio history wedding'].includes(userType) &&
-        <td
-          className="btn-sm transition-effect text-hover-theme td-no-hover"
-          onClick={()=>customerPreview(User.id)}
-          onMouseOver={(e)=>hoverRow(e)}>
-          Preview
-        </td>
-      }
+      {/* Pdf */}
+      <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
+        {User.contract[0].pdf !== '' ?
+          <a
+            href={`uploads/${User.dir}/pkg_files/${User.contract[0].pdf}`}
+            target="_blank"
+            className="btn p-0">
+            <i className="icon-doc-text-inv text-custom"></i>
+          </a>
+          :
+          <i className="icon-doc-text-inv text-danger"></i>
+        }
+      </td>
+
+      {/* Price */}
+      <td className="btn-sm">{User.contract[0].price}</td>
+
+      {/* Down payment */}
+      <td className="btn-sm">{User.contract[0].advance}</td>
+
+      {/* How much paid */}
+      <td className="btn-sm">{User.contract[0].howmuchpaid}</td>
 
       {/* Expand button */}
       <td
@@ -140,5 +128,5 @@ export default function TableRow({ RowUser, userType }: Props) {
         </button>
       </td>
     </tr>
-  );
+  )
 }

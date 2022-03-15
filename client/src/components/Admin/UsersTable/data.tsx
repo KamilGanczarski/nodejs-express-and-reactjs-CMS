@@ -1,75 +1,87 @@
-export type acriveEnum = 'down' | 'up' | 'no';
+import { SortValueModel } from '../../../utils/interfaces';
 
-export interface SortValueModel {
-  id: number;
-  value: string;
-  active: acriveEnum;
-  name: string;
-}
-
-export const SortValuesData: SortValueModel[] = [
+export const SortValuesDataUser: SortValueModel[] = [
   {
     id: 0,
     value: "userId",
     active: "down",
-    name: "#"
+    name: "#",
+    sortable: true
   }, {
     id: 1,
     value: "login",
     active: "no",
-    name: "Login"
+    name: "Login",
+    sortable: true
   }, {
     id: 2,
     value: "event",
     active: "no",
-    name: "Description"
+    name: "Description",
+    sortable: true
   }, {
     id: 3,
     value: "date",
     active: "no",
-    name: "Date"
+    name: "Date",
+    sortable: true
   }, {
     id: 4,
     value: "expirydate",
     active: "no",
-    name: "Expiration date"
+    name: "Expiration date",
+    sortable: true
   }
 ];
 
-export interface tableRowsLimitBtnModel {
-  value: number;
-  active: string;
-}
-
-export let tableRowsLimitBtn: tableRowsLimitBtnModel[] = [
+export const SortValuesDataCalendar: SortValueModel[] = [
   {
-    value: 2,
-    active: ''
+    id: 0,
+    value: "userId",
+    active: "down",
+    name: "#",
+    sortable: true
   }, {
-    value: 5,
-    active: ''
+    id: 1,
+    value: "date",
+    active: "no",
+    name: "Event date",
+    sortable: true
   }, {
-    value: 10,
-    active: 'active'
+    id: 2,
+    value: "event",
+    active: "no",
+    name: "Description",
+    sortable: true
   }, {
-    value: 20,
-    active: ''
+    id: 3,
+    value: "contract",
+    active: "no",
+    name: "Contract",
+    sortable: true
   }, {
-    value: 30,
-    active: ''
+    id: 4,
+    value: "pdf",
+    active: "no",
+    name: "File",
+    sortable: false
   }, {
-    value: 40,
-    active: ''
+    id: 5,
+    value: "price",
+    active: "no",
+    name: "Price",
+    sortable: true
   }, {
-    value: 50,
-    active: ''
+    id: 6,
+    value: "advance",
+    active: "no",
+    name: "Down payment",
+    sortable: true
   }, {
-    value: 60,
-    active: ''
+    id: 7,
+    value: "howMuchPaid",
+    active: "no",
+    name: "How much paid",
+    sortable: true
   }
 ];
-
-export interface ScopeBtnModel {
-  value: number;
-  active: string;
-}

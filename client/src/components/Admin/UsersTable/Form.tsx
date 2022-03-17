@@ -178,7 +178,7 @@ export default function Form({ userType, fetchData }: Props) {
                   label='Expiration date'
                   value={expiryDate}
                   setValue={setExpiryDate}
-                  optional={true}
+                  optional={false}
                   disabled={false}
                   pxLg='0' />
               </div>
@@ -188,7 +188,9 @@ export default function Form({ userType, fetchData }: Props) {
                 name='contract'
                 description='Contract'
                 checked={contract}
-                changeValue={changeContractBool} />
+                changeValue={changeContractBool}
+                optional={true}
+                disabled={false} />
 
               {/* Price */}
               <div className="w-100 px-0 mb-3">
@@ -198,7 +200,7 @@ export default function Form({ userType, fetchData }: Props) {
                   label='Price'
                   value={price}
                   setValue={setPrice}
-                  optional={false}
+                  optional={true}
                   disabled={false}
                   pxLg='0' />
               </div>
@@ -211,7 +213,7 @@ export default function Form({ userType, fetchData }: Props) {
                   label='Down payment'
                   value={advance}
                   setValue={setAdvance}
-                  optional={false}
+                  optional={true}
                   disabled={false}
                   pxLg='0' />
               </div>
@@ -224,7 +226,7 @@ export default function Form({ userType, fetchData }: Props) {
                   label='How much paid'
                   value={howMuchPaid}
                   setValue={setHowMuchPaid}
-                  optional={false}
+                  optional={true}
                   disabled={false}
                   pxLg='0' />
               </div>

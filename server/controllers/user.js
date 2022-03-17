@@ -82,7 +82,7 @@ const getAllUsers = async (req, res) => {
       query
     );
   }
-console.log(query.filter.user_roles)
+
   // Sort
   if (sort) {
     const sortReq = sort.split(",");
@@ -138,9 +138,13 @@ const createUser = async (req, res) => {
     role,
     event,
     date,
-    expiryDate
+    expiryDate,
+    contract,
+    price,
+    advance,
+    howMuchPaid
   } = req.body;
-  CustomError.requireProvidedValues(login, password, role, event);
+  CustomError.requireProvidedValues(login, password, role, event, expiryDate);
 
   // Find user with this login
   await db.query(`SELECT * FROM users WHERE login = $1`, [login])
@@ -166,16 +170,21 @@ const createUser = async (req, res) => {
   yesterday.setDate(yesterday.getDate() - 1);
   const dir  = await fetchAndUpdateNewDirectory();
 
+  // date
+  const dateChecked = date ? new Date(date.replace(' ', 'T')) : null;
+  // expiryDate
+  const expiryDateChecked = expiryDate ? new Date(expiryDate.replace(' ', 'T')) : null;
+
   let queryParams = [
-    login,                        // login
-    event,                        // event
-    generateHash(password),       // password
-    yesterday,                    // passwordExpiryDate
-    permissionByRole(role),       // permission
-    dir,                          // dir
-    date ? new Date(date.replace(' ', 'T')) : null,             // date
-    expiryDate ? new Date(expiryDate.replace(' ', 'T')) : null, // expiryDate
-    roleRecord[0].id              // role_id
+    login,                  // login
+    event,                  // event
+    generateHash(password), // password
+    yesterday,              // passwordExpiryDate
+    permissionByRole(role), // permission
+    dir,                    // dir
+    dateChecked,            // date
+    expiryDateChecked,      // expiryDate
+    roleRecord[0].id        // role_id
   ];
 
   const newUserId = await db.query(
@@ -194,11 +203,19 @@ const createUser = async (req, res) => {
   )
   .then((result) => result)
   .catch((err) => {
+    console.log(err)
     throw new CustomError.BadRequestError('User with this login aleady exists');
   });
 
   // Insert new contract
-  queryParams = [ parseInt(newUserId[0].id), false, '', 0, 0, 0 ];
+  queryParams = [
+    parseInt(newUserId[0].id), 
+    contract,
+    '',
+    price,
+    advance,
+    howMuchPaid
+  ];
 
   await db.query(
     `INSERT INTO contract (

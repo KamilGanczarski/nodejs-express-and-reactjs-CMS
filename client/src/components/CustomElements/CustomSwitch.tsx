@@ -5,13 +5,17 @@ type Props = {
   description: string;
   checked: boolean;
   changeValue: (name: string, checked: boolean) => any;
+  optional: boolean;
+  disabled: boolean;
 };
 
 export default function CustomSwitch({
   name,
   description,
   checked,
-  changeValue
+  changeValue,
+  optional,
+  disabled
 }: Props) {
   return (
     <div v-for="Permission in Permissions_view"
@@ -25,6 +29,10 @@ export default function CustomSwitch({
         <small></small>
       </label>
       <span className="w-auto ps-3 align-top">{description}</span>
+      {/* Optionaly text */}
+      {optional &&
+        <p className="pt-2 m-0 small">(optionally)</p>
+      }
     </div>
   )
 }

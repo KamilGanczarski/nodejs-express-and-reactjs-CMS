@@ -94,7 +94,9 @@ export default function ManagePermissions({
               name={permission.name}
               description={permission.description}
               checked={permission.checked}
-              changeValue={changePermission} />
+              changeValue={changePermission}
+              optional={false}
+              disabled={false} />
           )
         })}
       </div>

@@ -15,7 +15,6 @@ export const redirectAfterLogin = (permission: string) => {
     case 'admin':
       window.location.replace(`${baseAppUrl}/admin/home`);
       break;
-
     default:
       window.location.replace(`${baseAppUrl}/404`);
       break;

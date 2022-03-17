@@ -1,4 +1,4 @@
--- user_roles
+-- TABLE user_roles
 INSERT INTO user_roles VALUES
   (1, 'admin'),
   (2, 'cooperator'),
@@ -6,7 +6,7 @@ INSERT INTO user_roles VALUES
   (4, 'customer'),
   (5, 'event');
 
--- users
+-- TABLE users
 INSERT INTO users (
   login,
   event,
@@ -30,7 +30,7 @@ INSERT INTO users (
     1
   );
 
--- contract
+-- TABLE contract
 INSERT INTO contract (
   user_id,
   contract,
@@ -41,17 +41,17 @@ INSERT INTO contract (
 ) VALUES
   (1, false, '', 0, 0, 0);
 
--- permissions
+-- TABLE permissions
 INSERT INTO permissions (name, value, deleteValue, description) VALUES
   ('VIEW_USER', 1, 7, 'Allows for viewing of users'),
   ('ADD_USER', 3, 6, 'Allows for the adding of users'),
   ('MANAGE_USER', 7, 4, 'Allows management of the user');
 
--- variables
+-- TABLE variables
 INSERT INTO variables (property, value) VALUES
-  ('directory key', '00000000');
+  ('directory key', '00000001');
 
--- variables
+-- TABLE variables
 INSERT INTO subsite_roles VALUES
   (1, 'subsite'),
   (2, 'offer'),
@@ -59,13 +59,84 @@ INSERT INTO subsite_roles VALUES
   (4, 'portfolio history wedding'),
   (5, 'blog');
 
+-- TABLE subsites
+INSERT INTO subsites VALUES
+  (1, 1, 'index', 'Home', '', '00000001', false, 1);
+
+-- TABLE components
+INSERT INTO components VALUES
+  (1, 'hero', 'hero'),
+  (2, 'skewed-slider', 'skewed-slider'),
+  
+  (3, 'custom-text', 'custom-text'),
+  (4, 'carousel-3-2-1', 'carousel-3-2-1'),
+  (5, 'carousel-4-3-2-1', 'carousel-4-3-2-1'),
+  (6, 'carousel-awards', 'carousel-awards'),
+
+  (7, 'gallery', 'gallery'),
+  (8, 'youtube-film', 'youtube-film'),
+  (9, 'film-counter', 'film-counter'),
+
+  (10, 'navigation-around-website', 'navigation-around-website'),
+  (11, 'navigation-around-website-1', 'navigation-around-website-1'),
+
+  (12, 'chessboard', 'chessboard'),
+  (13, 'collapsing-description', 'collapsing-description'),
+  (14, 'portfolio-history-wedding', 'portfolio-history-wedding'),
+
+  (15, 'intro-about-us', 'intro-about-us'),
+  (16, 'intro-contact', 'intro-contact'),
+
+  (17, 'google-map', 'google-map'),
+  (18, 'footer', 'footer'),
+  (19, 'footer-large', 'footer-large');
+
+-- TABLE subsite_components
+INSERT INTO subsite_components (subsite_id, component_id) VALUES
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 5),
+  (1, 6),
+  (1, 7),
+  (1, 8),
+  (1, 9),
+  (1, 10),
+  (1, 11),
+  (1, 12),
+  (1, 13),
+  (1, 14),
+  (1, 15),
+  (1, 16),
+  (1, 17),
+  (1, 18),
+  (1, 19);
+
+-- TABLE file_status
+INSERT INTO file_status VALUES
+  (1, 'show'),
+  (2, 'propose'),
+  (3, 'hide'),
+  (4, 'approved'),
+  (5, 'rejected');
+
+-- TABLE file_info
+-- INSERT INTO file_info VALUES ();
+
+-- TABLE content
+-- INSERT INTO content VALUES ();
+
+-- TABLE newsletter
+-- INSERT INTO newsletter VALUES ();
+
 
 SELECT * FROM user_roles;
 SELECT * FROM users;
 SELECT * FROM contract;
 SELECT * FROM permissions;
 SELECT * FROM variables;
-
+SELECT * FROM subsite_roles;
 SELECT * FROM subsites;
 SELECT * FROM components;
 SELECT * FROM subsite_components;

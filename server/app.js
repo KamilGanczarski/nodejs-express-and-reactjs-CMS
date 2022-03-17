@@ -21,6 +21,7 @@ app.use('/api/v1/auth', require('./routes/authorization'));
 app.use('/api/v1/users', require('./routes/user'));
 app.use('/api/v1/roles', require('./routes/role'));
 app.use('/api/v1/permissions', require('./routes/permission'));
+app.use('/api/v1/components', require('./routes/component'));
 
 // Middleware
 app.use(notFoundMiddleware);

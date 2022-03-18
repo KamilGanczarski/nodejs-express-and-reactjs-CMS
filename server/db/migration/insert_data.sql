@@ -49,19 +49,23 @@ INSERT INTO permissions (name, value, deleteValue, description) VALUES
 
 -- TABLE variables
 INSERT INTO variables (property, value) VALUES
-  ('directory key', '00000001');
+  ('directory key', '00000005');
 
 -- TABLE variables
-INSERT INTO subsite_roles VALUES
-  (1, 'subsite'),
+INSERT INTO page_roles VALUES
+  (1, 'page'),
   (2, 'offer'),
   (3, 'portfolio'),
   (4, 'portfolio history wedding'),
   (5, 'blog');
 
--- TABLE subsites
-INSERT INTO subsites VALUES
-  (1, 1, 'index', 'Home', '', '00000001', false, 1);
+-- TABLE pages
+INSERT INTO pages VALUES
+  (1, 1, '/index', 'Home', '', '00000001', false, 1),
+  (2, 1, '/about', 'About', '', '00000002', false, 1),
+  (3, 1, '/offers', 'Offers', '', '00000003', false, 1),
+  (4, 1, '/login', 'Login', '', '00000004', false, 1),
+  (5, 1, '/contact', 'Contact', '', '00000005', false, 1);
 
 -- TABLE components
 INSERT INTO components VALUES
@@ -91,8 +95,8 @@ INSERT INTO components VALUES
   (18, 'footer', 'footer'),
   (19, 'footer-large', 'footer-large');
 
--- TABLE subsite_components
-INSERT INTO subsite_components (subsite_id, component_id) VALUES
+-- TABLE page_components
+INSERT INTO page_components (page_id, component_id) VALUES
   (1, 1),
   (1, 2),
   (1, 3),
@@ -136,14 +140,43 @@ SELECT * FROM users;
 SELECT * FROM contract;
 SELECT * FROM permissions;
 SELECT * FROM variables;
-SELECT * FROM subsite_roles;
-SELECT * FROM subsites;
+SELECT * FROM page_roles;
+SELECT * FROM pages;
 SELECT * FROM components;
-SELECT * FROM subsite_components;
+SELECT * FROM page_components;
 SELECT * FROM file_status;
 SELECT * FROM file_info;
 SELECT * FROM content;
 SELECT * FROM newsletter;
+
+
+-- SELECT
+--   users.id,
+--   users.login,
+--   users.event,
+--   users.passwordExpiryDate,
+--   users.permission,
+--   users.date,
+--   users.expiryDate,
+--   users.dir,
+--   (
+--     SELECT jsonb_agg(nested_roles)
+--     FROM (
+--       SELECT * FROM user_roles
+--         WHERE user_roles.id = users.role_id ${roleQuery}
+--     ) AS nested_roles
+--   ) AS roles,
+--   (
+--     SELECT jsonb_agg(nested_contract)
+--     FROM (
+--       SELECT * FROM contract WHERE contract.user_id = users.id
+--     ) AS nested_contract
+--   ) AS contract
+-- FROM users
+-- INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleQuery}
+-- INNER JOIN contract ON (contract.user_id = users.id);
+
+
 
 -- SELECT row_to_json(r, true)
 --   FROM (
@@ -194,29 +227,3 @@ SELECT * FROM newsletter;
 --     GROUP BY u.id ORDER BY u.id asc
 --   ) r(id, login, event)
 
-
--- SELECT
---   users.id,
---   users.login,
---   users.event,
---   users.passwordExpiryDate,
---   users.permission,
---   users.date,
---   users.expiryDate,
---   users.dir,
---   (
---     SELECT jsonb_agg(nested_roles)
---     FROM (
---       SELECT * FROM user_roles
---         WHERE user_roles.id = users.role_id ${roleQuery}
---     ) AS nested_roles
---   ) AS roles,
---   (
---     SELECT jsonb_agg(nested_contract)
---     FROM (
---       SELECT * FROM contract WHERE contract.user_id = users.id
---     ) AS nested_contract
---   ) AS contract
--- FROM users
--- INNER JOIN user_roles ON (user_roles.id = users.role_id) ${roleQuery}
--- INNER JOIN contract ON (contract.user_id = users.id);

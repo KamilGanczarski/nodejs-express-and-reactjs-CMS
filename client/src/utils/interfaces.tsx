@@ -1,5 +1,3 @@
-import { SignatureHelpTriggerReason } from "typescript";
-
 interface ContractModel {
   pdf: string;
   price: number;
@@ -98,4 +96,30 @@ export interface SortValueModel {
   active: acriveEnum;
   name: string;
   sortable: boolean;
+}
+
+export interface pageRoleModel {
+  id: number;
+  value: number;
+}
+
+export interface pageModel {
+  id: number;
+  user_id: number;
+  url: string;
+  name: string;
+  description: string;
+  dir: string;
+  disabled: string;
+  site_role_id: number;
+  roles: pageRoleModel[];
+}
+
+export interface BlockLinkModel {
+  id: number;
+  icon: string;
+  label: string;
+  link: string;
+  type: 'button' | 'dropdown' | 'hyperlink' | 'onclick';
+  onclick: () => void;
 }

@@ -2,11 +2,6 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
-const {
-  fetchPermissionValue,
-  checkPermission
-} = require('./api/permission');
-
 const { attachCookiesToResponse, createTokenUser } = require('../utils/jwt');
 const { queryComponent } = require('../utils/database');
 
@@ -16,7 +11,7 @@ const getAllComponents = async (req, res) => {
 
   const components = await db.query(
     queryComponent({
-      componentCondition: 'WHERE subsites.user_id = $1'
+      componentCondition: 'WHERE pages.user_id = $1'
     }),
     [userId])
   .then((result) => result)
@@ -28,15 +23,15 @@ const getAllComponents = async (req, res) => {
 }
 
 const createComponent = async (req, res) => {
-  const { subsiteId, componentname } = req.body;
-  CustomError.requireProvidedValues(subsiteId, componentname);
+  const { pageId, componentname } = req.body;
+  CustomError.requireProvidedValues(pageId, componentname);
 
   // Check if component already exists
   const components = await db.query(
     queryComponent({
-      componentCondition: 'WHERE subsites.id = $1 AND components.type = $2'
+      componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
-    [subsiteId, componentname]
+    [pageId, componentname]
   )
   .then((result) => result)
   .catch((err) => {
@@ -62,9 +57,9 @@ const createComponent = async (req, res) => {
 
   // Insert component
   await db.query(
-      `INSERT INTO subsite_components (subsite_id, component_id) VALUES
+      `INSERT INTO page_components (page_id, component_id) VALUES
         ($1, $2)`,
-      [subsiteId, componentDetails[0].id]
+      [pageId, componentDetails[0].id]
     )
     .then((result) => result[0])
     .catch((err) => {
@@ -76,15 +71,15 @@ const createComponent = async (req, res) => {
 }
 
 const deleteComponent = async (req, res) => {
-  const { subsiteId, componentname } = req.body;
-  CustomError.requireProvidedValues(subsiteId, componentname);
+  const { pageId, componentname } = req.body;
+  CustomError.requireProvidedValues(pageId, componentname);
 
   // Check if component already exists
   const components = await db.query(
     queryComponent({
-      componentCondition: 'WHERE subsites.id = $1 AND components.type = $2'
+      componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
-    [subsiteId, componentname]
+    [pageId, componentname]
   )
   .then((result) => result)
   .catch((err) => {
@@ -97,9 +92,9 @@ const deleteComponent = async (req, res) => {
 
   // Delete component
   await db.query(
-    `DELETE FROM subsite_components
-      WHERE subsite_id = $1 AND component_id = $2`,
-    [subsiteId, components[0].id]
+    `DELETE FROM page_components
+      WHERE page_id = $1 AND component_id = $2`,
+    [pageId, components[0].id]
   )
   .then((result) => result[0])
   .catch((err) => {

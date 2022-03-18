@@ -50,7 +50,7 @@ export const links: LinkModel[] = [
   }, {
     id: 3,
     label: "Pages",
-    link: "/admin/webs",
+    link: "/admin/pages",
     type: "button",
     icon: "icon-sitemap",
     position: "top",

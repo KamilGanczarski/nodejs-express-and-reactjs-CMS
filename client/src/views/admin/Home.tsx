@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+// Components
 import Sidebar from '../../components/Sidebar/Sidebar';
 import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks';
 import { links, LinkModel } from '../../components/Sidebar/data';
@@ -7,8 +8,8 @@ import { links, LinkModel } from '../../components/Sidebar/data';
 type Props = {};
 
 export default function Home({}: Props) {
-  const [buttons, setButtons] = useState<LinkModel[]>([])
-  
+  const [ buttons, setButtons ] = useState<LinkModel[]>([])
+
   const deployLinks = () => {
     setButtons(links)
   }
@@ -28,8 +29,8 @@ export default function Home({}: Props) {
       <main className="main container-fluid px-0">
         <div className="div-under-navbar"></div>
         <h2 className="py-5 mx-0 my-0 text-center">Admin home</h2>
-        
-        <BlockLinks links={buttons}/>
+
+        <BlockLinks links={buttons} />
       </main>
     </section>
   );

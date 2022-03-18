@@ -17,6 +17,8 @@ import Cooperators from './Cooperators';
 import Customers from './Customers';
 import EditUser from './EditUser';
 import Calendar from './Calendar';
+import Pages from './Pages';
+import EditPage from './EditPage';
 import Error from '../../views/Error';
 
 type Props = {};
@@ -77,6 +79,12 @@ export default function AdminRoute({}: Props) {
 
       {/* Edit user with id (admin / cooperator) */}
       <Route exact path={`${path}/calendar`} component={Calendar} />
+
+      {/* Pages */}
+      <Route exact path={`${path}/pages`} component={Pages} />
+
+      {/* Edit page */}
+      <Route exact path={`${path}/edit-page/:page`} component={EditPage} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

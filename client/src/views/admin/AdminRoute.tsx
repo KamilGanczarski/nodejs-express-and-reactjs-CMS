@@ -84,7 +84,7 @@ export default function AdminRoute({}: Props) {
       <Route exact path={`${path}/pages`} component={Pages} />
 
       {/* Edit page */}
-      <Route exact path={`${path}/edit-page/:page`} component={EditPage} />
+      <Route exact path={`${path}/edit-page/:pageName`} component={EditPage} />
 
       {/* Error */}
       <Route path={`${path}/*`} component={Error} />

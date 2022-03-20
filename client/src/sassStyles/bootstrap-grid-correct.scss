@@ -1,3 +1,359 @@
 .w-300-px {
   width: 300px;
 }
+
+/* Correct Bootstrap grid layout */
+.col-2xl-1, .col-2xl-2, .col-2xl-3, .col-2xl-4, .col-2xl-5, .col-2xl-6, .col-2xl-7,
+.col-2xl-8, .col-2xl-9, .col-2xl-10, .col-2xl-11, .col-2xl-12 {
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 1700px) {
+    /* Col */
+    .col-2xl-1 {
+        -ms-flex: 0 0 8.333333%;
+        flex: 0 0 8.333333%;
+        max-width: 8.333333%;
+    }
+    .col-2xl-2 {
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+    .col-2xl-3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .col-2xl-4 {
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    .col-2xl-5 {
+        -ms-flex: 0 0 41.666667%;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+    .col-2xl-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .col-2xl-7 {
+        -ms-flex: 0 0 58.333333%;
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+    }
+    .col-2xl-8 {
+        -ms-flex: 0 0 66.666667%;
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    .col-2xl-9 {
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+    .col-2xl-10 {
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+    .col-2xl-11 {
+        -ms-flex: 0 0 91.666667%;
+        flex: 0 0 91.666667%;
+        max-width: 91.666667%;
+    }
+    .col-2xl-12 {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Margin */
+    .mx-2xl-0 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Display */
+    .d-2xl-block {
+        display: block !important;
+    }
+    .d-2xl-flex {
+        display: flex !important;
+    }
+    .d-2xl-none {
+        display: none !important;
+    }
+}
+
+.col-3xl-1, .col-3xl-2, .col-3xl-3, .col-3xl-4, .col-3xl-5, .col-3xl-6, .col-3xl-7,
+.col-3xl-8, .col-3xl-9, .col-3xl-10, .col-3xl-11, .col-3xl-12 {
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 2200px) {
+    /* Col */
+    .col-3xl-1 {
+        -ms-flex: 0 0 8.333333%;
+        flex: 0 0 8.333333%;
+        max-width: 8.333333%;
+    }
+    .col-3xl-2 {
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+    .col-3xl-3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .col-3xl-4 {
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    .col-3xl-5 {
+        -ms-flex: 0 0 41.666667%;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+    .col-3xl-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .col-3xl-7 {
+        -ms-flex: 0 0 58.333333%;
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+    }
+    .col-3xl-8 {
+        -ms-flex: 0 0 66.666667%;
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    .col-3xl-9 {
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+    .col-3xl-10 {
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+    .col-3xl-11 {
+        -ms-flex: 0 0 91.666667%;
+        flex: 0 0 91.666667%;
+        max-width: 91.666667%;
+    }
+    .col-3xl-12 {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Margin */
+    .mx-3xl-0 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Display */
+    .d-3xl-block {
+        display: block !important;
+    }
+    .d-3xl-flex {
+        display: flex !important;
+    }
+    .d-3xl-none {
+        display: none !important;
+    }
+}
+
+/* Center element vertically */
+.h-100-sm-vh,
+.h-100-md-vh {
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available;
+}
+
+.h-50-vh {
+    height: 600px !important;
+}
+
+@media (max-height: 400px) {
+    .h-100-sm-vh {
+        height: 400px !important;
+    }
+}
+
+@media (max-height: 600px) {
+    .h-100-md-vh {
+        height: 600px !important;
+    }
+}
+
+/* Extended order-* */
+.order-0 {
+  -ms-flex-order: 0;
+  order: 0;
+}
+
+.order-1 {
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+.order-2 {
+  -ms-flex-order: 2;
+  order: 2;
+}
+
+.order-3 {
+  -ms-flex-order: 3;
+  order: 3;
+}
+
+.order-4 {
+  -ms-flex-order: 4;
+  order: 4;
+}
+
+.order-5 {
+  -ms-flex-order: 5;
+  order: 5;
+}
+
+.order-6 {
+  -ms-flex-order: 6;
+  order: 6;
+}
+
+.order-7 {
+  -ms-flex-order: 7;
+  order: 7;
+}
+
+.order-8 {
+  -ms-flex-order: 8;
+  order: 8;
+}
+
+.order-9 {
+  -ms-flex-order: 9;
+  order: 9;
+}
+
+.order-10 {
+  -ms-flex-order: 10;
+  order: 10;
+}
+
+.order-11 {
+  -ms-flex-order: 11;
+  order: 11;
+}
+
+.order-12 {
+ -ms-flex-order: 12;
+ order: 12;
+}
+
+.order-13 {
+  -ms-flex-order: 13;
+  order: 13;
+}
+
+.order-14 {
+  -ms-flex-order: 14;
+  order: 14;
+}
+
+.order-15 {
+  -ms-flex-order: 15;
+  order: 15;
+}
+
+.order-16 {
+  -ms-flex-order: 16;
+  order: 16;
+}
+
+.order-17 {
+  -ms-flex-order: 17;
+  order: 17;
+}
+
+.order-18 {
+  -ms-flex-order: 18;
+  order: 18;
+}
+
+.order-19 {
+  -ms-flex-order: 19;
+  order: 19;
+}
+
+.order-20 {
+  -ms-flex-order: 20;
+  order: 20;
+}
+
+.order-21 {
+  -ms-flex-order: 21;
+  order: 21;
+}
+
+.order-22 {
+  -ms-flex-order: 22;
+  order: 22;
+}
+
+.order-23 {
+  -ms-flex-order: 23;
+  order: 23;
+}
+
+.order-24 {
+  -ms-flex-order: 24;
+  order: 24;
+}
+
+.order-25 {
+  -ms-flex-order: 25;
+  order: 25;
+}
+
+.order-26 {
+  -ms-flex-order: 26;
+  order: 26;
+}
+
+.order-27 {
+  -ms-flex-order: 27;
+  order: 27;
+}
+
+.order-28 {
+  -ms-flex-order: 28;
+  order: 28;
+}
+
+.order-29 {
+  -ms-flex-order: 29;
+  order: 29;
+}
+
+.order-30 {
+  -ms-flex-order: 30;
+  order: 30;
+}

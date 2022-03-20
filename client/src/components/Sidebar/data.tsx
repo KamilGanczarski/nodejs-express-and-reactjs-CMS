@@ -1,25 +1,9 @@
-import { logoutUserRequest } from '../../actions'
-
-interface SublinkModel {
-  id: number;
-  label: string;
-  link: string;
-}
-
-export interface LinkModel {
-  id: number;
-  icon: string;
-  label: string;
-  link: string;
-  type: 'button' | 'dropdown' | 'hyperlink' | 'onclick';
-  position: 'top' | 'middle' | 'bottom';
-  subButtons: SublinkModel[];
-  onclick: () => void;
-}
+import { logoutUserRequest } from '../../actions';
+import { LinkModel } from '../../utils/interfaces';
 
 const nothing = (): void => {}
 
-export const links: LinkModel[] = [
+export const sidebarLinks: LinkModel[] = [
   {
     id: 0,
     label: "Account",
@@ -117,3 +101,170 @@ export const links: LinkModel[] = [
     onclick: () => logoutUserRequest()
   }
 ];
+
+export const sidebarCmsLinks: LinkModel[] = [
+  ...sidebarLinks,
+  {
+    id: 9,
+    label: "Hero",
+    link: "",
+    type: "onclick",
+    icon: "icon-window",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 10,
+    label: "Skewed slider",
+    link: "",
+    type: "onclick",
+    icon: "icon-window",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 11,
+    label: "Custom text",
+    link: "",
+    type: "onclick",
+    icon: "icon-doc-text-inv",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 12,
+    label: "Carousel 3 2 1",
+    link: "",
+    type: "onclick",
+    icon: "icon-video",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 13,
+    label: "Carousel 4 3 2 1",
+    link: "",
+    type: "onclick",
+    icon: "icon-video",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 14,
+    label: "Carousel awards",
+    link: "",
+    type: "onclick",
+    icon: "icon-video",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 15,
+    label: "Gallery",
+    link: "",
+    type: "onclick",
+    icon: "icon-th-2",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 16,
+    label: "Youtube films",
+    link: "",
+    type: "onclick",
+    icon: "icon-youtube-1",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 17,
+    label: "Youtube films counter",
+    link: "",
+    type: "onclick",
+    icon: "icon-youtube-1",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 18,
+    label: "Navigation around website",
+    link: "",
+    type: "onclick",
+    icon: "icon-youtube-1",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 19,
+    label: "Chessboard",
+    link: "",
+    type: "onclick",
+    icon: "icon-th-2",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 20,
+    label: "Collapsing description",
+    link: "",
+    type: "onclick",
+    icon: "icon-menu-1",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 21,
+    label: "Portfolio history wedding",
+    link: "",
+    type: "onclick",
+    icon: "icon-video",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 22,
+    label: "Intro about us",
+    link: "",
+    type: "onclick",
+    icon: "icon-popup",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 23,
+    label: "Intro contact",
+    link: "",
+    type: "onclick",
+    icon: "icon-popup",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 24,
+    label: "Google map",
+    link: "",
+    type: "onclick",
+    icon: "icon-location",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 25,
+    label: "Footer",
+    link: "",
+    type: "onclick",
+    icon: "icon-window",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }, {
+    id: 26,
+    label: "Footer large",
+    link: "",
+    type: "onclick",
+    icon: "icon-window",
+    position: "middle",
+    subButtons: [],
+    onclick: () => nothing()
+  }
+]

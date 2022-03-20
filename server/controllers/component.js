@@ -2,18 +2,17 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
-const { attachCookiesToResponse, createTokenUser } = require('../utils/jwt');
 const { queryComponent } = require('../utils/database');
 
 const getAllComponents = async (req, res) => {
-  const { userId } = req.body;
-  CustomError.requireProvidedValues(userId);
+  const { page } = req.query;
+  CustomError.requireProvidedValues(page);
 
   const components = await db.query(
     queryComponent({
-      componentCondition: 'WHERE pages.user_id = $1'
+      componentCondition: 'WHERE pages.url = $1'
     }),
-    [userId])
+    [page])
   .then((result) => result)
   .catch((err) => {
     throw new CustomError.BadRequestError(`No components`);
@@ -92,14 +91,14 @@ const deleteComponent = async (req, res) => {
 
   // Delete component
   await db.query(
-    `DELETE FROM page_components
-      WHERE page_id = $1 AND component_id = $2`,
-    [pageId, components[0].id]
-  )
-  .then((result) => result[0])
-  .catch((err) => {
-    throw new CustomError.BadRequestError("New component hasn't been added");
-  });
+      `DELETE FROM page_components
+        WHERE page_id = $1 AND component_id = $2`,
+      [pageId, components[0].id]
+    )
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.BadRequestError("Component hasn't been deleted");
+    });
 
   res.status(StatusCodes.OK).send({ msg: "You've deleted this component" });
 }

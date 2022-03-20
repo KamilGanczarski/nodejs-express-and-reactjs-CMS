@@ -147,13 +147,35 @@ const createUser = async (req, res) => {
   CustomError.requireProvidedValues(login, password, role, event, expiryDate);
 
   // Find user with this login
-  await db.query(`SELECT * FROM users WHERE login = $1`, [login])
+  const alreadyCreated = await db.query(
+      `SELECT
+        (
+          SELECT jsonb_agg(nested_users)
+          FROM (
+            SELECT sum(users.id) FROM users WHERE users.login = $1
+          ) AS nested_users
+        ) AS users_sum,
+        (
+          SELECT jsonb_agg(nested_pages)
+          FROM (
+            SELECT sum(pages.id) FROM pages WHERE pages.name = $1
+          ) AS nested_pages
+        ) AS pages_sum
+      FROM users;`,
+      [login]
+    )
     .then((result) => result)
     .catch((err) => {
       throw new CustomError.BadRequestError(
-        'Already created user with this username'
+        'Already created user with this login'
       );
     });
+
+  if (alreadyCreated[0].users_sum.sum > 0 || alreadyCreated[0].pages_sum.sum > 0) {
+    throw new CustomError.BadRequestError(
+      'Already created user with this login'
+    );
+  }
 
   // Fetch role
   const roleRecord = await db.query(
@@ -207,10 +229,12 @@ const createUser = async (req, res) => {
     throw new CustomError.BadRequestError('User with this login aleady exists');
   });
 
+  const contractValue = contract ? contract : false;
+
   // Insert new contract
   queryParams = [
     parseInt(newUserId[0].id), 
-    contract,
+    contractValue,
     '',
     price,
     advance,
@@ -230,6 +254,7 @@ const createUser = async (req, res) => {
   )
   .then((result) => result)
   .catch((err) => {
+    console.log(err)
     throw new CustomError.BadRequestError("New contract hasn't been created");
   });
 

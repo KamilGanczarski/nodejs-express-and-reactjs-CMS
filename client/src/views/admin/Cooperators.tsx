@@ -4,13 +4,16 @@ import React from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import UsersTable from '../../components/Admin/UsersTable/UsersTable';
 
+// Data
+import { sidebarLinks } from '../../components/Sidebar/data';
+
 type Props = {};
 
 export default function Cooperators({}: Props) {
   return (
     <section className="d-flex Sidebar admin">
-      {/* Sidebar admin */}
-      <Sidebar />
+      {/* Sidebar */}
+      <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
       <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
 

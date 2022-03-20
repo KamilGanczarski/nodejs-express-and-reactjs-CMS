@@ -11,6 +11,6 @@ const {
 } = require('../controllers/page');
 
 router.route('/')
-  .get(authenticateUser, authorizePermissions('MANAGE_USER'), getAllPages);
+  .get(authenticateUser, authorizePermissions('MANAGE_PAGES'), getAllPages);
 
 module.exports = router;

@@ -59,19 +59,19 @@ export default function ManagePermissions({
     }
 
     await axios.patch(`${baseUrl}/api/v1/permissions`, {
-      userId: userId,
-      addPermission: addPermission,
-      deletePermission: deletePermission
-    }, axiosHeaders)
-    .then((response) => {
-      fetchCurrentUser(userId);
-      // separatePermission(permissions);
-    })
-    .catch(error => {
-      if (error.response.data.msg) {
-        console.log(error.response.data.msg);
-      }
-    })
+        userId: userId,
+        addPermission: addPermission,
+        deletePermission: deletePermission
+      }, axiosHeaders)
+      .then((response) => {
+        fetchCurrentUser(userId);
+        // separatePermission(permissions);
+      })
+      .catch(error => {
+        if (error.response.data.msg) {
+          console.log(error.response.data.msg);
+        }
+      });
   }
 
   useEffect(() => {

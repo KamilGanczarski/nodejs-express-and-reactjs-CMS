@@ -9,6 +9,9 @@ import { baseUrl, axiosHeaders, redirectTo } from '../../utils/tokenAPI';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks';
 
+// Data
+import { sidebarLinks } from '../../components/Sidebar/data';
+
 type Props = {}
 
 export default function Pages({}: Props) {
@@ -50,8 +53,8 @@ export default function Pages({}: Props) {
 
   return (
     <section className="d-flex Sidebar admin">
-      {/* Sidebar admin */}
-      <Sidebar />
+      {/* Sidebar */}
+      <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
       <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
 

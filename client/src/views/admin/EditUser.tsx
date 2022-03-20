@@ -11,6 +11,9 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import EditUserForm from '../../components/Admin/EditUserForm/EditUserForm'
 import ManagePermissions from '../../components/Admin/ManagePermissions/ManagePermissions'
 
+// Data
+import { sidebarLinks } from '../../components/Sidebar/data';
+
 interface EditUserParams {
   propsUserId: string;
 }
@@ -57,8 +60,8 @@ export default function EditUser({}: Props) {
 
   return (
     <section className="d-flex Sidebar admin">
-      {/* Sidebar admin */}
-      <Sidebar />
+      {/* Sidebar */}
+      <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
       <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
 

@@ -21,12 +21,36 @@ export const links: LinkType[] = [
     subButtons: []
   }, {
     id: 1,
-    label: 'About',
-    link: '/about',
+    label: "Let's meet",
+    link: '/lets-meet',
     type: 'button',
     subButtons: []
   }, {
     id: 2,
+    label: 'Offers',
+    link: '',
+    type: 'dropdown',
+    subButtons: [
+      {
+        id: 0,
+        label: 'Offer wedding',
+        link: '/offer/wedding'
+      }, {
+        id: 1,
+        label: 'Offer photos session',
+        link: '/offer/session'
+      }, {
+        id: 2,
+        label: 'Studio rent',
+        link: '/offer/studio-rent'
+      }, {
+        id: 3,
+        label: 'Print',
+        link: '/offer/print'
+      }
+    ]
+  }, {
+    id: 3,
     label: 'Portfolio',
     link: '',
     type: 'dropdown',
@@ -46,19 +70,25 @@ export const links: LinkType[] = [
       }
     ]
   }, {
-    id: 3,
-    label: 'Offers',
-    link: '/offers',
+    id: 4,
+    label: 'Studio',
+    link: '/studio',
     type: 'button',
     subButtons: []
   }, {
-    id: 4,
+    id: 5,
     label: 'Customer area',
     link: '/login',
     type: 'button',
     subButtons: []
   }, {
-    id: 5,
+    id: 6,
+    label: 'FAQ',
+    link: '/FAQ',
+    type: 'button',
+    subButtons: []
+  }, {
+    id: 7,
     label: 'Contact',
     link: '/contact',
     type: 'button',
@@ -76,9 +106,9 @@ export const settings: NavbarSettingsType = {
   noDynamic: [],
   noTransparent: [],
   noDynamicAndNoTransparent: [
-    '/admin',
     '/admin/home',
     '/admin/customers',
-    '/admin/edit-user'
+    '/admin/edit-user',
+    '/admin/pages'
   ]
 };

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
+// Utils
+import { LinkModel } from '../../utils/interfaces';
+
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';
 import BlockLinks from '../../components/Admin/BlockLinks/BlockLinks';
-import { links, LinkModel } from '../../components/Sidebar/data';
+
+// Data
+import { sidebarLinks } from '../../components/Sidebar/data';
 
 type Props = {};
 
@@ -11,7 +16,7 @@ export default function Home({}: Props) {
   const [ buttons, setButtons ] = useState<LinkModel[]>([])
 
   const deployLinks = () => {
-    setButtons(links)
+    setButtons(sidebarLinks)
   }
 
   useEffect(() => {
@@ -20,8 +25,8 @@ export default function Home({}: Props) {
   
   return (
     <section className="d-flex Sidebar admin">
-      {/* Sidebar admin */}
-      <Sidebar />
+      {/* Sidebar */}
+      <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
       <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
 

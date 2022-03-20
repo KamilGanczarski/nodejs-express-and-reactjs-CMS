@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Utils
+import { LinkModel } from '../../utils/interfaces';
+
+// Components
 import './Sidebar.scss';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import Hyperlink from './Hyperlink';
 import OnclickButton from './OnclickButton';
 
-import { links, LinkModel } from './data';
+type Props = {
+  links: LinkModel[]
+};
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
+export default function Sidebar({ links }: Props) {
   const [topButtons, setTopButtons] = useState<LinkModel[]>([]);
   const [middleButtons, setMiddleButtons] = useState<LinkModel[]>([]);
   const [bottomButtons, setBottomButtons] = useState<LinkModel[]>([]);
@@ -80,6 +84,7 @@ export default function Sidebar({}: Props) {
             <i className="icon-th pe-2"></i>
             <span>Management</span>
           </Link>
+
           {/* Hide sidebar */}
           <div className="d-flex align-items-center w-auto px-0">
             <button className="btn btn-sm px-3 py-1 btn-hide-sidebar close">
@@ -146,7 +151,10 @@ export default function Sidebar({}: Props) {
             icon={btn.icon}
             label={btn.label} />;
         })}
-        {/* <div className="col-10 pt-3 mx-auto border-bottom"></div> */}
+
+        {middleButtons.length > 0 &&
+          <div className="col-10 pt-3 mx-auto border-bottom"></div>
+        }
       </div>
 
       {/* Sidebar footer */}

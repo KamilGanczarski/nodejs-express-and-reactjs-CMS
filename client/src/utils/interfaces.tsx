@@ -115,11 +115,57 @@ export interface pageModel {
   roles: pageRoleModel[];
 }
 
+interface fileStatusModel {
+  id: number;
+  name: string;
+}
+
+interface componentFileModel {
+  id: number;
+  filename: string;
+  path: string;
+  page_component_id: number;
+  file_status_id: number;
+  status: fileStatusModel[];
+}
+
+interface componentContentModel {
+  id: number;
+  name: string;
+  content: string;
+  page_component_id: number;
+}
+
+export interface componentModel {
+  id: number;
+  type: string;
+  path: string;
+  file_info: [];
+  content: [];
+}
+
 export interface BlockLinkModel {
   id: number;
   icon: string;
   label: string;
   link: string;
   type: 'button' | 'dropdown' | 'hyperlink' | 'onclick';
+  onclick: () => void;
+}
+
+interface SublinkModel {
+  id: number;
+  label: string;
+  link: string;
+}
+
+export interface LinkModel {
+  id: number;
+  icon: string;
+  label: string;
+  link: string;
+  type: 'button' | 'dropdown' | 'hyperlink' | 'onclick';
+  position: 'top' | 'middle' | 'bottom';
+  subButtons: SublinkModel[];
   onclick: () => void;
 }

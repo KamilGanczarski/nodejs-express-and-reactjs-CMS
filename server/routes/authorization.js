@@ -4,7 +4,8 @@ const {
   login,
   logout,
   checkValidToken,
-  changePassword
+  changePassword,
+  resetDB
 } = require('../controllers/authorization');
 const { authenticateUser } = require('../middleware/authorization');
 
@@ -23,5 +24,9 @@ router.route('/check-token')
 // Change password
 router.route('/change-password')
   .post(authenticateUser, changePassword);
+
+// Change password
+router.route('/reset-database')
+  .post(authenticateUser, resetDB);
 
 module.exports = router;

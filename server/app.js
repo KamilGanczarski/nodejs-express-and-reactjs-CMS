@@ -23,6 +23,7 @@ app.use('/api/v1/roles', require('./routes/role'));
 app.use('/api/v1/permissions', require('./routes/permission'));
 app.use('/api/v1/pages', require('./routes/page'));
 app.use('/api/v1/components', require('./routes/component'));
+app.use('/api/v1/content', require('./routes/content'));
 
 // Middleware
 app.use(notFoundMiddleware);

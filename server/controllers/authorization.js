@@ -6,6 +6,7 @@ const {
   validPassword,
   createToken
 } = require('../utils/jwt');
+const fs = require('fs');
 
 const { userQuery } = require('../utils/database');
 
@@ -108,9 +109,33 @@ const changePassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ token: `Bearer ${token}` });
 }
 
+const resetDB = async (req, res) => {
+  const sql = fs
+    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/init_user.sql')
+    .toString();
+  const sql1 = fs
+    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/insert_data.sql')
+    .toString();
+
+  const result = await db.query(sql, [])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`Database isn't set to default`);
+    });
+
+  const result1 = await db.query(sql1, [])
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`Database isn't set to default`);
+    });
+
+  res.status(StatusCodes.OK).send({ result, result1 });
+}
+
 module.exports = {
   login,
   logout,
   checkValidToken,
-  changePassword
+  changePassword,
+  resetDB
 }

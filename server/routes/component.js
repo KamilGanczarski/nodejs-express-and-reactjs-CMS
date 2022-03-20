@@ -13,8 +13,8 @@ const {
 } = require('../controllers/component');
 
 router.route('/')
-  .get(authenticateUser, authorizePermissions('MANAGE_USER'), getAllComponents)
-  .post(authenticateUser, authorizePermissions('MANAGE_USER'), createComponent)
-  .delete(authenticateUser, authorizePermissions('MANAGE_USER'), deleteComponent);
- 
+  .get(authenticateUser, authorizePermissions('MANAGE_PAGES'), getAllComponents)
+  .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
+  .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteComponent);
+
 module.exports = router;

@@ -23,7 +23,7 @@ INSERT INTO users (
     'Developer event',
     '$2a$10$BX4FLipiSs5lHHYNAE71SeTg.UP.w4f/MIkYqW4QZwwJvGOyb7ntK',
     '2022-3-21'::timestamp,
-    7,
+    15,
     '00000000',
     '2022-3-21'::timestamp,
     '2022-3-21'::timestamp,
@@ -45,7 +45,8 @@ INSERT INTO contract (
 INSERT INTO permissions (name, value, deleteValue, description) VALUES
   ('VIEW_USER', 1, 7, 'Allows for viewing of users'),
   ('ADD_USER', 3, 6, 'Allows for the adding of users'),
-  ('MANAGE_USER', 7, 4, 'Allows management of the user');
+  ('MANAGE_USER', 7, 4, 'Allows management of the users'),
+  ('MANAGE_PAGES', 8, 8, 'Allows management of the pages');
 
 -- TABLE variables
 INSERT INTO variables (property, value) VALUES
@@ -78,8 +79,8 @@ INSERT INTO components VALUES
   (6, 'carousel-awards', 'carousel-awards'),
 
   (7, 'gallery', 'gallery'),
-  (8, 'youtube-film', 'youtube-film'),
-  (9, 'film-counter', 'film-counter'),
+  (8, 'youtube-films', 'youtube-films'),
+  (9, 'youtube-films-counter', 'youtube-films-counter'),
 
   (10, 'navigation-around-website', 'navigation-around-website'),
   (11, 'navigation-around-website-1', 'navigation-around-website-1'),

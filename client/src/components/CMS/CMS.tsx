@@ -8,6 +8,8 @@ import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
 // Components
 import Hero from './Hero/Hero';
 import SkewedSlider from './SkewedSlider/SkewedSlider';
+import Footer from './Footer/Footer';
+import FooterLarge from './Footer/FooterLarge';
 
 type Props = {
   pageName: string;
@@ -42,7 +44,7 @@ export default function CMS({ pageName }: Props) {
         return ( <div key={component.id}>
           {{
             'hero': <Hero />,
-            'skewed-slider': <SkewedSlider />,
+            // 'skewed-slider': <SkewedSlider />,
             'custom-text': <div>{component.path}</div>,
             'carousel-3-2-1': <div>{component.path}</div>,
             'carousel-4-3-2-1': <div>{component.path}</div>,
@@ -57,9 +59,9 @@ export default function CMS({ pageName }: Props) {
             'portfolio-history-wedding': <div>{component.path}</div>,
             'intro-about-us': <div>{component.path}</div>,
             'intro-contact': <div>{component.path}</div>,
-            'google-map': <div>{component.path}</div>,
-            'footer': <div>{component.path}</div>,
-            'footer-large': <div>{component.path}</div>
+            'google-map': <div>{component.path}</div>
+            // 'footer': <Footer />,
+            // 'footer-large': <FooterLarge />
           }[component.path]}
         </div>)
       })}

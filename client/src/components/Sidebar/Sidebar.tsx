@@ -22,16 +22,11 @@ export default function Sidebar({ links }: Props) {
 
   const fetchData = async () => {
     // Top buttons
-    const newTopButtons = links.filter(link => link.position === 'top');
-    setTopButtons(newTopButtons);
-
+    setTopButtons(links.filter(link => link.position === 'top'));
     // Middle buttons
-    const newMiddleButtons = links.filter(link => link.position === 'middle');
-    setMiddleButtons(newMiddleButtons);
-
+    setMiddleButtons(links.filter(link => link.position === 'middle'));
     // Bottom buttons
-    const newBottomButtons = links.filter(link => link.position === 'bottom');
-    setBottomButtons(newBottomButtons);
+    setBottomButtons(links.filter(link => link.position === 'bottom'));
   }
 
   const sidebarEventListener = () => {
@@ -76,6 +71,7 @@ export default function Sidebar({ links }: Props) {
             </Link>
           </div>
         </div>
+
         {/* Management */}
         <div className="w-100 row m-0">
           <Link

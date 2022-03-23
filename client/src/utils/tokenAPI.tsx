@@ -10,6 +10,10 @@ export const axiosHeaders = {
   }
 }
 
+/**
+ * Redirect depend on permission
+ * @param permission 
+ */
 export const redirectAfterLogin = (permission: string) => {
   switch (permission) {
     case 'admin':
@@ -21,14 +25,21 @@ export const redirectAfterLogin = (permission: string) => {
   }
 }
 
+// Get and decode token
 export const getTokenDecoded = (): TokenModel => {
   return decodeToken(localStorage.token);
 }
 
+/**
+ * Decode token
+ * @param token Token
+ * @returns decoded token
+ */
 export const decodeToken = (token: string): TokenModel => {
   return jwt_decode(token);
 }
 
+// Check valid token
 export const checkValidToken = async () => {
   // If token in local storage is set
   if (!localStorage.token) {
@@ -42,10 +53,12 @@ export const checkValidToken = async () => {
     });
 }
 
-export const redirectIValidToken = async () => {
+// Redirect if token is valid
+export const redirectIfValidToken = async () => {
   try {
-    const res: any = await checkValidToken();
-    const decodedToken: TokenModel = decodeToken(res.data.token);
+    const response: any = await checkValidToken();
+    localStorage.setItem('token', response.data.token);
+    const decodedToken: TokenModel = decodeToken(response.data.token);
     if (decodedToken.user.changePassword) {
       redirectTo('/change-password');
       return;
@@ -56,16 +69,46 @@ export const redirectIValidToken = async () => {
   }
 }
 
+// Redirect to with parameters (optionally)
 export const redirectTo = (link: string, parameters: string = '') => {
   window.location.replace(
     `${baseAppUrl}${link}${parameters && '/' + parameters}`
   );
 }
 
-// export const checkHttpStatus = async () => {
-//   const res = await checkValidToken();
-//   if (res.status < 200 || res.status <= 300) {
-//     console.log(res);
-//   }
-//   return res;
-// }
+/**
+ * Send post to server with login and password,
+ *    if correct redirect to specyfic page,
+ *    else return response
+ * @param login Login
+ * @param password Password
+ * @returns Return response from server if unauthorized
+ */
+export const loginToServer = async (login: string, password: string) => {
+  const response = await axios.post(`${baseUrl}/api/v1/auth/login`, {
+      login: login,
+      password: password
+    })
+    .then((response) => {
+      if (response.data.token) {
+        // Set token from local storage
+        localStorage.setItem('token', response.data.token);
+        const decodedToken: TokenModel = jwt_decode(response.data.token);
+        if (decodedToken.user.changePassword) {
+          redirectTo('/change-password', '');
+        } else {
+          redirectAfterLogin(decodedToken.user.role);
+        }
+        return '';
+      }
+      return '';
+    })
+    .catch(error => {
+      if (error.response.data.msg) {
+        return error.response.data.msg;
+      }
+      return 'Error with server';
+    });
+
+  return response;
+}

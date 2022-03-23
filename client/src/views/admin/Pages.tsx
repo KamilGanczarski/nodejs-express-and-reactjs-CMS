@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Utils
 import { BlockLinkModel } from '../../utils/interfaces';
-import { baseUrl, axiosHeaders, redirectTo } from '../../utils/tokenAPI';
+import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -18,11 +18,6 @@ export default function Pages({}: Props) {
   const [ BlockLinksList, setBlockLinksList ] = useState<BlockLinkModel[]>([]);
 
   const fetchPages = async () => {
-    // If token in local storage is set
-    if (!localStorage.token) {
-      redirectTo('/login');
-    }
-
     await axios.get(`${baseUrl}/api/v1/pages`, axiosHeaders)
       .then(res => {
         const newPages = res.data.pages;

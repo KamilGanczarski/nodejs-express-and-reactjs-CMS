@@ -129,9 +129,10 @@ interface componentFileModel {
   status: fileStatusModel[];
 }
 
-interface componentContentModel {
+export interface componentContentModel {
   id: number;
   name: string;
+  description: string;
   content: string;
   page_component_id: number;
 }
@@ -140,8 +141,8 @@ export interface componentModel {
   id: number;
   type: string;
   path: string;
-  file_info: [];
-  content: [];
+  file_info: componentFileModel[];
+  content: componentContentModel[];
 }
 
 export interface BlockLinkModel {

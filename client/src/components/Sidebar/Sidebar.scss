@@ -44,7 +44,7 @@ body {
   position: fixed;
   left: -500px;
   top: 100px;
-  z-index: 2;
+  z-index: 10;
   -webkit-transition: left .2s ease;
      -moz-transition: left .2s ease;
       -ms-transition: left .2s ease;
@@ -107,7 +107,7 @@ body {
   left: 0;
   top: 0;
   background-color: #00000040;
-  z-index: 3;
+  z-index: 10;
   -webkit-transition: background-color .3s ease .2s;
      -moz-transition: background-color .3s ease .2s;
       -ms-transition: background-color .3s ease .2s;

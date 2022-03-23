@@ -5,32 +5,42 @@ const { StatusCodes } = require('http-status-codes');
 const { queryComponent } = require('../utils/database');
 
 const getAllComponents = async (req, res) => {
-  const { page } = req.query;
+  const { page, componentName } = req.query;
   CustomError.requireProvidedValues(page);
 
+  const queryParams = [page];
+  let componentNameQuery = '';
+
+  // Filter by component name if componentName is set
+  if (componentName) {
+    componentNameQuery = `AND components.type LIKE '${componentName}'`;
+    // queryParams.push(componentName);
+  }
+
   const components = await db.query(
-    queryComponent({
-      componentCondition: 'WHERE pages.url = $1'
-    }),
-    [page])
-  .then((result) => result)
-  .catch((err) => {
-    throw new CustomError.BadRequestError(`No components`);
-  });
+      queryComponent({
+        componentCondition: `WHERE pages.url = $1 ${componentNameQuery}`
+      }),
+      queryParams
+    )
+    .then((result) => result)
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No components`);
+    });
 
   res.status(StatusCodes.OK).send({ components });
 }
 
 const createComponent = async (req, res) => {
-  const { pageId, componentname } = req.body;
-  CustomError.requireProvidedValues(pageId, componentname);
+  const { pageId, componentName } = req.body;
+  CustomError.requireProvidedValues(pageId, componentName);
 
   // Check if component already exists
   const components = await db.query(
     queryComponent({
       componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
-    [pageId, componentname]
+    [pageId, componentName]
   )
   .then((result) => result)
   .catch((err) => {
@@ -43,7 +53,7 @@ const createComponent = async (req, res) => {
 
   const componentDetails = await db.query(
       `SELECT * FROM components WHERE type = $1;`,
-      [componentname]
+      [componentName]
     )
     .then((result) => result)
     .catch((err) => {
@@ -70,15 +80,15 @@ const createComponent = async (req, res) => {
 }
 
 const deleteComponent = async (req, res) => {
-  const { pageId, componentname } = req.body;
-  CustomError.requireProvidedValues(pageId, componentname);
+  const { pageId, componentName } = req.body;
+  CustomError.requireProvidedValues(pageId, componentName);
 
   // Check if component already exists
   const components = await db.query(
     queryComponent({
       componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
-    [pageId, componentname]
+    [pageId, componentName]
   )
   .then((result) => result)
   .catch((err) => {

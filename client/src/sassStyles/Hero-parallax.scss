@@ -1,0 +1,154 @@
+// Hero parallax
+.Hero-parallax {
+  position: relative;
+}
+
+// .Hero-parallax .over-hero {
+//   position: absolute;
+//   z-index: 1;
+//   top: 0;
+//   height: 100%;
+//   width: 100%;
+// }
+
+.Hero-parallax > .carousel.container-240px,
+.Hero-parallax > .carousel.container-240px .carousel-item {
+  height: 240px;
+}
+
+.Hero-parallax > .carousel.container-500,
+.Hero-parallax > .carousel.container-500 .carousel-item {
+  height: 500px;
+}
+
+.Hero-parallax > .carousel.container-100,
+.Hero-parallax > .carousel.container-100 .carousel-item {
+  height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+.Hero-parallax > .carousel.container-175,
+.Hero-parallax > .carousel.container-175 .carousel-item {
+  height: 175vh;
+}
+
+@media (max-height: 500px) {
+	.Hero-parallax > .carousel.container-100,
+	.Hero-parallax > .carousel.container-100 .carousel-item,
+	.Hero-parallax > .carousel.container-175,
+  .Hero-parallax > .carousel.container-175 .carousel-item {
+		height: 500px !important;
+  }
+}
+
+.Hero-parallax .carousel-inner {
+  height: 100%;
+}
+
+.Hero-parallax .hero-img,
+.Hero-parallax .mini-hero-img {
+	/* can be put in a seperate class for better control */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+// .bg-linear-hero {
+//     background-image: linear-gradient(#00000020, #000000aa);
+// }
+
+.Hero-parallax .carousel-inner .carousel-item {
+  -webkit-transition: opacity 2s ease;
+     -moz-transition: opacity 2s ease;
+      -ms-transition: opacity 2s ease;
+       -o-transition: opacity 2s ease;
+          transition: opacity 2s ease;
+}
+
+// Indicators
+// .Hero-parallax .carousel-indicators-custom {
+//   position: absolute;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   z-index: 2;
+//   display: flex;
+//   justify-content: center;
+//   padding: 0;
+//   margin-right: 15%;
+//   margin-bottom: 1rem;
+//   margin-left: 15%;
+//   list-style: none;
+// }
+
+.Hero-parallax > .carousel > .carousel-indicators > button {
+  width: 35px;
+  margin: 10px;
+  border: 0;
+  border-radius: 5px;
+  background: linear-gradient(to right, #ffffff 50%, #aaaaaa 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0%;
+  -webkit-transition: background-position 0s linear;
+     -moz-transition: background-position 0s linear;
+      -ms-transition: background-position 0s linear;
+       -o-transition: background-position 0s linear;
+          transition: background-position 0s linear;
+}
+
+.Hero-parallax > .carousel > .carousel-indicators > button.active {
+  background-position: 0% 0%;
+  -webkit-transition: background-position 6s linear;
+     -moz-transition: background-position 6s linear;
+      -ms-transition: background-position 6s linear;
+       -o-transition: background-position 6s linear;
+          transition: background-position 6s linear;
+}
+
+@media (max-width: 992px) {
+  .Hero-parallax .carousel-underline > div {
+      margin-bottom: 54px;
+  }
+
+  .Hero-parallax .hero-h1 {
+      font-size: 28px;
+      line-height: 36px;
+  }
+
+  .Hero-parallax .rotating-text {
+      width: 100%;
+      /* padding: 0 !important; */
+      margin-bottom: 30px;
+      font-size: 24px;
+      line-height: 26px;
+      text-align: center !important;
+  }
+
+  .Hero-parallax .rotating-text .rotating {
+      display: block;
+  }
+}
+
+// Social media
+.social-absolute {
+  position: absolute;
+  z-index: 1000;
+  height: 100%;
+  top: 0;
+  right: 40px;
+}
+
+.bottom-hero-item {
+  padding-bottom: 145px;
+  -webkit-transition: all .7s ease;
+     -moz-transition: all .7s ease;
+      -ms-transition: all .7s ease;
+       -o-transition: all .7s ease;
+          transition: all .7s ease;
+}
+
+@media (min-width: 992px) {
+  .bottom-hero-item {
+      padding-bottom: 69px;
+  }
+}

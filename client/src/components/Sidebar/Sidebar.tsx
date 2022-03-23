@@ -66,8 +66,10 @@ export default function Sidebar({ links }: Props) {
           <div className="w-100 row m-0">
             <Link
               to="/admin/home"
-              className="btn w-auto px-4 py-2 mx-auto bg-transparent animated-box in">
-              <span className="text-light">Management</span>
+              className="btn btn-sm w-auto px-4 py-1 mx-auto text-custom btn-rounded-light btn-shine btn-shine-animation">
+              <span className="small text-uppercase font-weight-bold">
+                Management
+              </span>
             </Link>
           </div>
         </div>
@@ -84,7 +86,7 @@ export default function Sidebar({ links }: Props) {
           {/* Hide sidebar */}
           <div className="d-flex align-items-center w-auto px-0">
             <button className="btn btn-sm px-3 py-1 btn-hide-sidebar close">
-              <i className="icon-menu h4 m-0 text-hover-light"></i>
+              <i className="icon-left-open h5 m-0 text-hover-light"></i>
             </button>
           </div>
         </div>
@@ -95,25 +97,25 @@ export default function Sidebar({ links }: Props) {
               key={btn.id}
               label={btn.label}
               icon={btn.icon}
-              subButtons={btn.subButtons} />;
+              subButtons={btn.subButtons} />
           } else if (btn.type === 'hyperlink') {
             return <Hyperlink
               key={btn.id}
               link={btn.link}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           } else if (btn.type === 'onclick') {
             return <OnclickButton
               key={btn.id}
               onclick={btn.onclick}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           }
           return <Button
             key={btn.id}
             link={btn.link}
             icon={btn.icon}
-            label={btn.label} />;
+            label={btn.label} />
         })}
 
         <div className="col-10 pt-3 mx-auto border-bottom"></div>
@@ -127,25 +129,25 @@ export default function Sidebar({ links }: Props) {
               key={btn.id}
               label={btn.label}
               icon={btn.icon}
-              subButtons={btn.subButtons} />;
+              subButtons={btn.subButtons} />
           } else if (btn.type === 'hyperlink') {
             return <Hyperlink
               key={btn.id}
               link={btn.link}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           } else if (btn.type === 'onclick') {
             return <OnclickButton
               key={btn.id}
               onclick={btn.onclick}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           }
           return <Button
             key={btn.id}
             link={btn.link}
             icon={btn.icon}
-            label={btn.label} />;
+            label={btn.label} />
         })}
 
         {middleButtons.length > 0 &&
@@ -161,25 +163,25 @@ export default function Sidebar({ links }: Props) {
               key={btn.id}
               label={btn.label}
               icon={btn.icon}
-              subButtons={btn.subButtons} />;
+              subButtons={btn.subButtons} />
           } else if (btn.type === 'hyperlink') {
             return <Hyperlink
               key={btn.id}
               link={btn.link}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           } else if (btn.type === 'onclick') {
             return <OnclickButton
               key={btn.id}
               onclick={btn.onclick}
               icon={btn.icon}
-              label={btn.label} />;
+              label={btn.label} />
           }
           return <Button
             key={btn.id}
             link={btn.link}
             icon={btn.icon}
-            label={btn.label} />;
+            label={btn.label} />
         })}
       </div>
     </nav>

@@ -70,31 +70,32 @@ INSERT INTO pages VALUES
 
 -- TABLE components
 INSERT INTO components VALUES
-  (1, 'hero', 'hero'),
-  (2, 'skewed-slider', 'skewed-slider'),
-  
-  (3, 'custom-text', 'custom-text'),
-  (4, 'carousel-3-2-1', 'carousel-3-2-1'),
-  (5, 'carousel-4-3-2-1', 'carousel-4-3-2-1'),
-  (6, 'carousel-awards', 'carousel-awards'),
+  (1, 'hero-carousel', 'hero-carousel'),
+  (2, 'hero-video', 'hero-video'),
+  (3, 'skewed-slider', 'skewed-slider'),
 
-  (7, 'gallery', 'gallery'),
-  (8, 'youtube-films', 'youtube-films'),
-  (9, 'youtube-films-counter', 'youtube-films-counter'),
+  (4, 'custom-text', 'custom-text'),
+  (5, 'carousel-3-2-1', 'carousel-3-2-1'),
+  (6, 'carousel-4-3-2-1', 'carousel-4-3-2-1'),
+  (7, 'carousel-awards', 'carousel-awards'),
 
-  (10, 'navigation-around-website', 'navigation-around-website'),
-  (11, 'navigation-around-website-1', 'navigation-around-website-1'),
+  (8, 'gallery', 'gallery'),
+  (9, 'youtube-films', 'youtube-films'),
+  (10, 'youtube-films-counter', 'youtube-films-counter'),
 
-  (12, 'chessboard', 'chessboard'),
-  (13, 'collapsing-description', 'collapsing-description'),
-  (14, 'portfolio-history-wedding', 'portfolio-history-wedding'),
+  (11, 'navigation-around-website', 'navigation-around-website'),
+  (12, 'navigation-around-website-1', 'navigation-around-website-1'),
 
-  (15, 'intro-about-us', 'intro-about-us'),
-  (16, 'intro-contact', 'intro-contact'),
+  (13, 'chessboard', 'chessboard'),
+  (14, 'collapsing-description', 'collapsing-description'),
+  (15, 'portfolio-history-wedding', 'portfolio-history-wedding'),
 
-  (17, 'google-map', 'google-map'),
-  (18, 'footer', 'footer'),
-  (19, 'footer-large', 'footer-large');
+  (16, 'intro-about-us', 'intro-about-us'),
+  (17, 'intro-contact', 'intro-contact'),
+
+  (18, 'google-map', 'google-map'),
+  (19, 'footer', 'footer'),
+  (20, 'footer-large', 'footer-large');
 
 -- TABLE page_components
 INSERT INTO page_components (page_id, component_id) VALUES
@@ -127,10 +128,24 @@ INSERT INTO file_status VALUES
   (5, 'rejected');
 
 -- TABLE file_info
--- INSERT INTO file_info VALUES ();
+INSERT INTO file_info (filename, path, page_component_id, file_status_id) VALUES
+  ('3zT1PWiA.jpeg', '/images/9literfilmy/3zT1PWiA.jpeg', 1, 1),
+  ('8qFsiL7w.jpeg', '/images/9literfilmy/8qFsiL7w.jpeg', 1, 1),
+  ('e9UhDicx.jpeg', '/images/9literfilmy/e9UhDicx.jpeg', 1, 1),
+  ('GdbW4vJg.jpeg', '/images/9literfilmy/GdbW4vJg.jpeg', 1, 1);
 
 -- TABLE content
--- INSERT INTO content VALUES ();
+INSERT INTO content (name, description, content, page_component_id) VALUES
+  ('hero-text-slider-1', 'slide-1', 'Custom solutions', 1),
+  ('hero-text-slider-2', 'slide-1', 'Custom solutions', 1),
+  ('hero-text-slider-1', 'slide-2', 'Custom solutions', 1),
+  ('hero-text-slider-2', 'slide-2', 'Custom solutions', 1),
+  ('hero-text-slider-1', 'slide-3', 'Custom solutions', 1),
+  ('hero-text-slider-2', 'slide-3', 'Custom solutions', 1),
+  ('hero-text-slider-1', 'slide-4', 'Custom solutions', 1),
+  ('hero-text-slider-2', 'slide-4', 'Custom solutions', 1);
+
+
 
 -- TABLE newsletter
 -- INSERT INTO newsletter VALUES ();

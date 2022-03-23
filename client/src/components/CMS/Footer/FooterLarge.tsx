@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Components
+import TextLink from './TextLink'
+import SocialMediaIcon from './SocialMediaIcon'
+
 type Props = {}
 
 export default function FooterLarge({}: Props) {
@@ -46,71 +50,45 @@ export default function FooterLarge({}: Props) {
         <div className="col-12 col-lg-6 px-0 px-xl-4 pt-3 pt-4 pb-4 mx-auto">
           <div className="w-100 row pb-3 m-0 justify-content-center justify-content-lg-end">
             {/* Home */}
-            <Link
-              to="/index"
-              className="btn btn-sm w-auto px-1 mx-2 text-with-underline">
-              <span>Home</span>
-              <div></div>
-            </Link>
+            <TextLink url="/index" text="Home" />
+
             {/* Let's meet */}
-            <Link
-              to="/lets-meet"
-              className="btn btn-sm w-auto px-1 mx-1 text-with-underline">
-              <span>Let's meet</span>
-              <div></div>
-            </Link>
+            <TextLink url="/lets-meet" text="Let's meet" />
+
             {/* Offers */}
-            <Link
-              to="/offers"
-              className="btn btn-sm w-auto px-1 mx-1 text-with-underline">
-              <span>Offers</span>
-              <div></div>
-            </Link>
+            <TextLink url="/offers" text="Offers" />
+
             {/* Customer area */}
-            <Link
-              to="/login"
-              className="btn btn-sm w-auto px-1 mx-1 text-with-underline">
-              <span>Customer area</span>
-              <div></div>
-            </Link>
+            <TextLink url="/login" text="Customer area" />
+
             {/* Contact */}
-            <Link
-              to="/contact"
-              className="btn btn-sm w-auto px-1 mx-1 text-with-underline">
-              <span>Contact</span>
-              <div></div>
-            </Link>
+            <TextLink url="/contact" text="Contact" />
           </div>
 
-          <div className="w-100 row px-0 px-xl-4 py-3 m-0 justify-content-center justify-content-lg-end">
+          <div className="w-100 row px-0 px-xl-2 py-3 m-0 justify-content-center justify-content-lg-end">
             {/* Facebook */}
-            <Link
-              to="link-facebook"
-              target="_blank"
-              className="btn w-auto px-2 py-1 me-3 rounded text-facebook btn-shine btn-shine-hover">
-              <i className="icon-facebook h4 m-0"></i>
-            </Link>
+            <SocialMediaIcon
+              url="link-facebook"
+              style="text-facebook"
+              icon="icon-facebook" />
+
             {/* Instagram */}
-            <Link
-              to="link-instagram"
-              target="_blank"
-              className="btn w-auto px-2 py-1 mx-3 rounded text-instagram btn-shine btn-shine-hover">
-              <i className="icon-instagram h4 m-0"></i>
-            </Link>
+            <SocialMediaIcon
+              url="link-instagram"
+              style="text-instagram"
+              icon="icon-instagram" />
+
             {/* YouTube */}
-            <Link
-              to="link-youtube"
-              target="_blank"
-              className="btn w-auto px-2 py-1 mx-3 rounded text-youtube btn-shine btn-shine-hover">
-              <i className="icon-youtube h4 m-0"></i>
-            </Link>
+            <SocialMediaIcon
+              url="link-youtube"
+              style="text-youtube"
+              icon="icon-youtube" />
+
             {/* Twitter */}
-            <Link
-              to="link-twitter"
-              target="_blank"
-              className="btn w-auto px-2 py-1 ms-3 rounded text-twitter btn-shine btn-shine-hover">
-              <i className="icon-twitter h4 m-0"></i>
-            </Link>
+            <SocialMediaIcon
+              url="link-twitter"
+              style="text-twitter"
+              icon="icon-twitter" />
           </div>
         </div>
 

@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import jwt_decode from "jwt-decode";
 
 // Utils
-import { TokenModel } from '../utils/interfaces';
 import {
-  baseUrl,
-  redirectAfterLogin,
-  redirectIValidToken,
-  redirectTo
+  redirectIfValidToken,
+  loginToServer
 } from '../utils/tokenAPI';
 
 // Components
@@ -31,32 +26,14 @@ export default function Login({}: Props) {
     localStorage.removeItem('token');
     setLoginResponse('');
 
-    await axios.post(`${baseUrl}/api/v1/auth/login`, {
-        login: login,
-        password: password
-      })
-      .then((response) => {
-        if (response.data.token) {
-          // Set token from local storage
-          localStorage.setItem('token', response.data.token);
-          const decodedToken: TokenModel = jwt_decode(response.data.token);
-          if (decodedToken.user.changePassword) {
-            redirectTo('/change-password', `${login}`);
-          } else {
-            redirectAfterLogin(decodedToken.user.role);
-          }
-        }
-      })
-      .catch(error => {
-        setPassword('');
-        if (error.response.data.msg) {
-          setLoginResponse(error.response.data.msg);
-        }
-      });
+    const response = await loginToServer(login, password);
+    console.log(response)
+    setPassword('');
+    setLoginResponse(response);
   }
 
   useEffect(() => {
-    redirectIValidToken()
+    redirectIfValidToken()
   }, []);
 
   return (
@@ -107,7 +84,7 @@ export default function Login({}: Props) {
                 <button
                   type="button"
                   className="btn w-auto mx-0 bg-shadow text-error">
-                    {loginResponse}
+                  {loginResponse}
                 </button>
               </div>
             </div>

@@ -1,0 +1,174 @@
+.Hero-parallax .header-slider {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  width: 300%;
+  margin: auto;
+}
+
+.Hero-parallax .header-slider.active {
+  z-index: 3;
+}
+
+.Hero-parallax .header-slider > .text-move-1,
+.Hero-parallax .header-slider > .text-move-2,
+.Hero-parallax .header-slider > .text-move-3,
+.Hero-parallax .header-slider > .text-move-4 {
+  -webkit-transition: all 1.1s ease;
+     -moz-transition: all 1.1s ease;
+      -ms-transition: all 1.1s ease;
+       -o-transition: all 1.1s ease;
+          transition: all 1.1s ease;
+  color: transparent;
+}
+
+.Hero-parallax .header-slider > div:nth-child(2) {
+  transition-delay: .15s;
+}
+
+.Hero-parallax .header-slider > div:nth-child(3) {
+  transition-delay: .2s;
+}
+
+.Hero-parallax .header-slider > div:nth-child(4) {
+  transition-delay: .25s;
+}
+
+.Hero-parallax .header-slider > div:nth-child(5) {
+  transition-delay: .3s;
+}
+
+.Hero-parallax .header-slider > div:nth-child(6) {
+  transition-delay: .35s;
+}
+
+/* .Hero-parallax .header-slider > .text-move-center > .text-inside {
+  width: auto;
+}
+
+.Hero-parallax .header-slider.active > .text-move-center > .text-inside {
+  width: 100%;
+  -webkit-transition: all 1.1s ease;
+     -moz-transition: all 1.1s ease;
+      -ms-transition: all 1.1s ease;
+       -o-transition: all 1.1s ease;
+          transition: all 1.1s ease;
+} */
+
+@media (max-width: 768px) {
+  .Hero-parallax .header-slider > .text-move-1,
+  .Hero-parallax .header-slider > .text-move-2,
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      width: 340px !important;
+  }
+
+  .Hero-parallax .header-slider > .text-move-1 {
+      font-size: 30px;
+      line-height: 30px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-2 {
+      font-size: 40px;
+      line-height: 40px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      font-size: 15px;
+      line-height: 15px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .Hero-parallax .header-slider > .text-move-1,
+  .Hero-parallax .header-slider > .text-move-2,
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      width: 500px !important;
+  }
+
+  .Hero-parallax .header-slider > .text-move-1 {
+      font-size: 30px;
+      line-height: 30px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-2 {
+      font-size: 50px;
+      line-height: 50px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      font-size: 15px;
+      line-height: 15px;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1400px) {
+  .Hero-parallax .header-slider > .text-move-1,
+  .Hero-parallax .header-slider > .text-move-2,
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      width: 700px !important;
+  }
+
+  .Hero-parallax .header-slider > .text-move-1 {
+      font-size: 40px;
+      line-height: 40px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-2 {
+      font-size: 60px;
+      line-height: 60px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      font-size: 20px;
+      line-height: 20px;
+  }
+}
+
+@media (min-width: 1401px) {
+  .Hero-parallax .header-slider > .text-move-1,
+  .Hero-parallax .header-slider > .text-move-2,
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      width: 800px !important;
+  }
+
+  .Hero-parallax .header-slider > .text-move-1 {
+      font-size: 40px;
+      line-height: 40px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-2 {
+      font-size: 60px;
+      line-height: 60px;
+  }
+
+  .Hero-parallax .header-slider > .text-move-3,
+  .Hero-parallax .header-slider > .text-move-4 {
+      font-size: 20px;
+      line-height: 20px;
+  }
+}
+
+.Hero-parallax .header-slider.active > .text-move-1,
+.Hero-parallax .header-slider.active > .text-move-2,
+.Hero-parallax .header-slider.active > .text-move-3,
+.Hero-parallax .header-slider.active > .text-move-4 {
+  margin-left: calc(66% + 100px);
+  color: #ffffffee;
+}
+
+@media (max-width: 768px) {
+  .Hero-parallax .header-slider.active > .text-move-1,
+  .Hero-parallax .header-slider.active > .text-move-2,
+  .Hero-parallax .header-slider.active > .text-move-3,
+  .Hero-parallax .header-slider.active > .text-move-4 {
+      margin-left: calc(66% + 50px);
+      color: #ffffffee;
+  }
+}

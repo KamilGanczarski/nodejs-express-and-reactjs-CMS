@@ -90,7 +90,6 @@ const changePassword = async (req, res) => {
     )
     .then((result) => result)
     .catch((err) => {
-      console.log(err)
       throw new CustomError.BadRequestError("Change has't been approved");
     });
 

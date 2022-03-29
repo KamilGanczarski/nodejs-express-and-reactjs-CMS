@@ -5,7 +5,7 @@ import axios from 'axios';
 import { RoleModel } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders, redirectTo } from '../../../utils/tokenAPI';
 
-// Componenets
+// Components
 import CustomInput from '../../CustomElements/CustomInput';
 
 type Props = {

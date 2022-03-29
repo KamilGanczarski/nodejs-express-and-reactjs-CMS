@@ -102,7 +102,6 @@ const getAllUsers = async (req, res) => {
     )
     .then((users) => users)
     .catch((err) => {
-      console.log(err)
       throw new CustomError.BadRequestError(`No users with this role: ${page}`);
     });
 
@@ -225,7 +224,6 @@ const createUser = async (req, res) => {
   )
   .then((result) => result)
   .catch((err) => {
-    console.log(err)
     throw new CustomError.BadRequestError('User with this login aleady exists');
   });
 
@@ -254,7 +252,6 @@ const createUser = async (req, res) => {
   )
   .then((result) => result)
   .catch((err) => {
-    console.log(err)
     throw new CustomError.BadRequestError("New contract hasn't been created");
   });
 
@@ -361,7 +358,6 @@ const updateUser = async (req, res) => {
   await db.query(updateQuery, updateParams)
     .then((result) => result)
     .catch((err) => {
-      console.log(err)
       throw new CustomError.BadRequestError(`Changes hasn't been pproved`);
     });
 

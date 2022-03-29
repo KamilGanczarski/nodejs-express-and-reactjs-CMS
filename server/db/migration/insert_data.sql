@@ -138,23 +138,23 @@ INSERT INTO file_info (filename, path, page_component_id, file_status_id) VALUES
   ('GdbW4vJg.jpeg', '/images/9literfilmy/GdbW4vJg.jpeg', 1, 1);
 
 -- TABLE content
-INSERT INTO content (name, description, content, page_component_id) VALUES
-  ('slide-1', 'text-size-4', 'Custom solutions', 1),
-  ('slide-1', 'text-size-3', 'Custom solutions', 1),
-  ('slide-1', 'text-size-2', 'Custom solutions', 1),
-  ('slide-1', 'text-size-1', 'Custom solutions', 1),
-  ('slide-2', 'text-size-4', 'Custom solutions', 1),
-  ('slide-2', 'text-size-3', 'Custom solutions', 1),
-  ('slide-2', 'text-size-2', 'Custom solutions', 1),
-  ('slide-2', 'text-size-1', 'Custom solutions', 1),
-  ('slide-3', 'text-size-4', 'Custom solutions', 1),
-  ('slide-3', 'text-size-3', 'Custom solutions', 1),
-  ('slide-3', 'text-size-2', 'Custom solutions', 1),
-  ('slide-3', 'text-size-1', 'Custom solutions', 1),
-  ('slide-4', 'text-size-4', 'Custom solutions', 1),
-  ('slide-4', 'text-size-3', 'Custom solutions', 1),
-  ('slide-4', 'text-size-2', 'Custom solutions', 1),
-  ('slide-4', 'text-size-1', 'Custom solutions', 1);
+INSERT INTO content (name, description, content, order_id, page_component_id) VALUES
+  ('slide-1', 'text-size-4', 'Custom solutions', 1, 1),
+  ('slide-1', 'text-size-3', 'Custom solutions', 2, 1),
+  ('slide-1', 'text-size-2', 'Custom solutions', 3, 1),
+  ('slide-1', 'text-size-1', 'Custom solutions', 4, 1),
+  ('slide-2', 'text-size-4', 'Custom solutions', 1, 1),
+  ('slide-2', 'text-size-3', 'Custom solutions', 2, 1),
+  ('slide-2', 'text-size-2', 'Custom solutions', 3, 1),
+  ('slide-2', 'text-size-1', 'Custom solutions', 4, 1),
+  ('slide-3', 'text-size-4', 'Custom solutions', 1, 1),
+  ('slide-3', 'text-size-3', 'Custom solutions', 2, 1),
+  ('slide-3', 'text-size-2', 'Custom solutions', 3, 1),
+  ('slide-3', 'text-size-1', 'Custom solutions', 4, 1),
+  ('slide-4', 'text-size-4', 'Custom solutions', 1, 1),
+  ('slide-4', 'text-size-3', 'Custom solutions', 2, 1),
+  ('slide-4', 'text-size-2', 'Custom solutions', 3, 1),
+  ('slide-4', 'text-size-1', 'Custom solutions', 4, 1);
 
 -- TABLE newsletter
 -- INSERT INTO newsletter VALUES ();

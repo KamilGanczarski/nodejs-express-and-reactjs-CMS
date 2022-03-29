@@ -8,20 +8,19 @@ import {
   componentContentModel
 } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
-import { cmsModals } from '../../Sidebar/data';
 
 // Components
 import { scrollToEvent } from '../../Navbar/ScrollTo';
 import TextSlide from './TextSlide';
 import SocialMedia from './SocialMedia';
-import EditHero from './EditHero';
+import EditHero from './Edit/EditHero';
 
 type Props = {}
 
 export default function HeroCarousel({}: Props) {
   const [ component, setComponent ] = useState<componentModel>();
   const [ currentSlide, setCurrentSlide ] = useState(0);
-  const [ textSlide, setTextSlide ] = useState<componentContentModel[][]>();
+  const [ textSlides, setTextSlides ] = useState<componentContentModel[][]>();
 
   const separateToArrayByParameter = (
     contentArr: componentContentModel[]
@@ -68,11 +67,16 @@ export default function HeroCarousel({}: Props) {
         if (res.data.components.length > 0) {
           setComponent(res.data.components[0]);
 
-          const contentArr = separateToArrayByParameter(
-            res.data.components[0].content
-          );
-
-          setTextSlide(contentArr);
+          if (res.data.components[0].content) {
+            const contentArr = separateToArrayByParameter(
+              res.data.components[0].content
+            );
+            setTextSlides(contentArr);
+          } else {
+            setTextSlides([]);
+          }
+        } else {
+          setTextSlides([]);
         }
       })
       .catch(error => {
@@ -119,9 +123,9 @@ export default function HeroCarousel({}: Props) {
       </Carousel>
 
       {/* Text with slider */}
-      {textSlide &&
+      {textSlides &&
         <TextSlide
-          textSlides={textSlide}
+          textSlides={textSlides}
           currentSlide={currentSlide} />
       }
 
@@ -137,7 +141,7 @@ export default function HeroCarousel({}: Props) {
 
       <section className="over-hero"></section>
 
-      <EditHero />
+      <EditHero textSlides={textSlides} fetchPages={fetchPages} />
     </article>
   )
 }

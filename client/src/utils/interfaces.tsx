@@ -134,6 +134,7 @@ export interface componentContentModel {
   name: string;
   description: string;
   content: string;
+  order_id: number;
   page_component_id: number;
 }
 

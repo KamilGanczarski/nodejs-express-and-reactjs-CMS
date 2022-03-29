@@ -54,6 +54,9 @@ $main-color-dark: #c08005;
   // Text hover
   --text-hover-before: #666;
   --text-hover-after: #000;
+
+  // Border
+  --border-theme: #dee2e6;
 }
 
 //    Dark
@@ -73,4 +76,7 @@ $main-color-dark: #c08005;
   // Text hover
   --text-hover-before: #aaa;
   --text-hover-after: #fff;
+
+  // Border
+  --border-theme: #343a40;
 }

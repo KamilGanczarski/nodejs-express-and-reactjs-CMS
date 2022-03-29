@@ -17,4 +17,7 @@ router.route('/')
   .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
   .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteComponent);
 
+router.route('/hero-content')
+  .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
+
 module.exports = router;

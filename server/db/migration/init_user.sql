@@ -132,6 +132,7 @@ CREATE TABLE content
   name              VARCHAR(255)                                   NOT NULL,
   description       VARCHAR(255)                                   NOT NULL,
   content           VARCHAR(255),
+  order_id          BIGINT                                         NOT NULL,
   page_component_id BIGINT REFERENCES page_components (id)         NOT NULL
 );
 

@@ -7,7 +7,7 @@ const { pageQuery } = require('../../utils/database');
  * @param {*} userId User id
  * @returns Return pages
  */
-const fetchPagesByUserId = async (page, userId) => {
+const fetchPagesByUserId = async (userId) => {
   // Find permission id
   const Pages = await db.query(
       pageQuery({
@@ -21,6 +21,27 @@ const fetchPagesByUserId = async (page, userId) => {
   return Pages;
 }
 
+/**
+ * Fetch pages for one user
+ * @param {*} url Page url
+ * @returns Return pages
+ */
+ const fetchPagesByUrl = async (url) => {
+  // Find permission id
+  const Pages = await db.query(
+      pageQuery({
+        userCondition: `WHERE pages.url = $1`
+      }),
+      [url]
+    )
+    .then((result) => result)
+    .catch((err) => []);
+
+  return Pages;
+}
+
+
 module.exports = {
-  fetchPagesByUserId
+  fetchPagesByUserId,
+  fetchPagesByUrl
 }

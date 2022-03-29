@@ -26,11 +26,13 @@
    transform: rotate(0deg);
 }
 
+.right-rotate[aria-expanded=true] .collapse-icon-rotate,
 .right-rotate:not(.collapsed) .collapse-icon-rotate,
 .right-rotate.show .dropdown-icon-rotate {
    transform: rotate(90deg);
 }
 
+.bottom-rotate[aria-expanded=true] .collapse-icon-rotate,
 .bottom-rotate:not(.collapsed) .collapse-icon-rotate,
 .bottom-rotate.show .dropdown-icon-rotate {
    transform: rotate(180deg);
@@ -329,4 +331,11 @@
 .btn-rounded-light {
    border: 2px solid $main-color;
    border-radius: 20px;
+}
+
+.btn-rounded-danger {
+   border: 2px solid #dc3545;
+   border-radius: 20px;
+   padding-right: 4px;
+   padding-left: 4px;
 }

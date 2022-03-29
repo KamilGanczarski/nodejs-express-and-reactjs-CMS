@@ -3,6 +3,7 @@ const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const { componentQuery } = require('../utils/database');
+const { fetchPagesByUrl } = require('./api/page');
 
 const getAllComponents = async (req, res) => {
   const { page, componentName } = req.query;
@@ -32,15 +33,15 @@ const getAllComponents = async (req, res) => {
 }
 
 const createComponent = async (req, res) => {
-  const { pageId, componentName } = req.body;
-  CustomError.requireProvidedValues(pageId, componentName);
+  const { page, componentName } = req.body;
+  CustomError.requireProvidedValues(page, componentName);
 
   // Check if component already exists
   const components = await db.query(
     componentQuery({
-      componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
+      componentCondition: 'WHERE pages.url = $1 AND components.type = $2'
     }),
-    [pageId, componentName]
+    [page, componentName]
   )
   .then((result) => result)
   .catch((err) => {
@@ -64,15 +65,18 @@ const createComponent = async (req, res) => {
     throw new CustomError.BadRequestError(`No component found like this`);
   }
 
+  const Pages = await fetchPagesByUrl(page);
+  if (Pages.length < 1) {
+    throw new CustomError.BadRequestError(`No page found like this`);
+  }
+  
   // Insert component
   await db.query(
-      `INSERT INTO page_components (page_id, component_id) VALUES
-        ($1, $2)`,
-      [pageId, componentDetails[0].id]
+      `INSERT INTO page_components (page_id, component_id) VALUES ($1, $2)`,
+      [Pages[0].id, componentDetails[0].id]
     )
     .then((result) => result[0])
     .catch((err) => {
-      console.log(err)
       throw new CustomError.BadRequestError("New component hasn't been added");
     });
 
@@ -80,15 +84,15 @@ const createComponent = async (req, res) => {
 }
 
 const deleteComponent = async (req, res) => {
-  const { pageId, componentName } = req.body;
-  CustomError.requireProvidedValues(pageId, componentName);
+  const { page, componentName } = req.body;
+  CustomError.requireProvidedValues(page, componentName);
 
   // Check if component already exists
   const components = await db.query(
     componentQuery({
-      componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
+      componentCondition: 'WHERE pages.url = $1 AND components.type = $2'
     }),
-    [pageId, componentName]
+    [page, componentName]
   )
   .then((result) => result)
   .catch((err) => {
@@ -99,11 +103,16 @@ const deleteComponent = async (req, res) => {
     throw new CustomError.BadRequestError(`Component doesn't exists`);
   }
 
+  const Pages = await fetchPagesByUrl(page);
+  if (Pages.length < 1) {
+    throw new CustomError.BadRequestError(`No page found like this`);
+  }
+
   // Delete component
   await db.query(
       `DELETE FROM page_components
         WHERE page_id = $1 AND component_id = $2`,
-      [pageId, components[0].id]
+      [Pages[0].id, components[0].id]
     )
     .then((result) => result[0])
     .catch((err) => {

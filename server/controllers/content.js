@@ -3,8 +3,10 @@ const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const addContent = async (req, res) => {
-  const { page, component, name, content } = req.body;
+  const { page, component, name, description, content } = req.body;
   CustomError.requireProvidedValues(page, component, name, content);
+
+  const descriptionValue = description ? description : '';
 
   // Check if component with this page and component's name exists
   const page_component_id = await db.query(
@@ -29,13 +31,12 @@ const addContent = async (req, res) => {
 
   // Insert content
   await db.query(
-      `INSERT INTO content (name, content, page_component_id) VALUES
-        ($1, $2, $3)`,
-      [name, content, page_component_id[0].id]
+      `INSERT INTO content (name, description, content, page_component_id) VALUES
+        ($1, $2, $3, $4)`,
+      [name, descriptionValue, content, page_component_id[0].id]
     )
     .then((result) => result[0])
     .catch((err) => {
-      console.log(err)
       throw new CustomError.BadRequestError("New content hasn't been added");
     });
 
@@ -43,13 +44,15 @@ const addContent = async (req, res) => {
 }
 
 const updateContent = async (req, res) => {
-  const { contentId, content } = req.body;
-  CustomError.requireProvidedValues(contentId, content);
+  const { contentId, name, description, content } = req.body;
+  CustomError.requireProvidedValues(contentId, name, content);
 
-  // Check if component with this page and component's name exists
+  const descriptionValue = description ? description : '';
+
+  // Check if content with this page and component's name exists
   const contents = await db.query(
       `SELECT * FROM content WHERE id = $1 AND name = $2`,
-      [contentId, content]
+      [contentId, name]
     )
     .then((result) => result)
     .catch((err) => {
@@ -60,7 +63,18 @@ const updateContent = async (req, res) => {
     throw new CustomError.BadRequestError(`No content found like this`);
   }
 
-  res.status(StatusCodes.OK).send({ msg: "Content has been updated" });
+  // Update content
+  await db.query(
+      `UPDATE content SET
+        description = $1, content = $2 WHERE id = $3`,
+      [descriptionValue, content, contentId]
+    )
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.BadRequestError("Content hasn't been changed");
+    });
+
+  res.status(StatusCodes.OK).send({ msg: "Content has been changed" });
 }
 
 const deleteContent = async (req, res) => {

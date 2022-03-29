@@ -15,6 +15,7 @@ const componentQuery = ({
       FROM (
         SELECT * FROM content
           WHERE content.page_component_id = page_components.id
+          ORDER BY content.name, content.order_id
       ) AS nested_content
     ) AS content
     FROM page_components

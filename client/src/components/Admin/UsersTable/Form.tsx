@@ -5,7 +5,7 @@ import axios from 'axios';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 import { fetchUsersParams } from '../../../utils/interfaces';
 
-// Componenets
+// Components
 import CustomInput from '../../CustomElements/CustomInput';
 import CustomInputNumber from '../../CustomElements/CustomInputNumber';
 import CustomSwitch from '../../CustomElements/CustomSwitch';

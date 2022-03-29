@@ -32,14 +32,14 @@ INSERT INTO users (
 
 -- TABLE contract
 INSERT INTO contract (
-  user_id,
+  id,
   contract,
-  pdf,
   price,
   advance,
-  howMuchPaid
+  howMuchPaid,
+  user_id
 ) VALUES
-  (1, false, '', 0, 0, 0);
+  (1, false, 0, 0, 0, 1);
 
 -- TABLE permissions
 INSERT INTO permissions (name, value, deleteValue, description) VALUES
@@ -62,11 +62,11 @@ INSERT INTO page_roles VALUES
 
 -- TABLE pages
 INSERT INTO pages VALUES
-  (1, 1, '/index', 'Home', '', '00000001', false, 1),
-  (2, 1, '/about', 'About', '', '00000002', false, 1),
-  (3, 1, '/offers', 'Offers', '', '00000003', false, 1),
-  (4, 1, '/login', 'Login', '', '00000004', false, 1),
-  (5, 1, '/contact', 'Contact', '', '00000005', false, 1);
+  (1, '/index', 'Home', '', '00000001', false, 1, 1),
+  (2, '/about', 'About', '', '00000002', false, 1, 1),
+  (3, '/offers', 'Offers', '', '00000003', false, 1, 1),
+  (4, '/login', 'Login', '', '00000004', false, 1, 1),
+  (5, '/contact', 'Contact', '', '00000005', false, 1, 1);
 
 -- TABLE components
 INSERT INTO components VALUES
@@ -95,7 +95,9 @@ INSERT INTO components VALUES
 
   (18, 'google-map', 'google-map'),
   (19, 'footer', 'footer'),
-  (20, 'footer-large', 'footer-large');
+  (20, 'footer-large', 'footer-large'),
+  (21, 'contracts', 'contracts'),
+  (22, 'subpage-intro', 'subpage-intro');
 
 -- TABLE page_components
 INSERT INTO page_components (page_id, component_id) VALUES
@@ -117,7 +119,8 @@ INSERT INTO page_components (page_id, component_id) VALUES
   (1, 16),
   (1, 17),
   (1, 18),
-  (1, 19);
+  (1, 19),
+  (1, 20);
 
 -- TABLE file_status
 INSERT INTO file_status VALUES
@@ -136,16 +139,22 @@ INSERT INTO file_info (filename, path, page_component_id, file_status_id) VALUES
 
 -- TABLE content
 INSERT INTO content (name, description, content, page_component_id) VALUES
-  ('hero-text-slider-1', 'slide-1', 'Custom solutions', 1),
-  ('hero-text-slider-2', 'slide-1', 'Custom solutions', 1),
-  ('hero-text-slider-1', 'slide-2', 'Custom solutions', 1),
-  ('hero-text-slider-2', 'slide-2', 'Custom solutions', 1),
-  ('hero-text-slider-1', 'slide-3', 'Custom solutions', 1),
-  ('hero-text-slider-2', 'slide-3', 'Custom solutions', 1),
-  ('hero-text-slider-1', 'slide-4', 'Custom solutions', 1),
-  ('hero-text-slider-2', 'slide-4', 'Custom solutions', 1);
-
-
+  ('slide-1', 'text-size-4', 'Custom solutions', 1),
+  ('slide-1', 'text-size-3', 'Custom solutions', 1),
+  ('slide-1', 'text-size-2', 'Custom solutions', 1),
+  ('slide-1', 'text-size-1', 'Custom solutions', 1),
+  ('slide-2', 'text-size-4', 'Custom solutions', 1),
+  ('slide-2', 'text-size-3', 'Custom solutions', 1),
+  ('slide-2', 'text-size-2', 'Custom solutions', 1),
+  ('slide-2', 'text-size-1', 'Custom solutions', 1),
+  ('slide-3', 'text-size-4', 'Custom solutions', 1),
+  ('slide-3', 'text-size-3', 'Custom solutions', 1),
+  ('slide-3', 'text-size-2', 'Custom solutions', 1),
+  ('slide-3', 'text-size-1', 'Custom solutions', 1),
+  ('slide-4', 'text-size-4', 'Custom solutions', 1),
+  ('slide-4', 'text-size-3', 'Custom solutions', 1),
+  ('slide-4', 'text-size-2', 'Custom solutions', 1),
+  ('slide-4', 'text-size-1', 'Custom solutions', 1);
 
 -- TABLE newsletter
 -- INSERT INTO newsletter VALUES ();

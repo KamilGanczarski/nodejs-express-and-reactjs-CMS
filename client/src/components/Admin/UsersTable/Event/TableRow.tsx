@@ -94,7 +94,7 @@ export default function TableRowEvent({ RowUser, userType }: Props) {
 
       {/* Pdf */}
       <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
-        {User.contract[0].pdf !== '' ?
+        {/* {User.contract[0].pdf !== '' ?
           <a
             href={`uploads/${User.dir}/pkg_files/${User.contract[0].pdf}`}
             target="_blank"
@@ -103,7 +103,7 @@ export default function TableRowEvent({ RowUser, userType }: Props) {
           </a>
           :
           <i className="icon-doc-text-inv text-danger"></i>
-        }
+        } */}
       </td>
 
       {/* Price */}

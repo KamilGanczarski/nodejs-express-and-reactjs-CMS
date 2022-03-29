@@ -1,4 +1,4 @@
-const queryComponent = ({
+const componentQuery = ({
   componentCondition = ''
 }) => {
   return `SELECT
@@ -24,5 +24,5 @@ const queryComponent = ({
 }
 
 module.exports = {
-  queryComponent
+  componentQuery
 }

@@ -2,7 +2,7 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
-const { queryComponent } = require('../utils/database');
+const { componentQuery } = require('../utils/database');
 
 const getAllComponents = async (req, res) => {
   const { page, componentName } = req.query;
@@ -18,7 +18,7 @@ const getAllComponents = async (req, res) => {
   }
 
   const components = await db.query(
-      queryComponent({
+      componentQuery({
         componentCondition: `WHERE pages.url = $1 ${componentNameQuery}`
       }),
       queryParams
@@ -37,7 +37,7 @@ const createComponent = async (req, res) => {
 
   // Check if component already exists
   const components = await db.query(
-    queryComponent({
+    componentQuery({
       componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
     [pageId, componentName]
@@ -85,7 +85,7 @@ const deleteComponent = async (req, res) => {
 
   // Check if component already exists
   const components = await db.query(
-    queryComponent({
+    componentQuery({
       componentCondition: 'WHERE pages.id = $1 AND components.type = $2'
     }),
     [pageId, componentName]

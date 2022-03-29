@@ -18,10 +18,10 @@ interface Coordinates {
 
 /**
  * Scroll to dom position
- * Usage: onClick="scrollTo('target')"
+ * Usage: onClick="scrollToEvent('target')"
  * @param {string} target Id of dom element, which is target
  */
-export const scrollTo = (target: string) => {
+export const scrollToEvent = (target: string) => {
 	const targetDOM: HTMLButtonElement = document.querySelector(target)!;
   if (targetDOM) {
     window.scrollTo({

@@ -1,5 +1,7 @@
 const { userQuery } = require('./query/user');
-const { queryComponent } = require('./query/component');
+const { componentQuery } = require('./query/component');
+const { pageQuery } = require('./query/page');
+
 const { 
   operatorsMap,
   filterUserOptions,
@@ -10,7 +12,8 @@ const { setPagination } = require('./pagination');
 
 module.exports = {
   userQuery,
-  queryComponent,
+  componentQuery,
+  pageQuery,
   operatorsMap,
   filterUserOptions,
   setFilterQuery,

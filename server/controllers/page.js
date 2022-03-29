@@ -2,20 +2,14 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
+const { publicPages } = require('../utils/permission');
+const { pageQuery } = require('../utils/database');
+
 const getAllPages = async (req, res) => {
+  const publicPagesSQL = `AND page_roles.value IN ('${publicPages.join(`', '`)}')`;
+
   const pages = await db.query(
-      `SELECT
-        pages.*,
-        (
-          SELECT jsonb_agg(nested_roles)
-          FROM (
-            SELECT * FROM page_roles
-              WHERE page_roles.id = pages.site_role_id
-          ) AS nested_roles
-        ) AS roles
-      FROM pages
-      INNER JOIN page_roles ON (page_roles.id = pages.site_role_id)
-      ORDER BY pages.id`,
+      pageQuery({ pageRolesCondition: publicPagesSQL }),
       []
     )
     .then((result) => result)

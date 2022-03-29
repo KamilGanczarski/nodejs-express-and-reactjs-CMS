@@ -13,7 +13,7 @@ const {
 } = require('../controllers/component');
 
 router.route('/')
-  .get(authenticateUser, authorizePermissions('MANAGE_PAGES'), getAllComponents)
+  .get(getAllComponents)
   .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
   .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteComponent);
 

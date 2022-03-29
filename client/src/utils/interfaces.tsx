@@ -1,10 +1,10 @@
 interface ContractModel {
-  pdf: string;
+  id: number;
+  contract: boolean;
   price: number;
   advance: number;
-  user_id: number;
-  contract: boolean;
   howmuchpaid: number;
+  user_id: number;
 }
 
 // Date interface

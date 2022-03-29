@@ -8,11 +8,13 @@ import {
   componentContentModel
 } from '../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { cmsModals } from '../../Sidebar/data';
 
 // Components
-import { scrollTo } from '../../Navbar/ScrollTo';
+import { scrollToEvent } from '../../Navbar/ScrollTo';
 import TextSlide from './TextSlide';
 import SocialMedia from './SocialMedia';
+import EditHero from './EditHero';
 
 type Props = {}
 
@@ -32,23 +34,23 @@ export default function HeroCarousel({}: Props) {
     //  Add first element
     let contentArrRes: componentContentModel[][] = [[contentArr[0]]];
     // Add first parametr to compare
-    let descriptionArr: string[] = [contentArr[0].description];
-    
+    let nameArr: string[] = [contentArr[0].name];
+
     for (let i = 1; i < contentArr.length; i++) {
       // Find index of aleady added element
-      let descIndex = descriptionArr.findIndex(desc =>
-        desc === contentArr[i].description
+      let nameIndex = nameArr.findIndex(name =>
+        name === contentArr[i].name
       );
-      
+
       // If already separate an element
-      if (descIndex >= 0) {
-        contentArrRes[descIndex].push(contentArr[i]);
+      if (nameIndex >= 0) {
+        contentArrRes[nameIndex].push(contentArr[i]);
       // If not found matching element
       } else {
-        descriptionArr.push(contentArr[i].description)
+        nameArr.push(contentArr[i].name)
         contentArrRes.push([]);
-        descIndex = contentArrRes.length - 1;
-        contentArrRes[descIndex].push(contentArr[i]);
+        nameIndex = contentArrRes.length - 1;
+        contentArrRes[nameIndex].push(contentArr[i]);
       }
     }
     return contentArrRes;
@@ -126,7 +128,16 @@ export default function HeroCarousel({}: Props) {
       {/* Social media */}
       <SocialMedia />
 
+      {/* Scroll down */}
+      <button
+        onClick={()=>scrollToEvent('.over-hero')}
+        className="btn arrows-animation center">
+        <span></span><span></span><span></span>
+      </button>
+
       <section className="over-hero"></section>
+
+      <EditHero />
     </article>
   )
 }

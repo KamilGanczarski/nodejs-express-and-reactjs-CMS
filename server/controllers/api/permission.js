@@ -8,7 +8,7 @@ const rolesWithPermissions = [
 
 /**
  * Fetch permission
- * @param {*} permission Permission from Permission table in mongodb
+ * @param {*} permission Permission from Permission table in db
  * @returns Return permission value
  */
 const fetchPermissionValue = async (permission, valueType = 'value') => {
@@ -18,7 +18,7 @@ const fetchPermissionValue = async (permission, valueType = 'value') => {
       [permission]
     )
     .then((result) => result)
-    .catch((err) => 0);
+    .catch((err) => []);
 
   // If no permission like provided
   if (!Permissions) {
@@ -35,7 +35,7 @@ const fetchPermissionValue = async (permission, valueType = 'value') => {
 /**
  * Check if user has specyfic permission
  * @param {Object} user Contain permission number
- * @param {String} permission Permission from Permission table in mongodb
+ * @param {String} permission Permission from Permission table in db
  * @returns 1 if User has permission or 0 if hasn't
  */
 const checkPermission = async (user, permission) => {

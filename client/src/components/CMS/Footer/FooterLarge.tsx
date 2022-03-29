@@ -25,11 +25,11 @@ export default function FooterLarge({}: Props) {
               title="Home"
               className="btn p-0">
               <img
-                src="/images/psphoto/logo/min/PSPHOTO_LOGO_białe-min.png"
+                src="/images/psphoto/logo/min/PSPHOTO_LOGO_biale-min.png"
                 width="80"
                 height="80"
                 alt="Pspoto logo white"
-                className="py-2 logo-img" />
+                className="logo-img" />
             </a>
           </div>
 
@@ -38,9 +38,11 @@ export default function FooterLarge({}: Props) {
             <small className="d-block w-100 m-0 text-uppercase text-secondary">
               kontakt@psphoto.pl
             </small>
-            <small className="d-block w-100 m-0 text-uppercase text-secondary">
+            <a
+              href="tel:+48 791 110 448"
+              className="d-block w-100 m-0 text-uppercase text-secondary text-without-underline">
               +48 791 110 448
-            </small>
+            </a>
           </div>
 
           {/* <div className="w-100 px-0 px-xl-4 pt-4 pt-lg-0 text-center text-lg-left"></div> */}

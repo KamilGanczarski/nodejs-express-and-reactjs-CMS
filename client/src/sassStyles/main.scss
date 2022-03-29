@@ -5,7 +5,7 @@ html, body {
   font-weight: 500;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  overflow: auto;
+  // overflow: auto;
 	position: relative;
 }
 
@@ -17,4 +17,16 @@ html, body {
       -ms-user-select: none;
        -o-user-select: none;
           user-select: none;
+}
+
+.bg-main {
+  background: #000;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.8)),
+    url('../../public/images/9literfilmy/OnEn1xMQ.jpeg') !important;
 }

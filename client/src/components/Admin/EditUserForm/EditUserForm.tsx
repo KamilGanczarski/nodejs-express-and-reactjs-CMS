@@ -129,7 +129,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
   useEffect(() => {
     fetchUser(userId);
     fetchRoles();
-  } , []);
+  }, []);
 
   return (
     <article className="w-100">

@@ -20,8 +20,8 @@ export default function TextSlide({ textSlides, currentSlide }: Props) {
               return (
                 <div
                   key={i}
-                  className={`pb-2 text-move-${i+1} text-move-center prevent-user-select`}>
-                  {text.content}
+                  className={`pb-2 ${text.description} text-size-center prevent-user-select`}>
+                  <span>{text.content}</span>
                 </div>
               )
             })}

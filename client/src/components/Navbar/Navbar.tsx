@@ -7,12 +7,12 @@ import {
 } from 'react-router-dom';
 
 // Components
-import Button from './Button'
-import MobileButton from './MobileButton'
-import Dropdown from './Dropdown'
-import MobileDropdown from './MobileDropdown'
+import Button from './Button';
+import MobileButton from './MobileButton';
+import Dropdown from './Dropdown';
+import MobileDropdown from './MobileDropdown';
 
-import { scrollTo } from './ScrollTo'
+import { scrollToEvent } from './ScrollTo';
 
 // Styles
 import './Navbar.scss'
@@ -273,7 +273,7 @@ export default function Navbar({}: Props) {
 
       {/* Scroll top button */}
       <button
-        onClick={()=>scrollTo('.bg-theme')}
+        onClick={()=>scrollToEvent('.bg-theme')}
         className="btn btn-sm p-0 scroll-to-top hide">
         <i className="icon-up-open h2 m-0 text-black text-shadow-dark"></i>
       </button>

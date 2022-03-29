@@ -1,6 +1,7 @@
 const CustomError = require('../errors');
 const { isTokenValid } = require('../utils/jwt');
 const { checkPermission } = require('../controllers/api/permission');
+const { pagePermission } = require('../utils/permission');
 
 const authenticateUser = async (req, res, next) => {
   let token;
@@ -45,7 +46,23 @@ const authorizePermissions = (permission) => {
   }
 }
 
+// Check permission to access to page
+const authorizeToPage = async (page) => {
+  // Allow for user with permission to manage pages
+  if (authorizePermissions('MANAGE_PAGES')) {
+    next();
+  // Allow if user has specyfic permission
+  } else if (await pagePermission(page)) {
+    next();
+  } else {
+    throw new CustomError.UnauthenticatedError(
+      'Unauthorized to access this route'
+    )
+  }
+}
+
 module.exports = {
   authenticateUser,
-  authorizePermissions
+  authorizePermissions,
+  authorizeToPage
 }

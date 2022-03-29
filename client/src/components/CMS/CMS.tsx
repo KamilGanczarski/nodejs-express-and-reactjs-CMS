@@ -22,7 +22,7 @@ export default function CMS({ pageName }: Props) {
 
   const fetchComponents = async () => {
     await axios.get(`${baseUrl}/api/v1/components`, {
-        params: { page: pageName },
+        params: { page: `/${pageName}` },
         headers: axiosHeaders.headers
       })
       .then((response) => {
@@ -36,7 +36,6 @@ export default function CMS({ pageName }: Props) {
   }
 
   useEffect(() => {
-    pageName = `/${pageName}`
     fetchComponents();
   }, []);
 
@@ -65,7 +64,9 @@ export default function CMS({ pageName }: Props) {
               'intro-contact': <div>{component.path}</div>,
               // 'google-map': <GoogleMap />,
               // 'footer': <Footer />,
-              // 'footer-large': <FooterLarge />,
+              'footer-large': <FooterLarge />,
+              'contracts': <div>{component.path}</div>,
+              'subpage-intro': <div>{component.path}</div>,
             }[component.path]}
           </div>
         )

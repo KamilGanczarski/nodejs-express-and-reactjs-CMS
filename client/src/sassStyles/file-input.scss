@@ -1,0 +1,45 @@
+/* Drag and drop file input with description */
+.file-drop-area {
+   position: relative;
+   display: flex;
+   align-items: center;
+   -webkit-transition: .2s;
+      -moz-transition: .2s;
+       -ms-transition: .2s;
+        -o-transition: .2s;
+           transition: .2s;
+   background: var(--bg-theme-1);
+   color: var(--text-theme-1);
+   border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.fake-btn {
+   flex-shrink: 0;
+   border-radius: 3px;
+   padding: 8px 15px;
+   margin-right: 10px;
+   font-size: 13px;
+   text-transform: uppercase;
+   font-weight: bold;
+}
+
+.file-msg {
+   font-size: 13px;
+   font-weight: 300;
+   line-height: 1.4;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   padding: 8px 16px 8px 0;
+   text-transform: uppercase;
+   font-weight: bold;
+}
+
+.file-input {
+   position: absolute;
+   left: 0;
+   top: 0;
+   height: 100%;
+   cursor: pointer;
+   opacity: 0;
+}

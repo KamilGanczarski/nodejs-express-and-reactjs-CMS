@@ -40,7 +40,6 @@ const fetchPagesByUserId = async (userId) => {
   return Pages;
 }
 
-
 module.exports = {
   fetchPagesByUserId,
   fetchPagesByUrl

@@ -1,5 +1,6 @@
 import { logoutUserRequest } from '../../actions';
-import { LinkModel } from '../../utils/interfaces';
+import { LinkModel, componentsType } from '../../utils/interfaces';
+import { showModal } from '../CustomElements/Modal/toogleModal';
 
 const nothing = (): void => {}
 
@@ -102,29 +103,6 @@ export const sidebarLinks: LinkModel[] = [
   }
 ];
 
-type componentsType =
-  'hero-carousel' |
-  'hero-video' |
-  'skewed-slider' |
-  'custom-text' |
-  'carousel-3-2-1' |
-  'carousel-4-3-2-1' |
-  'carousel-awards' |
-  'gallery' |
-  'youtube-films' |
-  'youtube-films-counter' |
-  'navigation-around-website' |
-  'navigation-around-website-1' |
-  'chessboard' |
-  'collapsing-description' |
-  'portfolio-history-wedding' |
-  'intro-about-us' |
-  'google-map' |
-  'footer' |
-  'footer-large' |
-  'contracts' |
-  'subpage-intro';
-
 export const cmsModals = {
   'hero-carousel': false,
   'hero-video': false,
@@ -150,17 +128,19 @@ export const cmsModals = {
   'subpage-intro': false
 };
 
-const showModal =(component: componentsType) => {
-  const DOMelement = document.querySelector(`#${component}-modal-btn`) as HTMLButtonElement;
-  if (DOMelement) {
-    DOMelement.click();
-  }
-}
-
 export const sidebarCmsLinks: LinkModel[] = [
   ...sidebarLinks,
   {
     id: 9,
+    label: "Layout",
+    link: "",
+    type: "onclick",
+    icon: "icon-window",
+    position: "middle",
+    subButtons: [],
+    onclick: () => showModal('layout')
+  }, {
+    id: 10,
     label: "Hero",
     link: "",
     type: "onclick",
@@ -169,7 +149,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => showModal('hero-carousel')
   }, {
-    id: 10,
+    id: 11,
     label: "Hero video",
     link: "",
     type: "onclick",
@@ -178,7 +158,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => showModal('hero-video')
   }, {
-    id: 11,
+    id: 12,
     label: "Skewed slider",
     link: "",
     type: "onclick",
@@ -187,7 +167,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => showModal('skewed-slider')
   }, {
-    id: 12,
+    id: 13,
     label: "Custom text",
     link: "",
     type: "onclick",
@@ -196,7 +176,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 13,
+    id: 14,
     label: "Carousel 3 2 1",
     link: "",
     type: "onclick",
@@ -205,7 +185,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 14,
+    id: 15,
     label: "Carousel 4 3 2 1",
     link: "",
     type: "onclick",
@@ -214,7 +194,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 15,
+    id: 16,
     label: "Carousel awards",
     link: "",
     type: "onclick",
@@ -223,7 +203,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 16,
+    id: 17,
     label: "Gallery",
     link: "",
     type: "onclick",
@@ -232,7 +212,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 17,
+    id: 18,
     label: "Youtube films",
     link: "",
     type: "onclick",
@@ -241,7 +221,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 18,
+    id: 19,
     label: "Youtube films counter",
     link: "",
     type: "onclick",
@@ -250,7 +230,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 19,
+    id: 20,
     label: "Navigation around website",
     link: "",
     type: "onclick",
@@ -259,7 +239,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 20,
+    id: 21,
     label: "Chessboard",
     link: "",
     type: "onclick",
@@ -268,7 +248,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 21,
+    id: 22,
     label: "Collapsing description",
     link: "",
     type: "onclick",
@@ -277,7 +257,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 22,
+    id: 23,
     label: "Portfolio history wedding",
     link: "",
     type: "onclick",
@@ -286,7 +266,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 23,
+    id: 24,
     label: "Intro about us",
     link: "",
     type: "onclick",
@@ -295,7 +275,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 24,
+    id: 25,
     label: "Intro contact",
     link: "",
     type: "onclick",
@@ -304,7 +284,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 25,
+    id: 26,
     label: "Google map",
     link: "",
     type: "onclick",
@@ -313,7 +293,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 26,
+    id: 27,
     label: "Footer",
     link: "",
     type: "onclick",
@@ -322,7 +302,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     subButtons: [],
     onclick: () => nothing()
   }, {
-    id: 27,
+    id: 28,
     label: "Footer large",
     link: "",
     type: "onclick",

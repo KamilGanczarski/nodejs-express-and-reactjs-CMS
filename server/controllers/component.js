@@ -3,6 +3,13 @@ const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const { componentQuery } = require('../utils/database');
+
+
+const {
+  fetchComponentsByUrlAndType,
+  fetchMaxOrderId,
+  toggleComponent
+} = require('./api/components');
 const { fetchPagesByUrl } = require('./api/page');
 
 const getAllComponents = async (req, res) => {
@@ -32,55 +39,54 @@ const getAllComponents = async (req, res) => {
   res.status(StatusCodes.OK).send({ components });
 }
 
-const createComponent = async (req, res) => {
+const addComponent = async (req, res) => {
   const { page, componentName } = req.body;
   CustomError.requireProvidedValues(page, componentName);
 
   // Check if component already exists
-  const components = await db.query(
-    componentQuery({
-      componentCondition: 'WHERE pages.url = $1 AND components.type = $2'
-    }),
-    [page, componentName]
-  )
-  .then((result) => result)
-  .catch((err) => {
-    throw new CustomError.BadRequestError(`No components`);
-  });
-
-  if (components.length > 0) {
-    throw new CustomError.BadRequestError(`Component already exists`);
-  }
+  const components = await fetchComponentsByUrlAndType(page, componentName);
 
   const componentDetails = await db.query(
       `SELECT * FROM components WHERE type = $1;`,
       [componentName]
     )
-    .then((result) => result)
+    .then((result) => {
+      if (result.length < 1) {
+        throw new CustomError.BadRequestError(`No component found like this`);
+      }
+
+      return result;
+    })
     .catch((err) => {
       throw new CustomError.BadRequestError(`No components`);
     });
-
-  if (componentDetails.length < 1) {
-    throw new CustomError.BadRequestError(`No component found like this`);
-  }
 
   const Pages = await fetchPagesByUrl(page);
   if (Pages.length < 1) {
     throw new CustomError.BadRequestError(`No page found like this`);
   }
   
-  // Insert component
-  await db.query(
-      `INSERT INTO page_components (page_id, component_id) VALUES ($1, $2)`,
-      [Pages[0].id, componentDetails[0].id]
-    )
-    .then((result) => result[0])
-    .catch((err) => {
-      throw new CustomError.BadRequestError("New component hasn't been added");
+  if (components.length > 0) {
+    const disabled = await toggleComponent(Pages[0].id, componentDetails[0].id);
+    res.status(StatusCodes.OK).send({
+      msg: `You've ${disabled ? "deleted" : "added"} component`
     });
+  } else {
+    const orderId = await fetchMaxOrderId(Pages[0].id) + 1;
 
-  res.status(StatusCodes.OK).send({ msg: "You've added this component" });
+    // Insert component
+    await db.query(
+        `INSERT INTO page_components (order_id, page_id, component_id)
+          VALUES ($1, $2, $3)`,
+        [orderId, Pages[0].id, componentDetails[0].id]
+      )
+      .then((result) => result[0])
+      .catch((err) => {
+        throw new CustomError.BadRequestError("New component hasn't been added");
+      });
+
+    res.status(StatusCodes.OK).send({ msg: "You've added this component" });
+  }
 }
 
 const deleteComponent = async (req, res) => {
@@ -88,17 +94,7 @@ const deleteComponent = async (req, res) => {
   CustomError.requireProvidedValues(page, componentName);
 
   // Check if component already exists
-  const components = await db.query(
-    componentQuery({
-      componentCondition: 'WHERE pages.url = $1 AND components.type = $2'
-    }),
-    [page, componentName]
-  )
-  .then((result) => result)
-  .catch((err) => {
-    throw new CustomError.BadRequestError(`No components`);
-  });
-
+  const components = await fetchComponentsByUrlAndType(page, componentName);
   if (components.length < 1) {
     throw new CustomError.BadRequestError(`Component doesn't exists`);
   }
@@ -124,6 +120,6 @@ const deleteComponent = async (req, res) => {
 
 module.exports = {
   getAllComponents,
-  createComponent,
+  addComponent,
   deleteComponent
 }

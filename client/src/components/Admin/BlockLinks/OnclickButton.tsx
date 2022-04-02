@@ -13,7 +13,7 @@ export default function OnclickButton({ onclick, icon, label }: Props) {
         <div className="w-auto ps-0 pe-1 bg-custom-dark rounded-start"></div>
         {/* Content */}
         <button
-          className="btn col h-100 border-0 rounded-custom-right btn-gray-2 img-16-9-container btn-shine btn-shine-animation"
+          className="btn col h-100 border-0 rounded-custom-right btn-gray-2 img-16-9-container btn-shine btn-shine-hover"
           onClick={onclick}>
           <div className="text-middle-absolute">
             {/* Large icon */}

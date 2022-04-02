@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Utils
@@ -12,13 +12,18 @@ import CMS from '../../components/CMS/CMS';
 import { sidebarCmsLinks } from '../../components/Sidebar/data';
 
 interface EditPageParams {
-  pageName: string;
+  url: string;
 }
 
 type Props = {}
 
 export default function EditPage({}: Props) {
-  const { pageName } = useParams<EditPageParams>();
+  const { url } = useParams<EditPageParams>();
+  const [pageName, setPageName] = useState('');
+
+  useEffect(() => {
+    setPageName(`/${url}`);
+  }, []);
 
   return (
     <section className="d-flex Sidebar fixed-left wrapper">
@@ -28,7 +33,9 @@ export default function EditPage({}: Props) {
       <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
 
       <main className="main container-fluid px-0">
-        <CMS pageName={pageName} />
+        {pageName &&
+          <CMS pageName={pageName} />
+        }
       </main>
     </section>
   )

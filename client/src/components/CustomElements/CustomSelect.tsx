@@ -16,9 +16,9 @@ export default function CustomSelect({
     <>
       <Dropdown className="w-auto">
         <Dropdown.Toggle
-          className="py-2 bg-transparent text-hover-theme border-0"
+          className="px-4 py-1 bg-transparent text-theme btn-rounded border-light btn-shine btn-shine-hover"
           id="dropdown-basic">
-          {selectedText}
+          <span className="small">{selectedText}</span>
         </Dropdown.Toggle>
 
         <Dropdown.Menu className="py-0 border shadow bg-theme border-theme">

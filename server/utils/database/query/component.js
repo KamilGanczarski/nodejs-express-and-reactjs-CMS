@@ -3,6 +3,7 @@ const componentQuery = ({
 }) => {
   return `SELECT
     components.*,
+    page_components.disabled,
     (
       SELECT jsonb_agg(nested_file_info)
       FROM (
@@ -21,7 +22,7 @@ const componentQuery = ({
     FROM page_components
     INNER JOIN pages ON (pages.id = page_components.page_id)
     INNER JOIN components ON (components.id = page_components.component_id)
-    ${componentCondition}`;
+    ${componentCondition} ORDER BY page_components.order_id`;
 }
 
 module.exports = {

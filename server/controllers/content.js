@@ -31,8 +31,8 @@ const addContent = async (req, res) => {
 
   // Insert content
   await db.query(
-      `INSERT INTO content (name, description, content, page_component_id) VALUES
-        ($1, $2, $3, $4)`,
+      `INSERT INTO content (name, description, content, order, page_component_id) VALUES
+        ($1, $2, $3, $4, $5)`,
       [name, descriptionValue, content, page_component_id[0].id]
     )
     .then((result) => result[0])

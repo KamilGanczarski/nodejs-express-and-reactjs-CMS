@@ -142,6 +142,7 @@ export interface componentModel {
   id: number;
   type: string;
   path: string;
+  disabled: boolean;
   file_info: componentFileModel[];
   content: componentContentModel[];
 }
@@ -171,3 +172,28 @@ export interface LinkModel {
   subButtons: SublinkModel[];
   onclick: () => void;
 }
+
+export type componentsType =
+  'layout' |  
+  'hero-carousel' |
+  'hero-video' |
+  'skewed-slider' |
+  'custom-text' |
+  'carousel-3-2-1' |
+  'carousel-4-3-2-1' |
+  'carousel-awards' |
+  'gallery' |
+  'youtube-films' |
+  'youtube-films-counter' |
+  'navigation-around-website' |
+  'navigation-around-website-1' |
+  'chessboard' |
+  'collapsing-description' |
+  'portfolio-history-wedding' |
+  'intro-about-us' |
+  'google-map' |
+  'footer' |
+  'footer-large' |
+  'contracts' |
+  'subpage-intro' |
+  'add-user';

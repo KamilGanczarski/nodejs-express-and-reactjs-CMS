@@ -32,14 +32,13 @@ INSERT INTO users (
 
 -- TABLE contract
 INSERT INTO contract (
-  id,
   contract,
   price,
   advance,
   howMuchPaid,
   user_id
 ) VALUES
-  (1, false, 0, 0, 0, 1);
+  (false, 0, 0, 0, 1);
 
 -- TABLE permissions
 INSERT INTO permissions (name, value, deleteValue, description) VALUES
@@ -100,27 +99,27 @@ INSERT INTO components VALUES
   (22, 'subpage-intro', 'subpage-intro');
 
 -- TABLE page_components
-INSERT INTO page_components (page_id, component_id) VALUES
-  (1, 1),
-  (1, 2),
-  (1, 3),
-  (1, 4),
-  (1, 5),
-  (1, 6),
-  (1, 7),
-  (1, 8),
-  (1, 9),
-  (1, 10),
-  (1, 11),
-  (1, 12),
-  (1, 13),
-  (1, 14),
-  (1, 15),
-  (1, 16),
-  (1, 17),
-  (1, 18),
-  (1, 19),
-  (1, 20);
+INSERT INTO page_components (order_id, page_id, component_id) VALUES
+  (1, 1, 1),
+  (2, 1, 2),
+  (3, 1, 3),
+  (4, 1, 4),
+  (5, 1, 5),
+  (6, 1, 6),
+  (7, 1, 7),
+  (8, 1, 8),
+  (9, 1, 9),
+  (10, 1, 10),
+  (11, 1, 11),
+  (12, 1, 12),
+  (13, 1, 13),
+  (14, 1, 14),
+  (15, 1, 15),
+  (16, 1, 16),
+  (17, 1, 17),
+  (18, 1, 18),
+  (19, 1, 19),
+  (20, 1, 20);
 
 -- TABLE file_status
 INSERT INTO file_status VALUES

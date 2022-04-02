@@ -115,9 +115,6 @@ const getAllUsers = async (req, res) => {
       throw new CustomError.BadRequestError('No users');
     });
 
-    perPageReq
-    pageReq
-
   res.status(StatusCodes.OK).send({
     users, // Main data
     tableCount: tableCount[0].count, // Count of rows in users table
@@ -228,30 +225,32 @@ const createUser = async (req, res) => {
   });
 
   const contractValue = contract ? contract : false;
+  const priceValue = price ? price : 0;
+  const advanceValue = advance ? advance : 0;
+  const howMuchPaidValue = howMuchPaid ? howMuchPaid : 0;
 
   // Insert new contract
   queryParams = [
-    parseInt(newUserId[0].id), 
     contractValue,
-    '',
-    price,
-    advance,
-    howMuchPaid
+    priceValue,
+    advanceValue,
+    howMuchPaidValue,
+    parseInt(newUserId[0].id)
   ];
 
   await db.query(
     `INSERT INTO contract (
-      user_id,
       contract,
-      pdf,
       price,
       advance,
-      howMuchPaid
-    ) VALUES ($1, $2, $3, $4, $5, $6)`,
+      howMuchPaid,
+      user_id
+    ) VALUES ($1, $2, $3, $4, $5)`,
     queryParams
   )
   .then((result) => result)
   .catch((err) => {
+    console.log(err)
     throw new CustomError.BadRequestError("New contract hasn't been created");
   });
 

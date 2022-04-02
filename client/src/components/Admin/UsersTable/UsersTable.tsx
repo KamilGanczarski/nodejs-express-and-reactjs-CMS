@@ -26,6 +26,8 @@ import ScopeBtn from '../../Table/ScopeBtn';
 import SortBtn from '../../Table/SortBtn';
 import TablePagination from '../../Table/TablePagination';
 
+import { showModal } from '../../CustomElements/Modal/toogleModal';
+
 // Prepade date
 import { prepareDateInUser } from './Date';
 
@@ -140,8 +142,7 @@ export default function UsersTable({ userType }: Props) {
             {/* Add user - toggle modal */}
             <button
               className="btn btn-sm fw-bold text-hover-theme btn-slide-icon"
-              data-bs-toggle="modal"
-              data-bs-target="#add-customer-modal">
+              onClick={()=>showModal('add-user')}>
               <span className="text-theme">Add</span>
               <i className="icon-plus theme"></i>
             </button>

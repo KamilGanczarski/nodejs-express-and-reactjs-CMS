@@ -7,11 +7,13 @@ import { componentModel } from '../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
 
 // Components
+import Layout from './Layout/Layout';
 import HeroCarousel from './Hero/HeroCarousel';
 import SkewedSlider from './SkewedSlider/SkewedSlider';
 import GoogleMap from './Map/GoogleMap';
 import Footer from './Footer/Footer';
 import FooterLarge from './Footer/FooterLarge';
+import { setTimeout } from 'timers';
 
 type Props = {
   pageName: string;
@@ -22,7 +24,7 @@ export default function CMS({ pageName }: Props) {
 
   const fetchComponents = async () => {
     await axios.get(`${baseUrl}/api/v1/components`, {
-        params: { page: `/${pageName}` },
+        params: { page: pageName },
         headers: axiosHeaders.headers
       })
       .then((response) => {
@@ -37,7 +39,7 @@ export default function CMS({ pageName }: Props) {
 
   useEffect(() => {
     fetchComponents();
-  }, []);
+  }, [pageName]);
 
   return (
     <article>
@@ -45,7 +47,7 @@ export default function CMS({ pageName }: Props) {
         return (
           <div key={component.id}>
             {{
-              'hero-carousel': <HeroCarousel />,
+              'hero-carousel': <HeroCarousel pageName={pageName} />,
               'hero-video': <div>{component.path}</div>,
               // 'skewed-slider': <SkewedSlider />,
               'custom-text': <div>{component.path}</div>,
@@ -71,6 +73,7 @@ export default function CMS({ pageName }: Props) {
           </div>
         )
       })}
+      <Layout components={components} />
     </article>
   )
 }

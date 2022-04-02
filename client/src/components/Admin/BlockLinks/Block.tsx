@@ -15,7 +15,7 @@ export default function Block({ link, icon, label }: Props) {
       {/* Content */}
       <Link
         to={link}
-        className="btn col h-100 border-0 rounded-custom-right btn-gray-2 img-16-9-container btn-shine btn-shine-animation">
+        className="btn col h-100 border-0 rounded-custom-right btn-gray-2 img-16-9-container btn-shine btn-shine-hover">
         <div className="text-middle-absolute">
           {/* Large icon */}
           <h1 className="text-huge-2 ps-2 pe-3 m-0 text-white text-uppercase text-middle">

@@ -15,9 +15,11 @@ import TextSlide from './TextSlide';
 import SocialMedia from './SocialMedia';
 import EditHero from './Edit/EditHero';
 
-type Props = {}
+type Props = {
+  pageName: string;
+}
 
-export default function HeroCarousel({}: Props) {
+export default function HeroCarousel({ pageName }: Props) {
   const [ component, setComponent ] = useState<componentModel>();
   const [ currentSlide, setCurrentSlide ] = useState(0);
   const [ textSlides, setTextSlides ] = useState<componentContentModel[][]>();
@@ -55,7 +57,7 @@ export default function HeroCarousel({}: Props) {
     return contentArrRes;
   }
 
-  const fetchPages = async () => {
+  const fetchHeroComponent = async () => {
     await axios.get(`${baseUrl}/api/v1/components`, {
         params: {
           page: '/index',
@@ -92,7 +94,7 @@ export default function HeroCarousel({}: Props) {
   };
 
   useEffect(() => {
-    fetchPages();
+    fetchHeroComponent();
   }, []);
 
   if (!component) {
@@ -141,7 +143,12 @@ export default function HeroCarousel({}: Props) {
 
       <section className="over-hero"></section>
 
-      <EditHero textSlides={textSlides} fetchPages={fetchPages} />
+      {/* Edit hero carousel */}
+      <EditHero
+        pageName={pageName}
+        component={component}
+        textSlides={textSlides}
+        fetchHeroComponent={fetchHeroComponent} />
     </article>
   )
 }

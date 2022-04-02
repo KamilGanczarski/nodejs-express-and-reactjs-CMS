@@ -63,10 +63,10 @@ export default function Sidebar({ links }: Props) {
         <div className="div-under-navbar"></div>
         {/* Management */}
         <div className="w-100 py-4 my-1">
-          <div className="w-100 row m-0">
+          <div className="w-100 m-0 text-center">
             <Link
               to="/admin/home"
-              className="btn btn-sm w-auto px-4 py-1 mx-auto text-custom btn-rounded-light btn-shine btn-shine-animation">
+              className="btn btn-sm text-custom btn-rounded border-custom btn-shine btn-shine-hover">
               <span className="small text-uppercase font-weight-bold">
                 Management
               </span>

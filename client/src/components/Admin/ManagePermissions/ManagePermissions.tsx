@@ -89,14 +89,17 @@ export default function ManagePermissions({
       <div className="w-100 px-3">
         {permissions.map((permission, index) => {
           return (
-            <CustomSwitch
-              key={index}
-              name={permission.name}
-              description={permission.description}
-              checked={permission.checked}
-              changeValue={changePermission}
-              optional={false}
-              disabled={false} />
+            <div key={index} className="w-100 row pb-3 m-0">
+              <CustomSwitch 
+                key={index}
+                name={permission.name}
+                checked={permission.checked}
+                changeValue={changePermission}
+                disabled={false} />
+              <span className="w-auto ps-3 align-top">
+                {permission.description}
+              </span>
+            </div>
           )
         })}
       </div>

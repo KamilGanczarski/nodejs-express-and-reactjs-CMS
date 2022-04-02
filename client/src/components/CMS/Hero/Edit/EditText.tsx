@@ -14,10 +14,10 @@ import { slideTextSizes } from './data';
 
 type Props = {
   textObj: componentContentModel;
-  fetchPages: () => void;
+  fetchHeroComponent: () => void;
 }
 
-export default function EditText({ textObj, fetchPages }: Props) {
+export default function EditText({ textObj, fetchHeroComponent }: Props) {
   const [text, setText] = useState(textObj.content);
   const [size, setSize] = useState(textObj.description);
 
@@ -29,7 +29,7 @@ export default function EditText({ textObj, fetchPages }: Props) {
         content: text
       }, axiosHeaders)
       .then(res => {
-        fetchPages();
+        fetchHeroComponent();
       })
       .catch(error => {
         console.log(error);
@@ -43,7 +43,7 @@ export default function EditText({ textObj, fetchPages }: Props) {
         }, headers: axiosHeaders.headers 
       })
       .then(res => {
-        fetchPages();
+        fetchHeroComponent();
       })
       .catch(error => {
         console.log(error);
@@ -56,12 +56,12 @@ export default function EditText({ textObj, fetchPages }: Props) {
   }, [textObj]);
 
   return (
-    <div className="w-100 row mx-0">
+    <div className="w-100 row mx-0 px-0">
       {/* Slide text */}
       <div className="col-sm-12 col-xl-8 px-0 mb-3 mx-auto">
         <CustomInput
           type='text'
-          name='edit-text'
+          name={`edit-text-${textObj.id}`}
           label='Text'
           value={text}
           setValue={setText}
@@ -70,27 +70,27 @@ export default function EditText({ textObj, fetchPages }: Props) {
           pxLg='4' />
       </div>
 
-      <div className="col-sm-12 col-xl-4 row px-0 mb-4 mx-auto justify-content-around align-items-center">
-          <div className="col-4">
-            <CustomSelect
-              textArr={slideTextSizes}
-              selectedText={size}
-              setSelectedText={setSize} />
-          </div>
-          <div className="col-3">
-            <button
-              onClick={saveChanges}
-              className="btn btn-sm w-auto px-4 py-1 mx-auto text-custom btn-rounded-light btn-shine btn-shine-animation">
-              <span className="small text-uppercase font-weight-bold">Save</span>
-            </button>
-          </div>
-          <div className="col-2">
-            <button
-              onClick={deleteText}
-              className="btn btn-sm w-auto py-1 mx-auto text-custom btn-rounded-danger btn-shine btn-shine-animation">
-              <i className="icon-cancel m-0 text-danger"></i>
-            </button>
-          </div>
+      <div className="col-sm-12 col-xl-4 row px-0 mx-auto justify-content-around align-items-center">
+        <div className="w-auto">
+          <CustomSelect
+            textArr={slideTextSizes}
+            selectedText={size}
+            setSelectedText={setSize} />
+        </div>
+        <div className="w-auto">
+          <button
+            onClick={saveChanges}
+            className="btn btn-sm text-custom btn-rounded border-custom btn-shine btn-shine-hover">
+            <span className="small font-weight-bold">Save</span>
+          </button>
+        </div>
+        <div className="w-auto">
+          <button
+            onClick={deleteText}
+            className="btn btn-sm text-custom btn-circle-custom border-danger btn-shine btn-shine-hover">
+            <i className="icon-cancel m-0 text-danger"></i>
+          </button>
+        </div>
       </div>
     </div>
   )

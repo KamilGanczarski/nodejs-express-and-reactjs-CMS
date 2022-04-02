@@ -3,21 +3,19 @@ const router = express.Router();
 
 const {
   authenticateUser,
-  authorizePermissions
+  authorizePermissions,
+  authorizeToPage
 } = require('../middleware/authorization');
 
 const {
   getAllComponents,
-  createComponent,
+  addComponent,
   deleteComponent
 } = require('../controllers/component');
 
 router.route('/')
-  .get(getAllComponents)
-  .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
+  .get(authorizeToPage, getAllComponents)
+  .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), addComponent)
   .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteComponent);
-
-router.route('/hero-content')
-  .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), createComponent)
 
 module.exports = router;

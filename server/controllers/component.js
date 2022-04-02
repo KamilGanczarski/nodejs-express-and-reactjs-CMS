@@ -8,7 +8,9 @@ const { componentQuery } = require('../utils/database');
 const {
   fetchComponentsByUrlAndType,
   fetchMaxOrderId,
-  toggleComponent
+  toggleComponent,
+  fetchComponentByPageAndComponentId,
+  changeOrderIdByPageIdAndComponentId
 } = require('./api/components');
 const { fetchPagesByUrl } = require('./api/page');
 
@@ -118,8 +120,35 @@ const deleteComponent = async (req, res) => {
   res.status(StatusCodes.OK).send({ msg: "You've deleted this component" });
 }
 
+const changeComponentsOrder = async (req, res) => {
+  const { page, componentId, nextComponentId } = req.body;
+
+  const firstComponent = await fetchComponentByPageAndComponentId(
+    page, componentId
+  );
+
+  const secondComponent = await fetchComponentByPageAndComponentId(
+    page, nextComponentId
+  );
+  
+  await changeOrderIdByPageIdAndComponentId(
+    secondComponent.order_id,
+    firstComponent.page_id,
+    firstComponent.component_id
+  );
+  
+  await changeOrderIdByPageIdAndComponentId(
+    firstComponent.order_id,
+    secondComponent.page_id,
+    secondComponent.component_id
+  );
+
+  res.status(StatusCodes.OK).send({ msg: "You've changed components" });
+}
+
 module.exports = {
   getAllComponents,
   addComponent,
-  deleteComponent
+  deleteComponent,
+  changeComponentsOrder
 }

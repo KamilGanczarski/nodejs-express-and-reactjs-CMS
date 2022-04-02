@@ -52,7 +52,7 @@ const authorizeToPage = async (req, res, next) => {
   if (authorizePermissions('MANAGE_PAGES')) {
     next();
   // Allow if user has specyfic permission
-  } else if (await pagePermission(req.page)) {
+  } else if (await pagePermission(req.query.page)) {
     next();
   } else {
     throw new CustomError.UnauthenticatedError(

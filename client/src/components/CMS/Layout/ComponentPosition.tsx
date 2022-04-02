@@ -1,25 +1,46 @@
 import React from 'react';
+import axios from 'axios';
+
+// Utils
+import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { componentModel } from '../../../utils/interfaces';
 
 type Props = {
+  pageName: string;
+  fetchComponents: () => void;
   index: number;
-  componentType: string;
+  components: componentModel[];
   componentsLength: number;
 }
 
 export default function ComponentPosition({
+  pageName,
+  fetchComponents,
   index,
-  componentType,
+  components,
   componentsLength
 }: Props) {
-  const swapLayouts = (id: number, nextId: number) => {
-
+  const swapLayouts = async (id: number, nextId: number) => {
+    await axios.patch(`${baseUrl}/api/v1/components/change-order`, {
+        page: pageName,
+        componentId: components[id].id,
+        nextComponentId: components[nextId].id
+      }, axiosHeaders)
+      .then((response) => {
+        fetchComponents();
+      })
+      .catch(error => {
+        if (error.response.data.msg) {
+          console.log(error.response.data.msg);
+        }
+      });
   }
 
   return (
     <div className="col-sm-12 col-md-10 col-lg-8 row pt-2 mx-auto">
       <button
-        className="btn col d-flex align-self-center text-start text-theme-1">
-        {componentType}
+        className="btn col d-flex align-self-center text-start text-theme">
+        {components[index].type}
       </button>
       <div className="text-end" style={{ width: 60 + 'px' }}>
         {componentsLength > 1 && index == 0 &&

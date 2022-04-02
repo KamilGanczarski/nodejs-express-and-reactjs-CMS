@@ -42,8 +42,35 @@ const toggleComponent = async (page_id, component_id) => {
     });
 }
 
+const fetchComponentByPageAndComponentId = async (page, componentId) => {
+  return await db.query(
+      `SELECT * FROM page_components
+        INNER JOIN pages ON (pages.id = page_components.page_id)
+        WHERE pages.url = $1 AND page_components.component_id = $2`,
+      [page, componentId]
+    )
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.BadRequestError("No component found");
+    });
+}
+
+const changeOrderIdByPageIdAndComponentId = async (orderId, pageId, componentId) => {
+  return await db.query(
+      `UPDATE page_components SET order_id = $1
+        WHERE page_id = $2 AND component_id = $3`,
+      [orderId, pageId, componentId]
+    )
+    .then((result) => result[0])
+    .catch((err) => {
+      throw new CustomError.BadRequestError("No changed had been approved");
+    });
+}
+
 module.exports = {
   fetchComponentsByUrlAndType,
   fetchMaxOrderId,
-  toggleComponent
+  toggleComponent,
+  fetchComponentByPageAndComponentId,
+  changeOrderIdByPageIdAndComponentId
 }

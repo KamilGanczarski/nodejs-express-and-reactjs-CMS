@@ -10,9 +10,11 @@ import ModalTitle from '../../CustomElements/Modal/ModalTitle';
 
 type Props = {
   components: componentModel[];
+  pageName: string;
+  fetchComponents: () => void;
 }
 
-export default function Layout({ components }: Props) {
+export default function Layout({ components, pageName, fetchComponents }: Props) {
   return (
     <CustomModal title="Layout" btnIdName="layout" size="xl">
       <ModalTitle title="Change order of components" />
@@ -20,8 +22,10 @@ export default function Layout({ components }: Props) {
         return (
           <ComponentPosition
             key={index}
+            pageName={pageName}
+            fetchComponents={fetchComponents}
             index={index}
-            componentType={component.type}
+            components={components}
             componentsLength={components.length} />
         )
       })}

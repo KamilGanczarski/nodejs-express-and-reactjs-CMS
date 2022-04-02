@@ -10,12 +10,16 @@ const {
 const {
   getAllComponents,
   addComponent,
-  deleteComponent
+  deleteComponent,
+  changeComponentsOrder
 } = require('../controllers/component');
 
 router.route('/')
   .get(authorizeToPage, getAllComponents)
   .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), addComponent)
   .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteComponent);
+
+router.route('/change-order')
+  .patch(authenticateUser, authorizePermissions('MANAGE_PAGES'), changeComponentsOrder);
 
 module.exports = router;

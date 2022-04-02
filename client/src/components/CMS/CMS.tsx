@@ -73,7 +73,10 @@ export default function CMS({ pageName }: Props) {
           </div>
         )
       })}
-      <Layout components={components} />
+      <Layout
+        components={components}
+        pageName={pageName}
+        fetchComponents={fetchComponents}/>
     </article>
   )
 }

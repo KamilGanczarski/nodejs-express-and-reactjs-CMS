@@ -8,6 +8,7 @@ const {
   convertPermissionNumberToArray
 } = require('./api/permission');
 
+// Utils
 const { generateHash } = require('../utils/jwt');
 const {
   userQuery,

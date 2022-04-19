@@ -9,18 +9,16 @@ import {
 // Components
 import CustomModal from '../../../CustomElements/Modal/CustomModal';
 import AddRemoveComponent from '../../Components/AddRemoveComponent';
-import ManagePhotos from './ManagePhotos';
+import ManageHeroPhotos from './ManageHeroPhotos';
 import EditTextSlides from './EditTextSlides';
 
 type Props = {
-  pageName: string;
   component: componentModel;
   textSlides: componentContentModel[][] | undefined;
   fetchHeroComponent: () => void;
 }
 
 export default function EditHero({
-  pageName,
   component,
   textSlides,
   fetchHeroComponent
@@ -28,15 +26,14 @@ export default function EditHero({
   return (
     <CustomModal title="Hero banner" btnIdName={component.type} size="xl">
       <AddRemoveComponent
-        pageName={pageName}
         componentName="hero-carousel"
         fetchHeroComponent={fetchHeroComponent}
         disabledComponent={component.disabled}
         title="Hero banner">
-        <ManagePhotos />
+
+        <ManageHeroPhotos />
 
         <EditTextSlides
-          pageName={pageName}
           textSlides={textSlides}
           fetchHeroComponent={fetchHeroComponent} />
       </AddRemoveComponent>

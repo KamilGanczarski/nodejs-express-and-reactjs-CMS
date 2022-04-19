@@ -2,6 +2,10 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
+
+// Api
+const { fetchMaxOrderId } = require('./api/components');
+
 const addContent = async (req, res) => {
   const { page, component, name, description, content } = req.body;
   CustomError.requireProvidedValues(page, component, name, content);
@@ -29,14 +33,19 @@ const addContent = async (req, res) => {
     );
   }
 
+  const orderId = await fetchMaxOrderId(
+    'content', 'page_component_id', page_component_id[0].id
+  ) + 1;
+
   // Insert content
   await db.query(
-      `INSERT INTO content (name, description, content, order, page_component_id) VALUES
-        ($1, $2, $3, $4, $5)`,
-      [name, descriptionValue, content, page_component_id[0].id]
+      `INSERT INTO content (name, description, content, order_id, page_component_id)
+        VALUES ($1, $2, $3, $4, $5)`,
+      [name, descriptionValue, content, orderId, page_component_id[0].id]
     )
     .then((result) => result[0])
     .catch((err) => {
+      console.log(err)
       throw new CustomError.BadRequestError("New content hasn't been added");
     });
 

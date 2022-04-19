@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Collapse, Button } from 'react-bootstrap';
 
 // Utils
 import { componentContentModel } from '../../../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../../../utils/tokenAPI';
+
+// Context
+import ComponentsContext from '../../Components/ManageFilesProvider';
 
 // Component
 import EditText from './EditText';
@@ -15,16 +18,16 @@ import CustomSelect from '../../../CustomElements/CustomSelect';
 import { slideTextSizes } from './data';
 
 type Props = {
-  pageName: string;
   textSlide: componentContentModel[] | undefined;
   fetchHeroComponent: () => void;
 }
 
 export default function EditTextSlide({
-  pageName,
   textSlide,
   fetchHeroComponent
 }: Props) {
+  const Components = useContext(ComponentsContext);
+
   const [open, setOpen] = useState(false);
   const [newText, setNewText] = useState('');
   const [size, setSize] = useState(slideTextSizes[0]);
@@ -35,7 +38,7 @@ export default function EditTextSlide({
     }
 
     await axios.post(`${baseUrl}/api/v1/content`, {
-        page: pageName,
+        page: Components.pageName,
         component: 'hero-carousel',
         name: textSlide[0].name,
         description: size,
@@ -89,13 +92,13 @@ export default function EditTextSlide({
             </div>
             
             <div className="col-sm-12 col-xl-4 row px-0 mx-auto justify-content-around align-items-center">
-              <div className="w-auto">
+              <div className="w-auto px-1">
                 <CustomSelect
                   textArr={slideTextSizes}
                   selectedText={size}
                   setSelectedText={setSize} />
               </div>
-              <div className="w-auto">
+              <div className="w-auto px-1">
                 <button
                   onClick={addText}
                   className="btn btn-sm text-custom btn-circle-custom border-cutom btn-shine btn-shine-hover">

@@ -7,6 +7,7 @@ const {
   checkPermission
 } = require('./api/permission');
 
+// Utils
 const { attachCookiesToResponse, createTokenUser } = require('../utils/jwt');
 const { userQuery } = require('../utils/database');
 

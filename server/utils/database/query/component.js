@@ -10,7 +10,7 @@ const componentQuery = ({
         SELECT * FROM file_info
           WHERE file_info.page_component_id = page_components.id
       ) AS nested_file_info
-    ) AS file_info,
+    ) AS files,
     (
       SELECT jsonb_agg(nested_content)
       FROM (

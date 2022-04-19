@@ -342,16 +342,16 @@
 }
 
 .accordion-item.bg-transparent,
-.accordion-item.bg-transparent button {
+.accordion-item.bg-transparent > h2 > button {
    background: transparent;
    outline: 0;
    border-bottom: 2px solid var(--border-theme);
 }
 
-.accordion-item.bg-transparent button:focus {
+.accordion-item.bg-transparent > h2 > button:focus {
    box-shadow: 0 0 0 0 transparent;
 }
 
-.accordion-item.bg-transparent button::after {
+.accordion-item.bg-transparent  > h2 >  button::after {
    display: none;
 }

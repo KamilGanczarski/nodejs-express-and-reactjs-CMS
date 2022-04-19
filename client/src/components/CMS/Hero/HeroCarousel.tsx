@@ -1,4 +1,4 @@
-import React, { EventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Carousel } from 'react-bootstrap';
 
@@ -15,11 +15,9 @@ import TextSlide from './TextSlide';
 import SocialMedia from './SocialMedia';
 import EditHero from './Edit/EditHero';
 
-type Props = {
-  pageName: string;
-}
+type Props = {}
 
-export default function HeroCarousel({ pageName }: Props) {
+export default function HeroCarousel({}: Props) {
   const [ component, setComponent ] = useState<componentModel>();
   const [ currentSlide, setCurrentSlide ] = useState(0);
   const [ textSlides, setTextSlides ] = useState<componentContentModel[][]>();
@@ -66,20 +64,23 @@ export default function HeroCarousel({ pageName }: Props) {
         headers: axiosHeaders.headers
       })
       .then(res => {
-        if (res.data.components.length > 0) {
-          setComponent(res.data.components[0]);
-
-          if (res.data.components[0].content) {
-            const contentArr = separateToArrayByParameter(
-              res.data.components[0].content
-            );
-            setTextSlides(contentArr);
-          } else {
-            setTextSlides([]);
-          }
-        } else {
+        // If no components
+        if (!res.data.components || res.data.components.length === 0) {
           setTextSlides([]);
+          return;
         }
+
+        setComponent(res.data.components[0]);
+        // If no content
+        if (!res.data.components[0].content) {
+          setTextSlides([]);
+          return;
+        }
+
+        const contentArr = separateToArrayByParameter(
+          res.data.components[0].content
+        );
+        setTextSlides(contentArr);
       })
       .catch(error => {
         console.log(error);
@@ -111,7 +112,7 @@ export default function HeroCarousel({ pageName }: Props) {
         id="Hero-carousel"
         className="container-500">
         {/* Slides */}
-        {component.file_info.map((file, index) => {
+        {component.files.map((file, index) => {
           return (
             <Carousel.Item
               interval={5000}
@@ -145,7 +146,6 @@ export default function HeroCarousel({ pageName }: Props) {
 
       {/* Edit hero carousel */}
       <EditHero
-        pageName={pageName}
         component={component}
         textSlides={textSlides}
         fetchHeroComponent={fetchHeroComponent} />

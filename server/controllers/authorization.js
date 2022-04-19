@@ -1,6 +1,8 @@
 const db = require('../db/connect');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+
+// Utils
 const {
   generateHash,
   validPassword,
@@ -109,26 +111,27 @@ const changePassword = async (req, res) => {
 }
 
 const resetDB = async (req, res) => {
-  const sql = fs
-    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/init_user.sql')
+  const sql_init = fs
+    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/init_db.sql')
     .toString();
-  const sql1 = fs
+
+  const sql_insert = fs
     .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/insert_data.sql')
     .toString();
 
-  const result = await db.query(sql, [])
+  const result_init = await db.query(sql_init, [])
     .then((result) => result)
     .catch((err) => {
       throw new CustomError.BadRequestError(`Database isn't set to default`);
     });
 
-  const result1 = await db.query(sql1, [])
+  const result_insert = await db.query(sql_insert, [])
     .then((result) => result)
     .catch((err) => {
       throw new CustomError.BadRequestError(`Database isn't set to default`);
     });
 
-  res.status(StatusCodes.OK).send({ result, result1 });
+  res.status(StatusCodes.OK).json({ result_init, result_insert });
 }
 
 module.exports = {

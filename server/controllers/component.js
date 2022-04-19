@@ -2,9 +2,10 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
+// Utils
 const { componentQuery } = require('../utils/database');
 
-
+// Api
 const {
   fetchComponentsByUrlAndType,
   fetchMaxOrderId,
@@ -74,7 +75,9 @@ const addComponent = async (req, res) => {
       msg: `You've ${disabled ? "deleted" : "added"} component`
     });
   } else {
-    const orderId = await fetchMaxOrderId(Pages[0].id) + 1;
+    const orderId = await fetchMaxOrderId(
+      'page_components', 'page_id', Pages[0].id
+    ) + 1;
 
     // Insert component
     await db.query(

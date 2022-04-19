@@ -71,20 +71,20 @@ export default function EditText({ textObj, fetchHeroComponent }: Props) {
       </div>
 
       <div className="col-sm-12 col-xl-4 row px-0 mx-auto justify-content-around align-items-center">
-        <div className="w-auto">
+        <div className="w-auto px-1">
           <CustomSelect
             textArr={slideTextSizes}
             selectedText={size}
             setSelectedText={setSize} />
         </div>
-        <div className="w-auto">
+        <div className="w-auto px-1">
           <button
             onClick={saveChanges}
             className="btn btn-sm text-custom btn-rounded border-custom btn-shine btn-shine-hover">
             <span className="small font-weight-bold">Save</span>
           </button>
         </div>
-        <div className="w-auto">
+        <div className="w-auto px-1">
           <button
             onClick={deleteText}
             className="btn btn-sm text-custom btn-circle-custom border-danger btn-shine btn-shine-hover">

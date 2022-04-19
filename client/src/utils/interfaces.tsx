@@ -143,7 +143,7 @@ export interface componentModel {
   type: string;
   path: string;
   disabled: boolean;
-  file_info: componentFileModel[];
+  files: componentFileModel[];
   content: componentContentModel[];
 }
 
@@ -197,3 +197,7 @@ export type componentsType =
   'contracts' |
   'subpage-intro' |
   'add-user';
+
+export type ComponentsContextType = {
+  pageName: string;
+}

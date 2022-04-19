@@ -1,4 +1,6 @@
 const db = require('../../db/connect');
+
+// Utils
 const { componentQuery } = require('../../utils/database');
 
 const fetchComponentsByUrlAndType = async (page, componentName) => {
@@ -16,11 +18,11 @@ const fetchComponentsByUrlAndType = async (page, componentName) => {
   return components;
 }
 
-const fetchMaxOrderId = async (page_id) => {
+const fetchMaxOrderId = async (table, fieldName, value) => {
   // order_id, page_id, component_id
   const orders = await db.query(
-      `SELECT max(order_id) FROM page_components WHERE page_id = $1`,
-      [page_id]
+      `SELECT max(order_id) FROM ${table} WHERE ${fieldName} = $1`,
+      [value]
     )
     .then((result) => parseInt(result[0].max))
     .catch((err) => {

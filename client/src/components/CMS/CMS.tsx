@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Carousel } from 'react-bootstrap';
 
 // Utils
 import { componentModel } from '../../utils/interfaces';
 import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
+
+// Context
+import ComponentsContext from './Components/ManageFilesProvider';
 
 // Components
 import Layout from './Layout/Layout';
@@ -45,9 +47,9 @@ export default function CMS({ pageName }: Props) {
     <article>
       {components.map(component => {
         return (
-          <div key={component.id}>
+          <ComponentsContext.Provider key={component.id} value={{ pageName }}>
             {{
-              'hero-carousel': <HeroCarousel pageName={pageName} />,
+              'hero-carousel': <HeroCarousel />,
               'hero-video': <div>{component.path}</div>,
               // 'skewed-slider': <SkewedSlider />,
               'custom-text': <div>{component.path}</div>,
@@ -70,7 +72,7 @@ export default function CMS({ pageName }: Props) {
               'contracts': <div>{component.path}</div>,
               'subpage-intro': <div>{component.path}</div>,
             }[component.path]}
-          </div>
+          </ComponentsContext.Provider>
         )
       })}
       <Layout

@@ -2,6 +2,7 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
+// Utils
 const { publicPages } = require('../utils/permission');
 const { pageQuery } = require('../utils/database');
 

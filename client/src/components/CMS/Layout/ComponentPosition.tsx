@@ -43,7 +43,7 @@ export default function ComponentPosition({
         {components[index].type}
       </button>
       <div className="text-end" style={{ width: 60 + 'px' }}>
-        {componentsLength > 1 && index == 0 &&
+        {componentsLength > 1 && index === 0 &&
           <button
             onClick={()=>swapLayouts(index, (index + 1))}
             className="btn px-3 fw-bold text-hover-theme">
@@ -67,7 +67,7 @@ export default function ComponentPosition({
           </button>
         }
         
-        {componentsLength > 1 && index == componentsLength - 1 &&
+        {componentsLength > 1 && index === componentsLength - 1 &&
           <button
             onClick={()=>swapLayouts(index, (index - 1))}
             className="btn px-3 fw-bold text-hover-theme">

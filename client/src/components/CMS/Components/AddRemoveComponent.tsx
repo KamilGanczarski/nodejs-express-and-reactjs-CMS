@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Accordion } from 'react-bootstrap';
 
 // Utils
 import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
+// Context
+import ComponentsContext from './ManageFilesProvider';
+
 // Components
 import CustomSwitch from '../../CustomElements/CustomSwitch';
 
 type Props = {
-  pageName: string;
   componentName: string;
   disabledComponent: boolean;
   fetchHeroComponent: () => void;
@@ -18,13 +20,14 @@ type Props = {
 }
 
 export default function AddRemoveComponent({
-  pageName, 
   componentName,
   disabledComponent,
   fetchHeroComponent,
   title,
   children
 }: Props) {
+  const Components = useContext(ComponentsContext);
+
   const [checked, setChecked] = useState(false);
 
   const changeComponentBool = (name: string, checked: boolean) => {
@@ -33,7 +36,7 @@ export default function AddRemoveComponent({
 
   const addRemoveComponent = async () => {
     await axios.post(`${baseUrl}/api/v1/components`, {
-      page: pageName,
+      page: Components.pageName,
       componentName
     }, axiosHeaders)
     .then((response) => {

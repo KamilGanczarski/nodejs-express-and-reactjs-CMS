@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
+var fileupload = require("express-fileupload");
 
 module.exports = (app) => {
   app.use(cors());
@@ -19,4 +20,7 @@ module.exports = (app) => {
   
   // Flash
   app.use(flash());
+
+  // Upload files
+  app.use(fileupload());
 }

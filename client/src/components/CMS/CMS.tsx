@@ -22,7 +22,7 @@ type Props = {
 }
 
 export default function CMS({ pageName }: Props) {
-  const [ components, setComponents ] = useState<componentModel[]>([]);
+  const [components, setComponents] = useState<componentModel[]>([]);
 
   const fetchComponents = async () => {
     await axios.get(`${baseUrl}/api/v1/components`, {

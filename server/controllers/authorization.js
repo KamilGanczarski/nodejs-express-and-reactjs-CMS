@@ -122,13 +122,13 @@ const resetDB = async (req, res) => {
   const result_init = await db.query(sql_init, [])
     .then((result) => result)
     .catch((err) => {
-      throw new CustomError.BadRequestError(`Database isn't set to default`);
+      throw new CustomError.BadRequestError(`Database isn't set to default (init)`);
     });
 
   const result_insert = await db.query(sql_insert, [])
     .then((result) => result)
     .catch((err) => {
-      throw new CustomError.BadRequestError(`Database isn't set to default`);
+      throw new CustomError.BadRequestError(`Database isn't set to default (insert)`);
     });
 
   res.status(StatusCodes.OK).json({ result_init, result_insert });

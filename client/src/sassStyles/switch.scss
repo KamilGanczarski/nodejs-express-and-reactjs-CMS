@@ -18,6 +18,10 @@
    cursor: pointer;
 }
 
+.switch.disabled small {
+   background: #333;
+}
+
 .switch small:after {
    content: "";
    position: absolute;
@@ -49,6 +53,10 @@
    box-shadow: -3px 0 3px #0000001a;
 }
 
+.switch.disabled small:before {
+   background: #505050;
+}
+
 .switch.switch-normal input:checked ~ small {
    -webkit-transition: all .2s ease;
       -moz-transition: all .2s ease;
@@ -63,7 +71,8 @@
 }
 
 /* Switch */
-.switch.switch-normal input:checked ~ small:before {
+.switch.switch-normal input:checked ~ small:before,
+.switch input.active ~ small:before {
    background: $main-color;
    -webkit-box-shadow: 0 0 10px $main-color !important;
       -moz-box-shadow: 0 0 10px $main-color !important;
@@ -76,15 +85,10 @@
           transition: all .3s ease;
 }
 
-.switch input.active ~ small:before {
-  background: $main-color;
-  -webkit-box-shadow: 0 0 10px $main-color !important;
-     -moz-box-shadow: 0 0 10px $main-color !important;
-          box-shadow: 0 0 10px $main-color !important;
-  transform: translate(25px, 0px);
-  -webkit-transition: all .3s ease;
-     -moz-transition: all .3s ease;
-      -ms-transition: all .3s ease;
-       -o-transition: all .3s ease;
-          transition: all .3s ease;
+.switch.switch-normal.disabled input:checked ~ small:before,
+.switch.disabled input.active ~ small:before {
+   background: $main-color-dark;
+   -webkit-box-shadow: 0 0 5px $main-color-dark !important;
+      -moz-box-shadow: 0 0 5px $main-color-dark !important;
+           box-shadow: 0 0 5px $main-color-dark !important;
 }

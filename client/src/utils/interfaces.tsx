@@ -120,10 +120,11 @@ interface fileStatusModel {
   name: string;
 }
 
-interface componentFileModel {
+export interface componentFileModel {
   id: number;
   filename: string;
   path: string;
+  order_id: number;
   page_component_id: number;
   file_status_id: number;
   status: fileStatusModel[];

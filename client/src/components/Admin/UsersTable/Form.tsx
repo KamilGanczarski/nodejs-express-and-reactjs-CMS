@@ -18,15 +18,15 @@ type Props = {
 
 export default function Form({ userType, fetchData }: Props) {
   // Form input values
-  const [ login, setLogin ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ event, setEvent ] = useState('');
-  const [ date, setDate ] = useState('');
-  const [ expiryDate, setExpiryDate ] = useState('');
-  const [ contract, setContract ] = useState(false);
-  const [ price, setPrice ] = useState(0);
-  const [ advance, setAdvance ] = useState(0);
-  const [ howMuchPaid, setHowMuchPaid ] = useState(0);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [event, setEvent] = useState('');
+  const [date, setDate] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [contract, setContract] = useState(false);
+  const [price, setPrice] = useState(0);
+  const [advance, setAdvance] = useState(0);
+  const [howMuchPaid, setHowMuchPaid] = useState(0);
 
   const showEventDate = (): string => {
     return ['customer', 'event'].includes(userType)

@@ -19,7 +19,7 @@ export default function ManagePermissions({
   permission,
   fetchCurrentUser
 }: Props) {
-  const [ permissions, setPermissions ] = useState<PermissionModel[]>([]);
+  const [permissions, setPermissions] = useState<PermissionModel[]>([]);
   const addPermission: string[] = [];
   const deletePermission: string[] = [];
 

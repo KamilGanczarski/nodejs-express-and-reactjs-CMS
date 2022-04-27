@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function TableRowMobileEvent({ RowUser, userType }: Props) {
-  const [ User, setUser ] = useState<UserFrontendModel>();
+  const [User, setUser] = useState<UserFrontendModel>();
 
   /**
    * Relocate to preview

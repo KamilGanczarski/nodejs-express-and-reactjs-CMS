@@ -8,6 +8,7 @@
        -ms-transition: .2s;
         -o-transition: .2s;
            transition: .2s;
+   min-width: 500px !important;
    background: var(--bg-theme-1);
    color: var(--text-theme-1);
    border: 1px dashed rgba(255, 255, 255, 0.1);

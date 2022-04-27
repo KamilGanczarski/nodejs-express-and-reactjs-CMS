@@ -39,20 +39,20 @@ type Props = {
 };
 
 export default function UsersTable({ userType }: Props) {
-  const [ prevSort, setPrevSort ] = useState('userId');
-  const [ Users, setUsers ] = useState<UserFrontendModel[]>([]);
-  const [ SortValues, setSortValues ] = useState<SortValueModel[]>([]);
+  const [prevSort, setPrevSort] = useState('userId');
+  const [Users, setUsers] = useState<UserFrontendModel[]>([]);
+  const [SortValues, setSortValues] = useState<SortValueModel[]>([]);
 
   // Filters and sort
-  const [ sortParams, setSortParams ] = useState<string>('');
-  const [ filterParams, setFilterParams ] = useState<string>(`role=${userType}`);
+  const [sortParams, setSortParams] = useState<string>('');
+  const [filterParams, setFilterParams] = useState<string>(`role=${userType}`);
 
   // Pagination
-  const [ currPage, setCurrPage ] = useState(0);
-  const [ paginationBtns, setPaginationBtns ] = useState<ScopeBtnModel[]>([]);
-  const [ paginationInput, setPaginationInput ] = useState('');
-  const [ rowsPerPage, setRowsPerPage ] = useState(10);
-  const [ usersTotalLength, setUsersTotalLength ] = useState(0);
+  const [currPage, setCurrPage] = useState(0);
+  const [paginationBtns, setPaginationBtns] = useState<ScopeBtnModel[]>([]);
+  const [paginationInput, setPaginationInput] = useState('');
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [usersTotalLength, setUsersTotalLength] = useState(0);
 
   /**
    * Sort Users table be each value from SortValues

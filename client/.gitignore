@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Images
+/public/uploads
 /public/images
 
 # Fontello

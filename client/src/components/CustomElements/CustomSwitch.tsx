@@ -14,7 +14,7 @@ export default function CustomSwitch({
   disabled
 }: Props) {
   return (
-    <label className="switch switch-normal w-auto m-0">
+    <label className={`switch switch-normal w-auto m-0 ${disabled ? 'disabled' : '' }`}>
       <input
         type="checkbox"
         onChange={(e)=>changeValue(name, e.target.checked)}

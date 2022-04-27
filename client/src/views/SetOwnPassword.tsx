@@ -21,10 +21,10 @@ import '../sassStyles/pages/login.scss';
 type Props = {};
 
 export default function SetOwnPassword({}: Props) {
-  const [ login, setLogin ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ repeatPassword, setRepeatPassword ] = useState('');
-  const [ loginResponse, setLoginResponse ] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [loginResponse, setLoginResponse] = useState('');
 
   const setLoginFromToken = () => {
     const decodedToken: TokenModel = getTokenDecoded();

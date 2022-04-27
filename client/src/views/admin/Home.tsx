@@ -13,7 +13,7 @@ import { sidebarLinks } from '../../components/Sidebar/data';
 type Props = {};
 
 export default function Home({}: Props) {
-  const [ buttons, setButtons ] = useState<LinkModel[]>([])
+  const [buttons, setButtons] = useState<LinkModel[]>([])
 
   const deployLinks = () => {
     setButtons(sidebarLinks)

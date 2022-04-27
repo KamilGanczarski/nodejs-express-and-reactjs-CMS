@@ -31,13 +31,13 @@ export default function EditHero({
         disabledComponent={component.disabled}
         title="Hero banner">
 
-        <ManageHeroPhotos />
-
         <EditTextSlides
           textSlides={textSlides}
           fetchHeroComponent={fetchHeroComponent} />
-      </AddRemoveComponent>
 
+        <ManageHeroPhotos
+          files={component.files} />
+      </AddRemoveComponent>
     </CustomModal>
   )
 }

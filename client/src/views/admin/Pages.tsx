@@ -15,7 +15,7 @@ import { sidebarLinks } from '../../components/Sidebar/data';
 type Props = {}
 
 export default function Pages({}: Props) {
-  const [ BlockLinksList, setBlockLinksList ] = useState<BlockLinkModel[]>([]);
+  const [BlockLinksList, setBlockLinksList] = useState<BlockLinkModel[]>([]);
 
   const fetchPages = async () => {
     await axios.get(`${baseUrl}/api/v1/pages`, axiosHeaders)

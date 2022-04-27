@@ -15,13 +15,13 @@ type Props = {
 
 export default function EditUserForm({ userId, editLoggedUser }: Props) {
   // Form's inputs
-  const [ login, setLogin ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ role, setRole ] = useState('');
-  const [ event, setEvent ] = useState('');
-  const [ date, setDate ] = useState('');
-  const [ expiryDate, setExpiryDate ] = useState('');
-  const [ roles, setRoles ] = useState<RoleModel[]>([]);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
+  const [event, setEvent] = useState('');
+  const [date, setDate] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [roles, setRoles] = useState<RoleModel[]>([]);
 
   const fetchRoles = async () => {
     // If token in local storage is set

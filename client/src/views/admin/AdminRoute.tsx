@@ -25,7 +25,7 @@ type Props = {};
 
 export default function AdminRoute({}: Props) {
   const { path } = useRouteMatch();
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkValidToken = async () => {
     // If token in local storage is set

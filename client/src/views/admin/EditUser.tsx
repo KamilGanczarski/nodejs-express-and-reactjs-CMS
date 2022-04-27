@@ -23,9 +23,9 @@ type Props = {};
 export default function EditUser({}: Props) {
   const { propsUserId } = useParams<EditUserParams>();
 
-  const [ userId, setUserId ] = useState('');
-  const [ User, setUser ] = useState<UserModel>();
-  const [ editLoggedUser, setEditLoggedUser ] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [User, setUser] = useState<UserModel>();
+  const [editLoggedUser, setEditLoggedUser] = useState(false);
 
   const checkUser = () => {
     // If token in local storage is set

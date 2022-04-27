@@ -21,8 +21,8 @@ export default function CustomInputNumber({
   disabled,
   pxLg
 }: Props) {
-  const [ stringValue, setStringValue ] = useState<string>('');
-  const [ error, setError ] = useState(false);
+  const [stringValue, setStringValue] = useState<string>('');
+  const [error, setError] = useState(false);
 
   const handleNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target.value;

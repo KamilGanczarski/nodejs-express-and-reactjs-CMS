@@ -18,9 +18,9 @@ import EditHero from './Edit/EditHero';
 type Props = {}
 
 export default function HeroCarousel({}: Props) {
-  const [ component, setComponent ] = useState<componentModel>();
-  const [ currentSlide, setCurrentSlide ] = useState(0);
-  const [ textSlides, setTextSlides ] = useState<componentContentModel[][]>();
+  const [component, setComponent] = useState<componentModel>();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [textSlides, setTextSlides] = useState<componentContentModel[][]>();
 
   const separateToArrayByParameter = (
     contentArr: componentContentModel[]

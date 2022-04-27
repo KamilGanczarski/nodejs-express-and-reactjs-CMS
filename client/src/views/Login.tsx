@@ -15,9 +15,9 @@ import '../sassStyles/pages/login.scss';
 type Props = {};
 
 export default function Login({}: Props) {
-  const [ login, setLogin ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ loginResponse, setLoginResponse ] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginResponse, setLoginResponse] = useState('');
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

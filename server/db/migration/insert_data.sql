@@ -22,11 +22,11 @@ INSERT INTO users (
     'developer',
     'Developer event',
     '$2a$10$BX4FLipiSs5lHHYNAE71SeTg.UP.w4f/MIkYqW4QZwwJvGOyb7ntK',
-    '2022-3-21'::timestamp,
+    '2022-12-31'::timestamp,
     15,
     '00000000',
-    '2022-3-21'::timestamp,
-    '2022-3-21'::timestamp,
+    '2022-12-31'::timestamp,
+    '2022-12-31'::timestamp,
     1
   );
 
@@ -45,7 +45,8 @@ INSERT INTO permissions (name, value, deleteValue, description) VALUES
   ('VIEW_USER', 1, 7, 'Allows for viewing of users'),
   ('ADD_USER', 3, 6, 'Allows for the adding of users'),
   ('MANAGE_USER', 7, 4, 'Allows management of the users'),
-  ('MANAGE_PAGES', 8, 8, 'Allows management of the pages');
+  ('MANAGE_PAGES', 8, 8, 'Allows management of the pages'),
+  ('MANAGE_COMPONENTS', 16, 16, 'Allows management of the components');
 
 -- TABLE variables
 INSERT INTO variables (property, value) VALUES
@@ -130,48 +131,49 @@ INSERT INTO file_status VALUES
   (5, 'rejected');
 
 -- TABLE file_info
-INSERT INTO file_info (filename, path, page_component_id, file_status_id) VALUES
-  ('3zT1PWiA.jpeg', '/images/9literfilmy/3zT1PWiA.jpeg', 1, 1),
-  ('8qFsiL7w.jpeg', '/images/9literfilmy/8qFsiL7w.jpeg', 1, 1),
-  ('e9UhDicx.jpeg', '/images/9literfilmy/e9UhDicx.jpeg', 1, 1),
-  ('GdbW4vJg.jpeg', '/images/9literfilmy/GdbW4vJg.jpeg', 1, 1);
+INSERT INTO file_info (filename, path, order_id, page_component_id, file_status_id) VALUES
+  ('3zT1PWiA.jpeg', '/images/9literfilmy/3zT1PWiA.jpeg', 1, 1, 1),
+  ('8qFsiL7w.jpeg', '/images/9literfilmy/8qFsiL7w.jpeg', 2, 1, 1),
+  ('e9UhDicx.jpeg', '/images/9literfilmy/e9UhDicx.jpeg', 3, 1, 1),
+  ('GdbW4vJg.jpeg', '/images/9literfilmy/GdbW4vJg.jpeg', 4, 1, 1);
 
 -- TABLE content
 INSERT INTO content (name, description, content, order_id, page_component_id) VALUES
-  ('slide-1', 'text-size-4', 'Custom solutions', 1, 1),
-  ('slide-1', 'text-size-3', 'Custom solutions', 2, 1),
-  ('slide-1', 'text-size-2', 'Custom solutions', 3, 1),
-  ('slide-1', 'text-size-1', 'Custom solutions', 4, 1),
-  ('slide-2', 'text-size-4', 'Custom solutions', 1, 1),
-  ('slide-2', 'text-size-3', 'Custom solutions', 2, 1),
-  ('slide-2', 'text-size-2', 'Custom solutions', 3, 1),
-  ('slide-2', 'text-size-1', 'Custom solutions', 4, 1),
-  ('slide-3', 'text-size-4', 'Custom solutions', 1, 1),
-  ('slide-3', 'text-size-3', 'Custom solutions', 2, 1),
-  ('slide-3', 'text-size-2', 'Custom solutions', 3, 1),
-  ('slide-3', 'text-size-1', 'Custom solutions', 4, 1),
-  ('slide-4', 'text-size-4', 'Custom solutions', 1, 1),
-  ('slide-4', 'text-size-3', 'Custom solutions', 2, 1),
-  ('slide-4', 'text-size-2', 'Custom solutions', 3, 1),
-  ('slide-4', 'text-size-1', 'Custom solutions', 4, 1);
+  ('slide-1', 'text-size-4', 'Custom solutions 1', 1, 1),
+  ('slide-1', 'text-size-3', 'Custom solutions 1', 2, 1),
+  ('slide-1', 'text-size-2', 'Custom solutions 1', 3, 1),
+  ('slide-1', 'text-size-1', 'Custom solutions 1', 4, 1),
+  ('slide-2', 'text-size-4', 'Custom solutions 2', 1, 1),
+  ('slide-2', 'text-size-3', 'Custom solutions 2', 2, 1),
+  ('slide-2', 'text-size-2', 'Custom solutions 2', 3, 1),
+  ('slide-2', 'text-size-1', 'Custom solutions 2', 4, 1),
+  ('slide-3', 'text-size-4', 'Custom solutions 3', 1, 1),
+  ('slide-3', 'text-size-3', 'Custom solutions 3', 2, 1),
+  ('slide-3', 'text-size-2', 'Custom solutions 3', 3, 1),
+  ('slide-3', 'text-size-1', 'Custom solutions 3', 4, 1),
+  ('slide-4', 'text-size-4', 'Custom solutions 4', 1, 1),
+  ('slide-4', 'text-size-3', 'Custom solutions 4', 2, 1),
+  ('slide-4', 'text-size-2', 'Custom solutions 4', 3, 1),
+  ('slide-4', 'text-size-1', 'Custom solutions 4', 4, 1);
 
 -- TABLE newsletter
--- INSERT INTO newsletter VALUES ();
+INSERT INTO newsletter VALUES
+  (1, 'exampleemail_1@gmail.com', 1);
 
 
-SELECT * FROM user_roles;
-SELECT * FROM users;
-SELECT * FROM contract;
-SELECT * FROM permissions;
-SELECT * FROM variables;
-SELECT * FROM page_roles;
-SELECT * FROM pages;
-SELECT * FROM components;
-SELECT * FROM page_components;
-SELECT * FROM file_status;
-SELECT * FROM file_info;
-SELECT * FROM content;
-SELECT * FROM newsletter;
+-- SELECT * FROM user_roles;
+-- SELECT * FROM users;
+-- SELECT * FROM contract;
+-- SELECT * FROM permissions;
+-- SELECT * FROM variables;
+-- SELECT * FROM page_roles;
+-- SELECT * FROM pages;
+-- SELECT * FROM components;
+-- SELECT * FROM page_components;
+-- SELECT * FROM file_status;
+-- SELECT * FROM file_info;
+-- SELECT * FROM content;
+-- SELECT * FROM newsletter;
 
 
 -- SELECT

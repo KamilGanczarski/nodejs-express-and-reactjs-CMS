@@ -33,13 +33,10 @@ export default function EditTextSlide({
   const [size, setSize] = useState(slideTextSizes[0]);
 
   const addText = async () => {
-    if (!textSlide) {
-      return;
-    }
-
+    if (!textSlide) return;
     await axios.post(`${baseUrl}/api/v1/content`, {
         page: Components.pageName,
-        component: 'hero-carousel',
+        componentId: Components.componentId,
         name: textSlide[0].name,
         description: size,
         content: newText

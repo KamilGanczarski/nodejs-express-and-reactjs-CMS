@@ -7,9 +7,9 @@ const { componentQuery } = require('../utils/database');
 
 // Api
 const {
-  fetchComponentsByUrlAndType,
+  fetchComponentsByIdAndUrl,
   fetchMaxOrderId,
-  toggleComponent,
+  toggleComponentInDatabase,
   fetchComponentByPageAndComponentId,
   changeOrderIdByPageIdAndComponentId
 } = require('./api/components');
@@ -36,18 +36,19 @@ const getAllComponents = async (req, res) => {
     )
     .then((result) => result)
     .catch((err) => {
+      console.log(err)
       throw new CustomError.BadRequestError(`No components`);
     });
 
   res.status(StatusCodes.OK).send({ components });
 }
 
-const addComponent = async (req, res) => {
-  const { page, componentName } = req.body;
-  CustomError.requireProvidedValues(page, componentName);
+const toggleComponent = async (req, res) => {
+  const { page, componentId, componentName } = req.body;
+  CustomError.requireProvidedValues(page, componentId, componentName);
 
   // Check if component already exists
-  const components = await fetchComponentsByUrlAndType(page, componentName);
+  const components = await fetchComponentsByIdAndUrl(page, componentId);
 
   const componentDetails = await db.query(
       `SELECT * FROM components WHERE type = $1;`,
@@ -70,7 +71,7 @@ const addComponent = async (req, res) => {
   }
   
   if (components.length > 0) {
-    const disabled = await toggleComponent(Pages[0].id, componentDetails[0].id);
+    const disabled = await toggleComponentInDatabase(componentId);
     res.status(StatusCodes.OK).send({
       msg: `You've ${disabled ? "deleted" : "added"} component`
     });
@@ -92,35 +93,6 @@ const addComponent = async (req, res) => {
 
     res.status(StatusCodes.OK).send({ msg: "You've added this component" });
   }
-}
-
-const deleteComponent = async (req, res) => {
-  const { page, componentName } = req.body;
-  CustomError.requireProvidedValues(page, componentName);
-
-  // Check if component already exists
-  const components = await fetchComponentsByUrlAndType(page, componentName);
-  if (components.length < 1) {
-    throw new CustomError.BadRequestError(`Component doesn't exists`);
-  }
-
-  const Pages = await fetchPagesByUrl(page);
-  if (Pages.length < 1) {
-    throw new CustomError.BadRequestError(`No page found like this`);
-  }
-
-  // Delete component
-  await db.query(
-      `DELETE FROM page_components
-        WHERE page_id = $1 AND component_id = $2`,
-      [Pages[0].id, components[0].id]
-    )
-    .then((result) => result[0])
-    .catch((err) => {
-      throw new CustomError.BadRequestError("Component hasn't been deleted");
-    });
-
-  res.status(StatusCodes.OK).send({ msg: "You've deleted this component" });
 }
 
 const changeComponentsOrder = async (req, res) => {
@@ -151,7 +123,6 @@ const changeComponentsOrder = async (req, res) => {
 
 module.exports = {
   getAllComponents,
-  addComponent,
-  deleteComponent,
+  toggleComponent,
   changeComponentsOrder
 }

@@ -3,12 +3,12 @@ const db = require('../../db/connect');
 // Utils
 const { componentQuery } = require('../../utils/database');
 
-const fetchComponentsByUrlAndType = async (page, componentName) => {
+const fetchComponentsByIdAndUrl = async (page, componentId) => {
   const components = await db.query(
       componentQuery({
-        componentCondition: 'WHERE pages.url = $1 AND components.type = $2'
+        componentCondition: 'WHERE pages.url = $1 AND page_components.id = $2'
       }),
-      [page, componentName]
+      [page, componentId]
     )
     .then((result) => result)
     .catch((err) => {
@@ -32,11 +32,11 @@ const fetchMaxOrderId = async (table, fieldName, value) => {
   return orders;
 }
 
-const toggleComponent = async (page_id, component_id) => {
+const toggleComponentInDatabase = async (componentId) => {
   return await db.query(
       `UPDATE page_components set disabled = NOT disabled
-        WHERE page_id = $1 AND component_id = $2 RETURNING *`,
-      [page_id, component_id]
+        WHERE id = $1 RETURNING *`,
+      [componentId]
     )
     .then((result) => result[0].disabled)
     .catch((err) => {
@@ -70,9 +70,9 @@ const changeOrderIdByPageIdAndComponentId = async (orderId, pageId, componentId)
 }
 
 module.exports = {
-  fetchComponentsByUrlAndType,
+  fetchComponentsByIdAndUrl,
   fetchMaxOrderId,
-  toggleComponent,
+  toggleComponentInDatabase,
   fetchComponentByPageAndComponentId,
   changeOrderIdByPageIdAndComponentId
 }

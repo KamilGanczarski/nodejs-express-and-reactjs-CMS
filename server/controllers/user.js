@@ -2,11 +2,13 @@ const db = require('../db/connect');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 
+// Api
 const { fetchAndUpdateNewDirectory } = require('./api/directory');
 const {
   permissionByRole,
   convertPermissionNumberToArray
 } = require('./api/permission');
+const { fetchUserById } = require('./api/user');
 
 // Utils
 const { generateHash } = require('../utils/jwt');
@@ -32,21 +34,7 @@ const getUser = async (req, res) => {
   CustomError.requireProvidedValues(id);
 
   // Fetch user
-  let user = await db.query(
-      userQuery({ userCondition: 'WHERE users.id = $1' }),
-      [id]
-    )
-    .then((result) => {
-      if (result.length > 0) {
-        return result[0];
-      } else {
-        throw new CustomError.BadRequestError(`No user with id: ${id}`);
-      }
-    })
-    .catch((err) => {
-      throw new CustomError.BadRequestError(`No user with id: ${id}`);
-    });
-
+  let user = await fetchUserById(id);
   user.permissions = await convertPermissionNumberToArray(user.permission);
   res.status(StatusCodes.OK).send({ user });
 }

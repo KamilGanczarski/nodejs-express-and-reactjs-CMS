@@ -26,7 +26,7 @@ export default function EditPage({}: Props) {
   }, []);
 
   return (
-    <section className="d-flex Sidebar fixed-left wrapper">
+    <section className="d-flex Sidebar fixed-left wrapper toggled">
       {/* Sidebar */}
       <Sidebar links={sidebarCmsLinks} />
       <div className="sidebar-wrapper-under"></div>

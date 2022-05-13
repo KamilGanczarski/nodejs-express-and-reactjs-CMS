@@ -2,23 +2,19 @@ const db = require('../db/connect');
 const CustomError = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
-
 // Api
 const { fetchMaxOrderId } = require('./api/components');
 
 const addContent = async (req, res) => {
-  const { page, component, name, description, content } = req.body;
-  CustomError.requireProvidedValues(page, component, name, content);
+  const { page, componentId, name, description, content } = req.body;
+  CustomError.requireProvidedValues(page, componentId, name, content);
 
   const descriptionValue = description ? description : '';
 
   // Check if component with this page and component's name exists
-  const page_component_id = await db.query(
-      `SELECT page_components.* FROM page_components
-        INNER JOIN pages ON (pages.id = page_components.page_id)
-        INNER JOIN components ON (components.id = page_components.component_id)
-        WHERE pages.url = $1 AND components.type = $2`,
-      [page, component]
+  const page_components = await db.query(
+      `SELECT * FROM page_components WHERE page_components.component_id = $1`,
+      [componentId]
     )
     .then((result) => result)
     .catch((err) => {
@@ -27,21 +23,21 @@ const addContent = async (req, res) => {
       );
     });
 
-  if (page_component_id.length === 0) {
+  if (page_components.length === 0) {
     throw new CustomError.BadRequestError(
       `No page or component found like this`
     );
   }
 
   const orderId = await fetchMaxOrderId(
-    'content', 'page_component_id', page_component_id[0].id
+    'content', 'page_component_id', componentId
   ) + 1;
 
   // Insert content
   await db.query(
       `INSERT INTO content (name, description, content, order_id, page_component_id)
         VALUES ($1, $2, $3, $4, $5)`,
-      [name, descriptionValue, content, orderId, page_component_id[0].id]
+      [name, descriptionValue, content, orderId, componentId]
     )
     .then((result) => result[0])
     .catch((err) => {

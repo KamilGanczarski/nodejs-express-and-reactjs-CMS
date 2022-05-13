@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 // Utils
 import {
@@ -16,7 +16,7 @@ export default function EditPhoto({ file, filesCount, index }: Props) {
     <div className="w-100 row p-0 pt-4 m-0">
       <div className="d-flex col-sm-5 col-md px-0 pt-3 pb-3 pb-md-0">
         <img
-          src={file.path}
+          src={`${file.path}sizemd/${file.filename}`}
           alt={file.filename}
           className="d-block w-100 h-auto" />
       </div>
@@ -26,7 +26,7 @@ export default function EditPhoto({ file, filesCount, index }: Props) {
       </button>
       <div
         className="d-flex align-items-start flex-column w-auto px-1 text-end">
-        {filesCount > 1 && index == 0 &&
+        {filesCount > 1 && index === 0 &&
           <button
             // v-on:click="swap_photos(i, (i + 1))"
             className="btn btn-sm p-2 text-middle btn-circle-custom border-theme btn-shine btn-shine-hover">

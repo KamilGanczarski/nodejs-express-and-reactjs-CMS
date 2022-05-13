@@ -27,6 +27,7 @@ export default function EditHero({
     <CustomModal title="Hero banner" btnIdName={component.type} size="xl">
       <AddRemoveComponent
         componentName="hero-carousel"
+        componentId={component.page_component_id}
         fetchHeroComponent={fetchHeroComponent}
         disabledComponent={component.disabled}
         title="Hero banner">
@@ -36,6 +37,7 @@ export default function EditHero({
           fetchHeroComponent={fetchHeroComponent} />
 
         <ManageHeroPhotos
+          component={component}
           files={component.files} />
       </AddRemoveComponent>
     </CustomModal>

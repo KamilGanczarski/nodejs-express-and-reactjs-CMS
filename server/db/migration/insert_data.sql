@@ -132,10 +132,10 @@ INSERT INTO file_status VALUES
 
 -- TABLE file_info
 INSERT INTO file_info (filename, path, order_id, page_component_id, file_status_id) VALUES
-  ('3zT1PWiA.jpeg', '/images/9literfilmy/3zT1PWiA.jpeg', 1, 1, 1),
-  ('8qFsiL7w.jpeg', '/images/9literfilmy/8qFsiL7w.jpeg', 2, 1, 1),
-  ('e9UhDicx.jpeg', '/images/9literfilmy/e9UhDicx.jpeg', 3, 1, 1),
-  ('GdbW4vJg.jpeg', '/images/9literfilmy/GdbW4vJg.jpeg', 4, 1, 1);
+  ('3zT1PWiA.jpeg', '/uploads/00000001/', 1, 1, 1),
+  ('8qFsiL7w.jpeg', '/uploads/00000001/', 2, 1, 1),
+  ('e9UhDicx.jpeg', '/uploads/00000001/', 3, 1, 1),
+  ('GdbW4vJg.jpeg', '/uploads/00000001/', 4, 1, 1);
 
 -- TABLE content
 INSERT INTO content (name, description, content, order_id, page_component_id) VALUES

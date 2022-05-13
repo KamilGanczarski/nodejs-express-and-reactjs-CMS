@@ -3,6 +3,7 @@ const componentQuery = ({
 }) => {
   return `SELECT
     components.*,
+    page_components.id AS page_component_id,
     page_components.disabled,
     (
       SELECT jsonb_agg(nested_file_info)

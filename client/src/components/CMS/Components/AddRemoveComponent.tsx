@@ -13,6 +13,7 @@ import CustomSwitch from '../../CustomElements/CustomSwitch';
 
 type Props = {
   componentName: string;
+  componentId: number;
   disabledComponent: boolean;
   fetchHeroComponent: () => void;
   title: string;
@@ -21,6 +22,7 @@ type Props = {
 
 export default function AddRemoveComponent({
   componentName,
+  componentId,
   disabledComponent,
   fetchHeroComponent,
   title,
@@ -35,9 +37,10 @@ export default function AddRemoveComponent({
   }
 
   const addRemoveComponent = async () => {
-    await axios.post(`${baseUrl}/api/v1/components`, {
+    await axios.patch(`${baseUrl}/api/v1/components`, {
       page: Components.pageName,
-      componentName
+      componentName,
+      componentId
     }, axiosHeaders)
     .then((response) => {
       if (response.data.length > 0) {

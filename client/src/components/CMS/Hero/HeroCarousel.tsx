@@ -71,6 +71,7 @@ export default function HeroCarousel({}: Props) {
         }
 
         setComponent(res.data.components[0]);
+
         // If no content
         if (!res.data.components[0].content) {
           setTextSlides([]);
@@ -104,45 +105,49 @@ export default function HeroCarousel({}: Props) {
 
   return (
     <article className="Hero-parallax">
-      <Carousel
-        controls={false}
-        indicators={true}
-        fade={true}
-        onSelect={handleSelect}
-        id="Hero-carousel"
-        className="container-500">
-        {/* Slides */}
-        {component.files.map((file, index) => {
-          return (
-            <Carousel.Item
-              interval={5000}
-              key={index}
-              className="hero-img h-100"
-              style={{ backgroundImage: `url('${file.path}')` }}>
-              <div className="h-100 bg-linear-hero"></div>
-            </Carousel.Item>
-          )
-        })}
-      </Carousel>
+      {!component.disabled &&
+        <>
+          <Carousel
+            controls={false}
+            indicators={true}
+            fade={true}
+            onSelect={handleSelect}
+            id="Hero-carousel"
+            className="container-500">
+            {/* Slides */}
+            {component.files.map((file, index) => {
+              return (
+                <Carousel.Item
+                  interval={5000}
+                  key={index}
+                  className="hero-img h-100"
+                  style={{ backgroundImage: `url('${file.path}sizemd/${file.filename}')` }}>
+                  <div className="h-100 bg-linear-hero"></div>
+                </Carousel.Item>
+              )
+            })}
+          </Carousel>
 
-      {/* Text with slider */}
-      {textSlides &&
-        <TextSlide
-          textSlides={textSlides}
-          currentSlide={currentSlide} />
+          {/* Text with slider */}
+          {textSlides &&
+            <TextSlide
+              textSlides={textSlides}
+              currentSlide={currentSlide} />
+          }
+
+          {/* Social media */}
+          <SocialMedia />
+
+          {/* Scroll down */}
+          <button
+            onClick={()=>scrollToEvent('.over-hero')}
+            className="btn arrows-animation center">
+            <span></span><span></span><span></span>
+          </button>
+
+          <section className="over-hero"></section>
+        </>
       }
-
-      {/* Social media */}
-      <SocialMedia />
-
-      {/* Scroll down */}
-      <button
-        onClick={()=>scrollToEvent('.over-hero')}
-        className="btn arrows-animation center">
-        <span></span><span></span><span></span>
-      </button>
-
-      <section className="over-hero"></section>
 
       {/* Edit hero carousel */}
       <EditHero

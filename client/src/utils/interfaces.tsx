@@ -144,6 +144,7 @@ export interface componentModel {
   type: string;
   path: string;
   disabled: boolean;
+  page_component_id: number;
   files: componentFileModel[];
   content: componentContentModel[];
 }
@@ -201,4 +202,5 @@ export type componentsType =
 
 export type ComponentsContextType = {
   pageName: string;
+  componentId: number;
 }

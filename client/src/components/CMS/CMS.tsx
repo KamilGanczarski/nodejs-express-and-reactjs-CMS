@@ -47,7 +47,9 @@ export default function CMS({ pageName }: Props) {
     <article>
       {components.map(component => {
         return (
-          <ComponentsContext.Provider key={component.id} value={{ pageName }}>
+          <ComponentsContext.Provider
+            key={component.id}
+            value={{ pageName, componentId: component.page_component_id }}>
             {{
               'hero-carousel': <HeroCarousel />,
               'hero-video': <div>{component.path}</div>,

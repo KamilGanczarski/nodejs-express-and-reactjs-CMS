@@ -9,6 +9,12 @@ export const axiosHeaders = {
     'Authorization': `${localStorage.token}`
   }
 }
+export const axiosHeadersImage = {
+  headers: {
+    'Authorization': `${localStorage.token}`,
+    'Content-Type': 'multipart/form-data'
+  }
+}
 
 /**
  * Redirect depend on permission

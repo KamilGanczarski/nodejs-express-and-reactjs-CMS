@@ -35,7 +35,7 @@ export default function Sidebar({ links }: Props) {
       document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
 
     // Event listener to hide sidebar
-    document.querySelectorAll(".btn-hide-sidebar").forEach(element => {
+    document.querySelectorAll(".btn-toggle-sidebar").forEach(element => {
       element.addEventListener("click", (e) => {
         document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
       });
@@ -51,7 +51,7 @@ export default function Sidebar({ links }: Props) {
     <nav className="fixed-top row sidebar-left">
       {/* Show sidebar */}
       <a
-        className="circle-menu-btn btn-hide-sidebar fixed"
+        className="circle-menu-btn btn-toggle-sidebar fixed"
         data-bs-toggle="tooltip"
         data-bs-placement="right"
         title="Sidebar">
@@ -85,7 +85,7 @@ export default function Sidebar({ links }: Props) {
 
           {/* Hide sidebar */}
           <div className="d-flex align-items-center w-auto px-0">
-            <button className="btn btn-sm px-3 py-1 btn-hide-sidebar close">
+            <button className="btn btn-sm px-3 py-1 btn-toggle-sidebar close">
               <i className="icon-left-open h5 m-0 text-hover-light"></i>
             </button>
           </div>

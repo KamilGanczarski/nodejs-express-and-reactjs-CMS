@@ -30,7 +30,7 @@ export default function EditPage({}: Props) {
       {/* Sidebar */}
       <Sidebar links={sidebarCmsLinks} />
       <div className="sidebar-wrapper-under"></div>
-      <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
+      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar"></div>
 
       <main className="main container-fluid px-0">
         {pageName &&

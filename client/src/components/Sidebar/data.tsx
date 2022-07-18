@@ -174,7 +174,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-doc-text-inv",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('custom-text')
   }, {
     id: 14,
     label: "Carousel 3 2 1",
@@ -183,7 +183,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-video",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('carousel-3-2-1')
   }, {
     id: 15,
     label: "Carousel 4 3 2 1",
@@ -192,7 +192,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-video",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('carousel-4-3-2-1')
   }, {
     id: 16,
     label: "Carousel awards",
@@ -201,7 +201,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-video",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('carousel-awards')
   }, {
     id: 17,
     label: "Gallery",
@@ -210,7 +210,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-th-2",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('gallery')
   }, {
     id: 18,
     label: "Youtube films",
@@ -219,7 +219,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-youtube-1",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('youtube-films')
   }, {
     id: 19,
     label: "Youtube films counter",
@@ -228,7 +228,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-youtube-1",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('youtube-films-counter')
   }, {
     id: 20,
     label: "Navigation around website",
@@ -237,7 +237,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-youtube-1",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('navigation-around-website')
   }, {
     id: 21,
     label: "Chessboard",
@@ -246,7 +246,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-th-2",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('chessboard')
   }, {
     id: 22,
     label: "Collapsing description",
@@ -255,7 +255,7 @@ export const sidebarCmsLinks: LinkModel[] = [
     icon: "icon-menu-1",
     position: "middle",
     subButtons: [],
-    onclick: () => nothing()
+    onclick: () => showModal('collapsing-description')
   }, {
     id: 23,
     label: "Portfolio history wedding",

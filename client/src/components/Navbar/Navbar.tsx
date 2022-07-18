@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Link,
-  BrowserRouter as Router,
-  useLocation,
-  useParams
-} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Components
 import Button from './Button';

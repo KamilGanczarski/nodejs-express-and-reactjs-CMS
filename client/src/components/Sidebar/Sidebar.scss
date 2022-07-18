@@ -40,7 +40,7 @@ body {
 }
 
 /* Hide sidebar */
-.Sidebar .btn-hide-sidebar.fixed {
+.Sidebar .btn-toggle-sidebar.fixed {
   position: fixed;
   left: -500px;
   top: 100px;
@@ -52,17 +52,17 @@ body {
           transition: left .2s ease;
 }
 
-.btn-hide-sidebar.close {
+.btn-toggle-sidebar.close {
   text-shadow: 0 0 0 transparent !important;
   border: 0;
 }
 
-.Sidebar.toggled .btn-hide-sidebar.fixed {
+.Sidebar.toggled .btn-toggle-sidebar.fixed {
   left: 15px;
   transition-delay: .2s;
 }
 
-.Sidebar .btn-hide-sidebar-sticky {
+.Sidebar .btn-toggle-sidebar-sticky {
   visibility: visible;
   opacity: 1;
   -webkit-transition: visibility 0s ease .2s, opacity .4s linear;
@@ -72,7 +72,7 @@ body {
           transition: visibility 0s ease .2s, opacity .4s linear;
 }
 
-.Sidebar:not(.toggled) .btn-hide-sidebar-sticky {
+.Sidebar:not(.toggled) .btn-toggle-sidebar-sticky {
   visibility: hidden;
   opacity: 0;
   -webkit-transition: visibility 0s ease .5s, opacity .2s linear;
@@ -184,7 +184,7 @@ body {
       display: none;
   }
 
-  .Sidebar.sidebar-products .btn-hide-sidebar-sticky {
+  .Sidebar.sidebar-products .btn-toggle-sidebar-sticky {
       visibility: hidden !important;
       opacity: 0 !important;
   }

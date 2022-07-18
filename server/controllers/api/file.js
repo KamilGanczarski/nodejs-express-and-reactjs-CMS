@@ -16,6 +16,12 @@ const createUserDirectory = (userDir) => {
   }
 }
 
+const checkIffileAleadyExists = (file) => {
+  if(fs.existsSync(file)) {
+    throw new CustomError.BadRequestError("File already exists");
+  }
+}
+
 const uploadFileToServer = async (imageToUpload, userDir) => {
   if (imageToUpload.size > maxSize) {
     throw new CustomError.BadRequestError('Please upload image smaller 10MB');
@@ -26,18 +32,21 @@ const uploadFileToServer = async (imageToUpload, userDir) => {
   createUserDirectory(`${userDir}/sizemd`);
   createUserDirectory(`${userDir}/sizeog`);
 
-  const imagePath = path.join(
-    __dirname,
-    `${uploadsDir}/${userDir}/sizemd/${imageToUpload.name}`
-  );
+  const imagePaths = [
+    path.join(__dirname, `${uploadsDir}/${userDir}/sizesm/${imageToUpload.name}`),
+    path.join(__dirname, `${uploadsDir}/${userDir}/sizemd/${imageToUpload.name}`),
+    path.join(__dirname, `${uploadsDir}/${userDir}/sizeog/${imageToUpload.name}`)
+  ];
 
-  if (fs.existsSync(imagePath)) {
-    throw new CustomError.BadRequestError("File already exists");
-  }
+  checkIffileAleadyExists(imagePaths[0]);
+  checkIffileAleadyExists(imagePaths[1]);
+  checkIffileAleadyExists(imagePaths[2]);
 
   // Upload file
   try {
-    await imageToUpload.mv(imagePath);
+    await imageToUpload.mv(imagePaths[0]);
+    await imageToUpload.mv(imagePaths[1]);
+    await imageToUpload.mv(imagePaths[2]);
   } catch(err) {
     throw new CustomError.BadRequestError(
       `File hasn't been uploaded: ${imageToUpload.name}`
@@ -45,7 +54,7 @@ const uploadFileToServer = async (imageToUpload, userDir) => {
   }
 }
 
-const removeFileFromServer = async (userDir, filename) => {
+const deleteFileFromServer = async (userDir, filename) => {
   // Get file full path
   const imagePath = path.join(__dirname, `${uploadsDir}/${userDir}/sizemd/${filename}`);
 
@@ -65,5 +74,5 @@ const removeFileFromServer = async (userDir, filename) => {
 
 module.exports = {
   uploadFileToServer,
-  removeFileFromServer
+  deleteFileFromServer
 }

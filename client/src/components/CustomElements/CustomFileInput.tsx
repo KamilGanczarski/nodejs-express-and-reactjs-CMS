@@ -16,7 +16,7 @@ export default function CustomFileInput({
   multiple
 }: Props) {
   return (
-    <div className="w-100 py-4 mx-auto rounded file-drop-area">
+    <div className="w-100 mx-auto rounded file-drop-area">
       <span className="fake-btn">{title}</span>
       <span className="col text-end file-msg">{description}</span>
       <input

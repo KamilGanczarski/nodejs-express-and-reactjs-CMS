@@ -5,7 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 // Api
 const {
   uploadFileToServer,
-  removeFileFromServer
+  deleteFileFromServer
 } = require('./api/file');
 const {
   fetchComponentsByIdAndUrl,
@@ -47,7 +47,8 @@ const uploadFile = async (req, res) => {
 
   // Insert file to db
   await db.query(
-      `INSERT INTO file_info (filename, path, order_id, page_component_id, file_status_id)
+      `INSERT INTO file_info
+        (filename, path, order_id, page_component_id, file_status_id)
         VALUES ($1, $2, $3, $4, $5)`,
       [imageToUpload.name, `/uploads/${userDir}/`, orderId, componentId, 1]
     )
@@ -62,14 +63,47 @@ const uploadFile = async (req, res) => {
     .json({ image: { src: `/uploads/${imageToUpload.name}` } });
 }
 
-const removeFile = async (req, res) => {
-  const { filename } = req.body;
-  const userDir = '00000000';
-  await removeFileFromServer(userDir, filename);
+const deleteFile = async (req, res) => {
+  const { page, componentId, fileId, filename } = req.body;
+
+  // Check provided values
+  CustomError.requireProvidedValues(page, componentId, fileStatus);
+
+  const Pages = await fetchPagesByUrl(page);
+  if (Pages.length < 1) {
+    throw new CustomError.BadRequestError(`No page found like this`);
+  }
+
+  const files = await db.query(
+      'SELECT * FROM file_info WHERE componentId = $1 AND filename = $2',
+      [componentId, filename]
+    )
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      throw new CustomError.BadRequestError(`No permission with id: ${id}`);
+    });
+
+  // Delete file from directory
+  // const userDir = Pages[0].dir;
+  // await deleteFileFromServer(userDir, filename);
+  
+  // Delete file from server
+  // await db.query('DELETE FROM file_info WHERE fileId = $1', [fileId])
+  //   .then((result) => {
+  //     res.status(StatusCodes.OK).send({
+  //       msg: "You've deleted this file"
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     throw new CustomError.BadRequestError("Permission has't been deleted");
+  //   });
+
   res.status(StatusCodes.OK).json({ image: { src: filename } });
 }
 
 module.exports = {
   uploadFile,
-  removeFile
+  deleteFile
 }

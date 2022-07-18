@@ -8,11 +8,11 @@ const {
 
 const {
   uploadFile,
-  removeFile
+  deleteFile
 } = require('../controllers/file');
 
 router.route('/')
   .post(authenticateUser, authorizePermissions('MANAGE_PAGES'), uploadFile)
-  .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), removeFile);
+  .delete(authenticateUser, authorizePermissions('MANAGE_PAGES'), deleteFile);
 
 module.exports = router;

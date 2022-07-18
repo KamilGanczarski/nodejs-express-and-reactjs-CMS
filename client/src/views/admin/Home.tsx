@@ -28,7 +28,7 @@ export default function Home({}: Props) {
       {/* Sidebar */}
       <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
-      <div className="sidebar-wrapper-under-shadow btn-hide-sidebar"></div>
+      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar"></div>
 
       {/* Sidebar page content wrapper */}
       <main className="main container-fluid px-0">

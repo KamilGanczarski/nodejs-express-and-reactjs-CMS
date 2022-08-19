@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Utils
-import { fetchUsersParams } from '../../utils/interfaces';
+import { fetchUsersParams } from '../../interfaces/interfaces';
 
 interface ScopeBtn {
   value: number;

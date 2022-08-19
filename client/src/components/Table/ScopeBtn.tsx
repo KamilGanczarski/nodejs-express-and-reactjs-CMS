@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 // Utils
-import { fetchUsersParams, ScopeBtnModel } from '../../utils/interfaces';
+import { fetchUsersParams, ScopeBtnModel } from '../../interfaces/interfaces';
 
 // Import data
 import { tableRowsLimitBtn } from './data'

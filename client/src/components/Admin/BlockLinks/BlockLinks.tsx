@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Utils
-import { BlockLinkModel } from '../../../utils/interfaces';
+import { BlockLinkModel } from '../../../interfaces/interfaces';
 
 // Components
 import Block from './Block';

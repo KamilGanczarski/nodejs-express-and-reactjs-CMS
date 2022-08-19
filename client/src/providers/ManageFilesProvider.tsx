@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { ComponentsContextType } from '../../../utils/interfaces';
+import { ComponentsContextType } from '../interfaces/interfaces';
 
 const ComponentsContext = createContext<ComponentsContextType>({
   pageName: '',

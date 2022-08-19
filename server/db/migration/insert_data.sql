@@ -122,6 +122,9 @@ INSERT INTO page_components (order_id, page_id, component_id) VALUES
   (19, 1, 19),
   (20, 1, 20);
 
+-- TABLE content
+-- INSERT INTO content (name, description, content, text_size, order_id, page_component_id) VALUES ();
+
 -- TABLE file_status
 INSERT INTO file_status VALUES
   (1, 'show'),
@@ -137,24 +140,24 @@ INSERT INTO file_info (filename, path, order_id, page_component_id, file_status_
   ('e9UhDicx.jpeg', '/uploads/00000001/', 3, 1, 1),
   ('GdbW4vJg.jpeg', '/uploads/00000001/', 4, 1, 1);
 
--- TABLE content
-INSERT INTO content (name, description, content, order_id, page_component_id) VALUES
-  ('slide-1', 'text-size-4', 'Custom solutions 1', 1, 1),
-  ('slide-1', 'text-size-3', 'Custom solutions 1', 2, 1),
-  ('slide-1', 'text-size-2', 'Custom solutions 1', 3, 1),
-  ('slide-1', 'text-size-1', 'Custom solutions 1', 4, 1),
-  ('slide-2', 'text-size-4', 'Custom solutions 2', 1, 1),
-  ('slide-2', 'text-size-3', 'Custom solutions 2', 2, 1),
-  ('slide-2', 'text-size-2', 'Custom solutions 2', 3, 1),
-  ('slide-2', 'text-size-1', 'Custom solutions 2', 4, 1),
-  ('slide-3', 'text-size-4', 'Custom solutions 3', 1, 1),
-  ('slide-3', 'text-size-3', 'Custom solutions 3', 2, 1),
-  ('slide-3', 'text-size-2', 'Custom solutions 3', 3, 1),
-  ('slide-3', 'text-size-1', 'Custom solutions 3', 4, 1),
-  ('slide-4', 'text-size-4', 'Custom solutions 4', 1, 1),
-  ('slide-4', 'text-size-3', 'Custom solutions 4', 2, 1),
-  ('slide-4', 'text-size-2', 'Custom solutions 4', 3, 1),
-  ('slide-4', 'text-size-1', 'Custom solutions 4', 4, 1);
+-- TABLE file_content
+INSERT INTO file_content (name, description, content, text_size, order_id, file_info_id) VALUES
+  ('slide-1', '', 'Custom solutions 1', 'text-size-4', 1, 1),
+  ('slide-1', '', 'Custom solutions 1', 'text-size-3', 2, 1),
+  ('slide-1', '', 'Custom solutions 1', 'text-size-2', 3, 1),
+  ('slide-1', '', 'Custom solutions 1', 'text-size-1', 4, 1),
+  ('slide-2', '', 'Custom solutions 2', 'text-size-4', 1, 2),
+  ('slide-2', '', 'Custom solutions 2', 'text-size-3', 2, 2),
+  ('slide-2', '', 'Custom solutions 2', 'text-size-2', 3, 2),
+  ('slide-2', '', 'Custom solutions 2', 'text-size-1', 4, 2),
+  ('slide-3', '', 'Custom solutions 3', 'text-size-4', 1, 3),
+  ('slide-3', '', 'Custom solutions 3', 'text-size-3', 2, 3),
+  ('slide-3', '', 'Custom solutions 3', 'text-size-2', 3, 3),
+  ('slide-3', '', 'Custom solutions 3', 'text-size-1', 4, 3),
+  ('slide-4', '', 'Custom solutions 4', 'text-size-4', 1, 4),
+  ('slide-4', '', 'Custom solutions 4', 'text-size-3', 2, 4),
+  ('slide-4', '', 'Custom solutions 4', 'text-size-2', 3, 4),
+  ('slide-4', '', 'Custom solutions 4', 'text-size-1', 4, 4);
 
 -- TABLE newsletter
 INSERT INTO newsletter VALUES

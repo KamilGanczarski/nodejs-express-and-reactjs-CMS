@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Utils
-import { componentModel } from '../../../utils/interfaces';
+import { componentModel } from '../../../interfaces/interfaces';
 
 // Components
 import CustomModal from '../../CustomElements/Modal/CustomModal';

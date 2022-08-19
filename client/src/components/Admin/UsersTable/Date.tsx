@@ -1,5 +1,5 @@
 // Utils
-import { ShowDateModel } from '../../../utils/interfaces';
+import { ShowDateModel } from '../../../interfaces/interfaces';
 
 /**
  * How many days contain a year

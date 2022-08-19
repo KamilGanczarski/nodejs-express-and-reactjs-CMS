@@ -188,22 +188,22 @@
 }
 
 /* Dropdown animation */
-.dropdown-menu {
-   max-height: 0;
-   display: block;
-   overflow: hidden;
-   opacity: 0;
-   -webkit-transition: all 0.7s ease;
-      -moz-transition: all 0.7s ease;
-       -ms-transition: all 0.7s ease;
-        -o-transition: all 0.7s ease;
-           transition: all 0.7s ease;
-}
+// .dropdown-menu {
+//    max-height: 0;
+//    display: block;
+//    overflow: hidden;
+//    opacity: 0;
+//    -webkit-transition: all 0.7s ease;
+//       -moz-transition: all 0.7s ease;
+//        -ms-transition: all 0.7s ease;
+//         -o-transition: all 0.7s ease;
+//            transition: all 0.7s ease;
+// }
 
-.dropdown-menu.show {
-   max-height: 300px;
-   opacity: 1;
-}
+// .dropdown-menu.show {
+//    max-height: 300px;
+//    opacity: 1;
+// }
 
 .btn-ghost {
    background: #000000c0;

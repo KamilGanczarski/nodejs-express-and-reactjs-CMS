@@ -6,8 +6,8 @@ import { Carousel } from 'react-bootstrap';
 import {
   componentModel,
   componentContentModel
-} from '../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+} from '../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Components
 import { scrollToEvent } from '../../Navbar/ScrollTo';
@@ -20,43 +20,9 @@ type Props = {}
 export default function HeroCarousel({}: Props) {
   const [component, setComponent] = useState<componentModel>();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [textSlides, setTextSlides] = useState<componentContentModel[][]>();
-
-  const separateToArrayByParameter = (
-    contentArr: componentContentModel[]
-  ): componentContentModel[][] => {
-    // Check if empty array
-    if (contentArr.length === 0) {
-      return [];
-    }
-
-    //  Add first element
-    let contentArrRes: componentContentModel[][] = [[contentArr[0]]];
-    // Add first parametr to compare
-    let nameArr: string[] = [contentArr[0].name];
-
-    for (let i = 1; i < contentArr.length; i++) {
-      // Find index of aleady added element
-      let nameIndex = nameArr.findIndex(name =>
-        name === contentArr[i].name
-      );
-
-      // If already separate an element
-      if (nameIndex >= 0) {
-        contentArrRes[nameIndex].push(contentArr[i]);
-      // If not found matching element
-      } else {
-        nameArr.push(contentArr[i].name)
-        contentArrRes.push([]);
-        nameIndex = contentArrRes.length - 1;
-        contentArrRes[nameIndex].push(contentArr[i]);
-      }
-    }
-    return contentArrRes;
-  }
 
   const fetchHeroComponent = async () => {
-    await axios.get(`${baseUrl}/api/v1/components`, {
+    await axios.get(`${baseApiUrl}/api/v1/components`, {
         params: {
           page: '/index',
           componentName: 'hero-carousel'
@@ -66,22 +32,10 @@ export default function HeroCarousel({}: Props) {
       .then(res => {
         // If no components
         if (!res.data.components || res.data.components.length === 0) {
-          setTextSlides([]);
           return;
         }
 
         setComponent(res.data.components[0]);
-
-        // If no content
-        if (!res.data.components[0].content) {
-          setTextSlides([]);
-          return;
-        }
-
-        const contentArr = separateToArrayByParameter(
-          res.data.components[0].content
-        );
-        setTextSlides(contentArr);
       })
       .catch(error => {
         console.log(error);
@@ -129,9 +83,9 @@ export default function HeroCarousel({}: Props) {
           </Carousel>
 
           {/* Text with slider */}
-          {textSlides &&
+          {component.files &&
             <TextSlide
-              textSlides={textSlides}
+              files={component.files}
               currentSlide={currentSlide} />
           }
 
@@ -152,7 +106,7 @@ export default function HeroCarousel({}: Props) {
       {/* Edit hero carousel */}
       <EditHero
         component={component}
-        textSlides={textSlides}
+        files={component.files}
         fetchHeroComponent={fetchHeroComponent} />
     </article>
   )

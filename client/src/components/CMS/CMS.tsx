@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { componentModel } from '../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
+import { componentModel } from '../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../utils/tokenAPI';
 
 // Context
-import ComponentsContext from './Components/ManageFilesProvider';
+import ComponentsContext from '../../providers/ManageFilesProvider';
 
 // Components
 import Layout from './Layout/Layout';
@@ -25,7 +25,7 @@ export default function CMS({ pageName }: Props) {
   const [components, setComponents] = useState<componentModel[]>([]);
 
   const fetchComponents = async () => {
-    await axios.get(`${baseUrl}/api/v1/components`, {
+    await axios.get(`${baseApiUrl}/api/v1/components`, {
         params: { page: pageName },
         headers: axiosHeaders.headers
       })

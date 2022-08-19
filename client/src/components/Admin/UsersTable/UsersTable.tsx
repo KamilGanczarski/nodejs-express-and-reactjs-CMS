@@ -8,8 +8,8 @@ import {
   ScopeBtnModel,
   acriveEnum,
   SortValueModel
-} from '../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+} from '../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
 //    User
@@ -95,7 +95,7 @@ export default function UsersTable({ userType }: Props) {
     if (!localStorage.token) return;
 
     try {
-      const res = await axios.get(`${baseUrl}/api/v1/users`, {
+      const res = await axios.get(`${baseApiUrl}/api/v1/users`, {
         params: { page, perPage, sort, filter },
         headers: axiosHeaders.headers
       });

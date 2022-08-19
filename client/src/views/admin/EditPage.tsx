@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Utils
-import { baseUrl, axiosHeaders, redirectTo } from '../../utils/tokenAPI';
+import { baseApiUrl, axiosHeaders, redirectTo } from '../../utils/tokenAPI';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';

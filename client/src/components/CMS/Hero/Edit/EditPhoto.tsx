@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 
 // Utils
-import { componentFileModel } from '../../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../../utils/tokenAPI';
+import { componentFileModel } from '../../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../../utils/tokenAPI';
 
 // Context
-import ComponentsContext from '../../Components/ManageFilesProvider';
+import ComponentsContext from '../../../../providers/ManageFilesProvider';
 
 type Props = {
   file: componentFileModel;
@@ -23,7 +23,7 @@ export default function EditPhoto({ file, filesCount, index }: Props) {
   }
 
   const deleteFile = async (fileId: number) => {
-    await axios.delete(`${baseUrl}/api/v1/content`, {
+    await axios.delete(`${baseApiUrl}/api/v1/content`, {
         data: {
           page: Components.pageName,
           componentId: Components.componentId,

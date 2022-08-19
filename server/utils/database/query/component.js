@@ -8,7 +8,17 @@ const componentQuery = ({
     (
       SELECT jsonb_agg(nested_file_info)
       FROM (
-        SELECT * FROM file_info
+        SELECT
+          file_info.*,
+          (
+            SELECT jsonb_agg(nested_file_content)
+            FROM (
+              SELECT * FROM file_content
+                WHERE file_content.file_info_id = file_info.id
+                ORDER BY file_content.order_id
+            ) AS nested_file_content
+          ) AS file_content
+        FROM file_info
           WHERE file_info.page_component_id = page_components.id
       ) AS nested_file_info
     ) AS files,

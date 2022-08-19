@@ -3,8 +3,8 @@ import React from 'react';
 // Utils
 import {
   componentModel,
-  componentContentModel
-} from '../../../../utils/interfaces';
+  componentFileModel
+} from '../../../../interfaces/interfaces';
 
 // Components
 import CustomModal from '../../../CustomElements/Modal/CustomModal';
@@ -14,13 +14,13 @@ import EditTextSlides from './EditTextSlides';
 
 type Props = {
   component: componentModel;
-  textSlides: componentContentModel[][] | undefined;
+  files: componentFileModel[];
   fetchHeroComponent: () => void;
 }
 
 export default function EditHero({
   component,
-  textSlides,
+  files,
   fetchHeroComponent
 }: Props) {
   return (
@@ -33,7 +33,7 @@ export default function EditHero({
         title="Hero banner">
 
         <EditTextSlides
-          textSlides={textSlides}
+          files={files}
           fetchHeroComponent={fetchHeroComponent} />
 
         <ManageHeroPhotos

@@ -3,11 +3,11 @@ import axios from 'axios';
 import { Collapse, Button } from 'react-bootstrap';
 
 // Utils
-import { componentContentModel } from '../../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../../utils/tokenAPI';
+import { FileContentModel } from '../../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../../utils/tokenAPI';
 
 // Context
-import ComponentsContext from '../../Components/ManageFilesProvider';
+import ComponentsContext from '../../../../providers/ManageFilesProvider';
 
 // Component
 import EditText from './EditText';
@@ -18,12 +18,14 @@ import CustomSelect from '../../../CustomElements/CustomSelect';
 import { slideTextSizes } from './data';
 
 type Props = {
-  textSlide: componentContentModel[] | undefined;
+  textSlide: FileContentModel[] | undefined;
+  fileId: number;
   fetchHeroComponent: () => void;
 }
 
 export default function EditTextSlide({
   textSlide,
+  fileId,
   fetchHeroComponent
 }: Props) {
   const Components = useContext(ComponentsContext);
@@ -33,15 +35,24 @@ export default function EditTextSlide({
   const [size, setSize] = useState(slideTextSizes[0]);
 
   const addText = async () => {
+    // Check if field is filled
+    if (!newText) {
+      console.error('No text entered');
+      return;
+    }
+
+    // Check textSlide
     if (!textSlide) return;
-    await axios.post(`${baseUrl}/api/v1/content`, {
+
+    await axios.post(`${baseApiUrl}/api/v1/content`, {
         page: Components.pageName,
-        componentId: Components.componentId,
+        fileId: fileId,
         name: textSlide[0].name,
-        description: size,
+        text_size: size,
         content: newText
       }, axiosHeaders)
       .then(res => {
+        setNewText('');
         fetchHeroComponent();
       })
       .catch(error => {
@@ -67,6 +78,11 @@ export default function EditTextSlide({
         <div id={`edit-text-slide-collapse-${textSlide[0].id}`}>
           <div className="w-100 row p-3 pt-4 m-0">
             {textSlide.map((textObj, index) => {
+              // If init create new text container
+              if (textObj.name === 'slide-new') {
+                return '';
+              }
+
               return (
                 <EditText
                   key={index}

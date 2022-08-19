@@ -1,26 +1,26 @@
 import React from 'react';
 
 // Utils
-import { componentContentModel } from '../../../utils/interfaces';
+import { componentFileModel } from '../../../interfaces/interfaces';
 
 type Props = {
-  textSlides: componentContentModel[][];
+  files: componentFileModel[];
   currentSlide: number;
 }
 
-export default function TextSlide({ textSlides, currentSlide }: Props) {
+export default function TextSlide({ files, currentSlide }: Props) {
   return (
     <>
-      {textSlides?.map((textArr, index) => {
+      {files?.map((file, index) => {
         return (
           <div
             key={index}
             className={`text-middle header-slider prevent-user-select ${currentSlide === index ? 'active' : ''}`}>
-            {textArr.map((text, i) => {
+            {file.file_content.map((text, i) => {
               return (
                 <div
                   key={i}
-                  className={`pb-2 ${text.description} text-size-center prevent-user-select`}>
+                  className={`pb-2 ${text.text_size} text-size-center prevent-user-select`}>
                   <span>{text.content}</span>
                 </div>
               )

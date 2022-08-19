@@ -1,8 +1,8 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import { TokenModel } from './interfaces';
+import { TokenModel } from '../interfaces/interfaces';
 
-export const baseUrl = 'http://localhost:3001';
+export const baseApiUrl = 'http://localhost:3001';
 export const baseAppUrl = 'http://localhost:3000';
 export const axiosHeaders = {
   headers: {
@@ -52,7 +52,7 @@ export const checkValidToken = async () => {
     throw new Error('No token has been set');
   }
 
-  return await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
+  return await axios.get(`${baseApiUrl}/api/v1/auth/check-token`, axiosHeaders)
     .then(res => res)
     .catch(error => {
       throw new Error(error);
@@ -91,7 +91,7 @@ export const redirectTo = (link: string, parameters: string = '') => {
  * @returns Return response from server if unauthorized
  */
 export const loginToServer = async (login: string, password: string) => {
-  const response = await axios.post(`${baseUrl}/api/v1/auth/login`, {
+  const response = await axios.post(`${baseApiUrl}/api/v1/auth/login`, {
       login: login,
       password: password
     })

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Utils
-import { LinkModel } from '../../utils/interfaces';
+import { LinkModel } from '../../interfaces/interfaces';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';

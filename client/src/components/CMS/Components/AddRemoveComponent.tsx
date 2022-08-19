@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Accordion } from 'react-bootstrap';
 
 // Utils
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Context
-import ComponentsContext from './ManageFilesProvider';
+import ComponentsContext from '../../../providers/ManageFilesProvider';
 
 // Components
 import CustomSwitch from '../../CustomElements/CustomSwitch';
@@ -37,7 +37,7 @@ export default function AddRemoveComponent({
   }
 
   const addRemoveComponent = async () => {
-    await axios.patch(`${baseUrl}/api/v1/components`, {
+    await axios.patch(`${baseApiUrl}/api/v1/components`, {
       page: Components.pageName,
       componentName,
       componentId

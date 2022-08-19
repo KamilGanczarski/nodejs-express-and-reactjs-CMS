@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { BlockLinkModel } from '../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../utils/tokenAPI';
+import { BlockLinkModel } from '../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../utils/tokenAPI';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -18,7 +18,7 @@ export default function Pages({}: Props) {
   const [BlockLinksList, setBlockLinksList] = useState<BlockLinkModel[]>([]);
 
   const fetchPages = async () => {
-    await axios.get(`${baseUrl}/api/v1/pages`, axiosHeaders)
+    await axios.get(`${baseApiUrl}/api/v1/pages`, axiosHeaders)
       .then(res => {
         const newPages = res.data.pages;
         let newBlockLinks: BlockLinkModel[] = [];

@@ -3,9 +3,9 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 
 // Utils
-import { TokenModel } from '../utils/interfaces';
+import { TokenModel } from '../interfaces/interfaces';
 import {
-  baseUrl,
+  baseApiUrl,
   axiosHeaders,
   redirectAfterLogin,
   getTokenDecoded,
@@ -48,7 +48,7 @@ export default function SetOwnPassword({}: Props) {
 
     setLoginResponse('');
 
-    await axios.post(`${baseUrl}/api/v1/auth/change-password`, {
+    await axios.post(`${baseApiUrl}/api/v1/auth/change-password`, {
         login: login,
         password: password
       }, axiosHeaders)

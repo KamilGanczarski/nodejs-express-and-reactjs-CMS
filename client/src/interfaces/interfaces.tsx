@@ -120,6 +120,19 @@ interface fileStatusModel {
   name: string;
 }
 
+export interface ContentModel {
+  id: number;
+  name: string;
+  description: string;
+  content: string;
+  text_size: string;
+  order_id: number;
+}
+
+export interface FileContentModel extends ContentModel {
+  file_info_id: number;
+}
+
 export interface componentFileModel {
   id: number;
   filename: string;
@@ -128,14 +141,10 @@ export interface componentFileModel {
   page_component_id: number;
   file_status_id: number;
   status: fileStatusModel[];
+  file_content: FileContentModel[];
 }
 
-export interface componentContentModel {
-  id: number;
-  name: string;
-  description: string;
-  content: string;
-  order_id: number;
+export interface componentContentModel extends ContentModel {
   page_component_id: number;
 }
 

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { PermissionModel } from '../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { PermissionModel } from '../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
 
 // Import components
 import CustomSwitch from '../../CustomElements/CustomSwitch';
@@ -27,7 +27,7 @@ export default function ManagePermissions({
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/permissions`, axiosHeaders)
+    await axios.get(`${baseApiUrl}/api/v1/permissions`, axiosHeaders)
       .then(res => {
         if (res.data.permissions) {
           separatePermission(res.data.permissions);
@@ -58,7 +58,7 @@ export default function ManagePermissions({
       deletePermission.push(name);
     }
 
-    await axios.patch(`${baseUrl}/api/v1/permissions`, {
+    await axios.patch(`${baseApiUrl}/api/v1/permissions`, {
         userId: userId,
         addPermission: addPermission,
         deletePermission: deletePermission

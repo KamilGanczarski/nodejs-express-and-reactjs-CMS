@@ -5,11 +5,11 @@ import axios from 'axios';
 import {
   componentModel,
   componentFileModel
-} from '../../../../utils/interfaces';
-import { baseUrl, axiosHeadersImage } from '../../../../utils/tokenAPI';
+} from '../../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeadersImage } from '../../../../utils/tokenAPI';
 
 // Context
-import ComponentsContext from '../../Components/ManageFilesProvider';
+import ComponentsContext from '../../../../providers/ManageFilesProvider';
 
 // Components
 import CustomFileInput from '../../../CustomElements/CustomFileInput';
@@ -36,7 +36,7 @@ export default function ManageHeroPhotos({ component, files }: Props) {
     formData.append("image", files[0]);
 
     await axios.post(
-        `${baseUrl}/api/v1/file?page=${Components.pageName}&componentId=${component.id}&fileStatus=${fileStatus}`,
+        `${baseApiUrl}/api/v1/file?page=${Components.pageName}&componentId=${component.id}&fileStatus=${fileStatus}`,
         formData,
         axiosHeadersImage
       )

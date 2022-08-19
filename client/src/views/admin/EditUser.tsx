@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // Utils
-import { UserModel, TokenModel } from '../../utils/interfaces';
-import { baseUrl, axiosHeaders, getTokenDecoded } from '../../utils/tokenAPI';
+import { UserModel, TokenModel } from '../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders, getTokenDecoded } from '../../utils/tokenAPI';
 
 // Components
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -45,7 +45,7 @@ export default function EditUser({}: Props) {
   }
 
   const fetchCurrentUser = async (id: string) => {
-    await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
+    await axios.get(`${baseApiUrl}/api/v1/users/${id}`, axiosHeaders)
       .then(res => {
         setUser(res.data.user);
       })

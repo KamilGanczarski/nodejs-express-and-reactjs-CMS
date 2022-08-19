@@ -6,38 +6,34 @@ const { StatusCodes } = require('http-status-codes');
 const { fetchMaxOrderId } = require('./api/components');
 
 const addContent = async (req, res) => {
-  const { page, componentId, name, description, content } = req.body;
-  CustomError.requireProvidedValues(page, componentId, name, content);
+  const { page, fileId, name, text_size, content } = req.body;
+  CustomError.requireProvidedValues(page, fileId, name, content);
 
-  const descriptionValue = description ? description : '';
+  const textSize = text_size ? text_size : '';
 
   // Check if component with this page and component's name exists
-  const page_components = await db.query(
-      `SELECT * FROM page_components WHERE page_components.component_id = $1`,
-      [componentId]
+  const files = await db.query(
+      `SELECT * FROM file_info WHERE file_info.id = $1`,
+      [fileId]
     )
     .then((result) => result)
     .catch((err) => {
-      throw new CustomError.BadRequestError(
-        `No page or component found like this`
-      );
+      throw new CustomError.BadRequestError(`No file found like this`);
     });
 
-  if (page_components.length === 0) {
-    throw new CustomError.BadRequestError(
-      `No page or component found like this`
-    );
+  if (files.length === 0) {
+    throw new CustomError.BadRequestError(`No file found like this`);
   }
 
   const orderId = await fetchMaxOrderId(
-    'content', 'page_component_id', componentId
+    'file_content', 'file_info_id', fileId
   ) + 1;
 
   // Insert content
   await db.query(
-      `INSERT INTO content (name, description, content, order_id, page_component_id)
-        VALUES ($1, $2, $3, $4, $5)`,
-      [name, descriptionValue, content, orderId, componentId]
+      `INSERT INTO file_content (name, description, content, text_size, order_id, file_info_id)
+        VALUES ($1, $2, $3, $4, $5, $6)`,
+      [name, '', content, textSize, orderId, fileId]
     )
     .then((result) => result[0])
     .catch((err) => {
@@ -49,14 +45,14 @@ const addContent = async (req, res) => {
 }
 
 const updateContent = async (req, res) => {
-  const { contentId, name, description, content } = req.body;
+  const { contentId, name, text_size, content } = req.body;
   CustomError.requireProvidedValues(contentId, name, content);
 
-  const descriptionValue = description ? description : '';
+  const textSize = text_size ? text_size : '';
 
   // Check if content with this page and component's name exists
   const contents = await db.query(
-      `SELECT * FROM content WHERE id = $1 AND name = $2`,
+      `SELECT * FROM file_content WHERE id = $1 AND name = $2`,
       [contentId, name]
     )
     .then((result) => result)
@@ -70,9 +66,9 @@ const updateContent = async (req, res) => {
 
   // Update content
   await db.query(
-      `UPDATE content SET
-        description = $1, content = $2 WHERE id = $3`,
-      [descriptionValue, content, contentId]
+      `UPDATE file_content SET
+        text_size = $1, content = $2 WHERE id = $3`,
+      [textSize, content, contentId]
     )
     .then((result) => result[0])
     .catch((err) => {
@@ -87,7 +83,7 @@ const deleteContent = async (req, res) => {
   CustomError.requireProvidedValues(contentId);
 
   // Delete component
-  await db.query(`DELETE FROM content WHERE id = $1`, [contentId])
+  await db.query(`DELETE FROM file_content WHERE id = $1`, [contentId])
     .then((result) => result[0])
     .catch((err) => {
       throw new CustomError.BadRequestError("Content hasn't been deleted");

@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 // Utils
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
-import { componentModel } from '../../../utils/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { componentModel } from '../../../interfaces/interfaces';
 
 type Props = {
   pageName: string;
@@ -21,7 +21,7 @@ export default function ComponentPosition({
   componentsLength
 }: Props) {
   const swapLayouts = async (id: number, nextId: number) => {
-    await axios.patch(`${baseUrl}/api/v1/components/change-order`, {
+    await axios.patch(`${baseApiUrl}/api/v1/components/change-order`, {
         page: pageName,
         componentId: components[id].id,
         nextComponentId: components[nextId].id

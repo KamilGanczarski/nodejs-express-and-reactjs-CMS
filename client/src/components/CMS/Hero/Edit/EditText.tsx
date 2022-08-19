@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { componentContentModel } from '../../../../utils/interfaces';
-import { baseUrl, axiosHeaders } from '../../../../utils/tokenAPI';
+import { FileContentModel } from '../../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../../utils/tokenAPI';
 
 // Components
 import CustomInput from '../../../CustomElements/CustomInput';
@@ -13,19 +13,19 @@ import CustomSelect from '../../../CustomElements/CustomSelect';
 import { slideTextSizes } from './data';
 
 type Props = {
-  textObj: componentContentModel;
+  textObj: FileContentModel;
   fetchHeroComponent: () => void;
 }
 
 export default function EditText({ textObj, fetchHeroComponent }: Props) {
   const [text, setText] = useState(textObj.content);
-  const [size, setSize] = useState(textObj.description);
+  const [size, setSize] = useState(textObj.text_size);
 
   const saveChanges = async () => {
-    await axios.patch(`${baseUrl}/api/v1/content`, {
+    await axios.patch(`${baseApiUrl}/api/v1/content`, {
         contentId: textObj.id,
         name: textObj.name,
-        description: size,
+        text_size: size,
         content: text
       }, axiosHeaders)
       .then(res => {
@@ -37,7 +37,7 @@ export default function EditText({ textObj, fetchHeroComponent }: Props) {
   }
 
   const deleteText = async () => {
-    await axios.delete(`${baseUrl}/api/v1/content`, {
+    await axios.delete(`${baseApiUrl}/api/v1/content`, {
         data: {
           contentId: textObj.id
         }, headers: axiosHeaders.headers 
@@ -52,7 +52,7 @@ export default function EditText({ textObj, fetchHeroComponent }: Props) {
 
   useEffect(() => {
     setText(textObj.content);
-    setSize(textObj.description);
+    setSize(textObj.text_size);
   }, [textObj]);
 
   return (

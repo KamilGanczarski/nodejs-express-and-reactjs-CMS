@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { RoleModel } from '../../../utils/interfaces';
-import { baseUrl, axiosHeaders, redirectTo } from '../../../utils/tokenAPI';
+import { RoleModel } from '../../../interfaces/interfaces';
+import { baseApiUrl, axiosHeaders, redirectTo } from '../../../utils/tokenAPI';
 
 // Components
 import CustomInput from '../../CustomElements/CustomInput';
@@ -27,7 +27,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    await axios.get(`${baseUrl}/api/v1/roles`, axiosHeaders)
+    await axios.get(`${baseApiUrl}/api/v1/roles`, axiosHeaders)
       .then(res => {
         if (res.data.roles) {
           setRoles(res.data.roles);
@@ -43,7 +43,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
     if (!localStorage.token) return;
 
     try {
-      const res = await axios.get(`${baseUrl}/api/v1/users/${id}`, axiosHeaders)
+      const res = await axios.get(`${baseApiUrl}/api/v1/users/${id}`, axiosHeaders)
       const user = res.data.user;
       if (user) {
         // Set login
@@ -85,7 +85,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    axios.patch(`${baseUrl}/api/v1/users`, {
+    axios.patch(`${baseApiUrl}/api/v1/users`, {
         userId: userId,
         login: login,
         password: password,
@@ -112,7 +112,7 @@ export default function EditUserForm({ userId, editLoggedUser }: Props) {
     // If token in local storage is set
     if (!localStorage.token) return;
 
-    axios.delete(`${baseUrl}/api/v1/users`, {
+    axios.delete(`${baseApiUrl}/api/v1/users`, {
         data: { id: userId },
         headers: axiosHeaders.headers
       })

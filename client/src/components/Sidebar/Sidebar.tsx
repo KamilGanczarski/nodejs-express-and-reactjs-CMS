@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Utils
-import { LinkModel } from '../../utils/interfaces';
+import { LinkModel } from '../../interfaces/interfaces';
 
 // Components
 import './Sidebar.scss';

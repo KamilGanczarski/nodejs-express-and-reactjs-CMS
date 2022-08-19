@@ -3,9 +3,9 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import axios from 'axios';
 
 // Utils
-import { TokenModel } from '../../utils/interfaces';
+import { TokenModel } from '../../interfaces/interfaces';
 import {
-  baseUrl,
+  baseApiUrl,
   axiosHeaders,
   decodeToken,
   redirectTo
@@ -33,7 +33,7 @@ export default function AdminRoute({}: Props) {
       redirectTo('/login');
     }
 
-    await axios.get(`${baseUrl}/api/v1/auth/check-token`, axiosHeaders)
+    await axios.get(`${baseApiUrl}/api/v1/auth/check-token`, axiosHeaders)
       .then(res => {
         const decodedToken: TokenModel = decodeToken(res.data.token);
         // Redirect to change-password if password expired

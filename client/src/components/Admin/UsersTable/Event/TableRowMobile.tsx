@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Utils
-import { UserFrontendModel } from '../../../../utils/interfaces';
+import { UserFrontendModel } from '../../../../interfaces/interfaces';
 
 type Props = {
   RowUser: UserFrontendModel;

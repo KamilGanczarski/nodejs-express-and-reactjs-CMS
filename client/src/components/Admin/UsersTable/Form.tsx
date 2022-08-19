@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Utils
-import { baseUrl, axiosHeaders } from '../../../utils/tokenAPI';
-import { fetchUsersParams } from '../../../utils/interfaces';
+import { baseApiUrl, axiosHeaders } from '../../../utils/tokenAPI';
+import { fetchUsersParams } from '../../../interfaces/interfaces';
 
 // Components
 import CustomModal from '../../CustomElements/Modal/CustomModal';
@@ -42,7 +42,7 @@ export default function Form({ userType, fetchData }: Props) {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    axios.post(`${baseUrl}/api/v1/users`, {
+    axios.post(`${baseApiUrl}/api/v1/users`, {
         login,
         password,
         event,

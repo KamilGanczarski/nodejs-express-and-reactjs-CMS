@@ -1,4 +1,4 @@
-import { SortValueModel } from '../../../utils/interfaces';
+import { SortValueModel } from '../../../interfaces/interfaces';
 
 export const SortValuesDataUser: SortValueModel[] = [
   {

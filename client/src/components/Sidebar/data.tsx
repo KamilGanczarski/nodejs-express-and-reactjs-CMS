@@ -1,5 +1,5 @@
 import { logoutUserRequest } from '../../actions';
-import { LinkModel, componentsType } from '../../utils/interfaces';
+import { LinkModel, componentsType } from '../../interfaces/interfaces';
 import { showModal } from '../CustomElements/Modal/toogleModal';
 
 const nothing = (): void => {}

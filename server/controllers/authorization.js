@@ -112,11 +112,11 @@ const changePassword = async (req, res) => {
 
 const resetDB = async (req, res) => {
   const sql_init = fs
-    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/init_db.sql')
+    .readFileSync('/usr/src/app/server/db/migration/init_db.sql')
     .toString();
 
   const sql_insert = fs
-    .readFileSync('/var/www/html/all/nodejs-express-and-reactjs-CMS/server/db/migration/insert_data.sql')
+    .readFileSync('/usr/src/app/server/db/migration/insert_data.sql')
     .toString();
 
   const result_init = await db.query(sql_init, [])

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  cmspshoto-frontend:
+    container_name: cmspshoto-frontend
+    build: .
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+
+# DOCKER COMMANDS
+#   Running 'docker compose up -d' starts the containers in the background
+#
+#   docker build . -t black/cmspshoto-backend
+#   docker run -p 3000:3000 -d black/cmspshoto-backend
+#

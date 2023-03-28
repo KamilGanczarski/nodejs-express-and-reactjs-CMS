@@ -50,7 +50,6 @@ const getAllUsers = async (req, res) => {
   const pageReq = page ? parseInt(page) : 0;
   const pagination = setPagination(perPageReq, pageReq);
 
-
   let query = {
     filter: {
       users: '',

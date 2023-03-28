@@ -21,7 +21,7 @@ INSERT INTO users (
   (
     'developer',
     'Developer event',
-    '$2a$10$BX4FLipiSs5lHHYNAE71SeTg.UP.w4f/MIkYqW4QZwwJvGOyb7ntK',
+    '$2a$10$BX4FLipiSs5lHHYNAE71SeTg.UP.w4f/MIkYqW4QZwwJvGOyb7ntK', -- RYcerz!98
     '2022-12-31'::timestamp,
     15,
     '00000000',

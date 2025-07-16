@@ -34,7 +34,7 @@ const login = async (req, res) => {
     });
 
   // Check password
-  if (!validPassword(password, user.password)) {
+  if (!user || !validPassword(password, user.password)) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
 

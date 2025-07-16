@@ -1,18 +1,18 @@
 version: '3'
 services:
-  cmspshoto-backend:
-    container_name: cmspshoto-backend
-    build: .
-    command: npm run server
-    ports:
-      - ${REDIRECT_PORT}:${PORT}
-    depends_on:
-      - postgres
-    links:
-      - postgres
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+  # cmspshoto-backend:
+  #   container_name: cmspshoto-backend
+  #   build: .
+  #   command: npm run server
+  #   ports:
+  #     - ${REDIRECT_PORT}:${PORT}
+  #   depends_on:
+  #     - postgres
+  #   links:
+  #     - postgres
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
 
   postgres:
     container_name: postgres
@@ -21,6 +21,7 @@ services:
     ports:
       - 5432:5432
     environment:
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
 
@@ -31,6 +32,6 @@ services:
 #   docker build . -t black/cmspshoto-backend
 #   docker run -p 3001:3001 -d black/cmspshoto-backend
 #
-#   docker exec -i postgres psql -h localhost near-cms < server/db/migration/init_db.sql postgres
-#   docker exec -i postgres psql -h localhost near-cms < server/db/migration/insert_data.sql postgres
+#   docker exec -i postgres psql -h localhost near-cms < server/db/migration/init_db.sql black
+#   docker exec -i postgres psql -h localhost near-cms < server/db/migration/insert_data.sql black
 #

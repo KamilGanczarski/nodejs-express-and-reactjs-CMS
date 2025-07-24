@@ -32,7 +32,11 @@ export default function Sidebar({ links }: Props) {
   const sidebarEventListener = () => {
     // Hide sidebar if window has mobile size
     if (window.innerWidth < 1400) {
-      document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+      const sidebarDOM = document.querySelectorAll(".Sidebar")[0];
+      
+      if (!sidebarDOM.classList.contains('toogle')) {
+        sidebarDOM.classList.add("toggled");
+      }
     }
   }
 

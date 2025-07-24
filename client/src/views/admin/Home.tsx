@@ -19,6 +19,10 @@ export default function Home({}: Props) {
     setButtons(sidebarLinks)
   }
 
+  const toggleSidebar = () => {
+    document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+  }
+
   useEffect(() => {
     deployLinks();
   }, [])
@@ -28,7 +32,7 @@ export default function Home({}: Props) {
       {/* Sidebar */}
       <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
-      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar"></div>
+      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar" onClick={toggleSidebar}></div>
 
       {/* Sidebar page content wrapper */}
       <main className="main container-fluid px-0">

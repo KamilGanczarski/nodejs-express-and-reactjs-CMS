@@ -10,12 +10,17 @@ import { sidebarLinks } from '../../components/Sidebar/data';
 type Props = {};
 
 export default function Customers({}: Props) {
+
+  const toggleSidebar = () => {
+    document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+  }
+
   return (
     <section className="d-flex Sidebar admin">
       {/* Sidebar */}
       <Sidebar links={sidebarLinks} />
       <div className="sidebar-wrapper-under"></div>
-      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar"></div>
+      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar" onClick={toggleSidebar}></div>
 
       {/* Sidebar page content wrapper */}
       <main className="main container-fluid px-0">

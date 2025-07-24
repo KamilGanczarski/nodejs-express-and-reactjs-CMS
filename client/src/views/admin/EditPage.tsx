@@ -21,6 +21,10 @@ export default function EditPage({}: Props) {
   const { url } = useParams<any>();
   const [pageName, setPageName] = useState('');
 
+  const toggleSidebar = () => {
+    document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+  }
+
   useEffect(() => {
     setPageName(`/${url}`);
   }, []);
@@ -30,7 +34,7 @@ export default function EditPage({}: Props) {
       {/* Sidebar */}
       <Sidebar links={sidebarCmsLinks} />
       <div className="sidebar-wrapper-under"></div>
-      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar"></div>
+      <div className="sidebar-wrapper-under-shadow btn-toggle-sidebar" onClick={toggleSidebar}></div>
 
       <main className="main container-fluid px-0">
         {pageName &&

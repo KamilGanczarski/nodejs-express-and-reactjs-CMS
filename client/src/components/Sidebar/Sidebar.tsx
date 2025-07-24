@@ -31,15 +31,13 @@ export default function Sidebar({ links }: Props) {
 
   const sidebarEventListener = () => {
     // Hide sidebar if window has mobile size
-    if (window.innerWidth < 1400)
+    if (window.innerWidth < 1400) {
       document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
+    }
+  }
 
-    // Event listener to hide sidebar
-    document.querySelectorAll(".btn-toggle-sidebar").forEach(element => {
-      element.addEventListener("click", (e) => {
-        document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
-      });
-    });
+  const toggleSidebar = () => {
+    document.querySelectorAll(".Sidebar")[0].classList.toggle("toggled");
   }
 
   useEffect(() => {
@@ -54,7 +52,8 @@ export default function Sidebar({ links }: Props) {
         className="circle-menu-btn btn-toggle-sidebar fixed"
         data-bs-toggle="tooltip"
         data-bs-placement="right"
-        title="Sidebar">
+        title="Sidebar"
+        onClick={toggleSidebar}>
         <i className="icon-menu"></i>
       </a>
 
@@ -85,7 +84,7 @@ export default function Sidebar({ links }: Props) {
 
           {/* Hide sidebar */}
           <div className="d-flex align-items-center w-auto px-0">
-            <button className="btn btn-sm px-3 py-1 btn-toggle-sidebar close">
+            <button className="btn btn-sm px-3 py-1 btn-toggle-sidebar close" onClick={toggleSidebar}>
               <i className="icon-left-open h5 m-0 text-hover-light"></i>
             </button>
           </div>

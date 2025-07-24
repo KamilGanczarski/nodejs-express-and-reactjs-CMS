@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 // Utils
 import { TokenModel } from '../interfaces/interfaces';
@@ -56,7 +56,7 @@ export default function SetOwnPassword({}: Props) {
         if (response.data.token) {
           // Set token from local storage
           localStorage.setItem('token', response.data.token);
-          const decodedToken: TokenModel = jwt_decode(response.data.token);
+          const decodedToken: TokenModel = jwtDecode(response.data.token);
           redirectAfterLogin(decodedToken.user.role);
         }
       })

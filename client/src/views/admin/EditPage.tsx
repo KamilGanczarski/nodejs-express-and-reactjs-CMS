@@ -18,7 +18,7 @@ interface EditPageParams {
 type Props = {}
 
 export default function EditPage({}: Props) {
-  const { url } = useParams<EditPageParams>();
+  const { url } = useParams<any>();
   const [pageName, setPageName] = useState('');
 
   useEffect(() => {

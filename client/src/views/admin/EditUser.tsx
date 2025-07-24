@@ -21,7 +21,7 @@ interface EditUserParams {
 type Props = {};
 
 export default function EditUser({}: Props) {
-  const { propsUserId } = useParams<EditUserParams>();
+  const { propsUserId } = useParams<any>();
 
   const [userId, setUserId] = useState('');
   const [User, setUser] = useState<UserModel>();

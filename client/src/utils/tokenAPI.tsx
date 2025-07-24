@@ -1,5 +1,5 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { TokenModel } from '../interfaces/interfaces';
 
 export const baseApiUrl = 'http://localhost:3001';
@@ -42,7 +42,7 @@ export const getTokenDecoded = (): TokenModel => {
  * @returns decoded token
  */
 export const decodeToken = (token: string): TokenModel => {
-  return jwt_decode(token);
+  return jwtDecode(token);
 }
 
 // Check valid token
@@ -99,7 +99,7 @@ export const loginToServer = async (login: string, password: string) => {
       if (response.data.token) {
         // Set token from local storage
         localStorage.setItem('token', response.data.token);
-        const decodedToken: TokenModel = jwt_decode(response.data.token);
+        const decodedToken: TokenModel = jwtDecode(response.data.token);
         if (decodedToken.user.changePassword) {
           redirectTo('/change-password', '');
         } else {

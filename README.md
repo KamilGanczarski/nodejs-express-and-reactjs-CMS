@@ -37,8 +37,3 @@ Client
 ```
 npm run client
 ```
-
-Both
-```
-npm run dev
-```

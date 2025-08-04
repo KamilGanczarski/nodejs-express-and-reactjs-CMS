@@ -92,7 +92,7 @@ export default function TableRow({ RowUser, userType }: Props) {
       </td>
 
       {/* Event date */}
-      {['customer', 'portfolio history wedding'].includes(userType) &&
+      {['customer', 'portfolio history wedding', 'cooperator'].includes(userType) &&
         <td className="btn-sm" onClick={()=>customerEditLink(User.id)}>
           {User.dateShow.date !== '' ?
             <span>

@@ -19,3 +19,8 @@
 .td-no-hover:hover {
 	background: var(--bg-theme-2);
 }
+
+.table > :not(caption) > * > * {
+	background-color: unset;
+	color: unset;
+}
